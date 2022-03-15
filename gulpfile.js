@@ -10,14 +10,14 @@ gulp.task('sass', function() {
         cssnano
     ]
     return gulp
-        .src('./src/styles/scss/**/*.scss')
+        .src('./styles/scss/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
-        .pipe(gulp.dest('./src/styles/css'))
+        .pipe(gulp.dest('./styles/css'))
 })
 
 gulp.task('watch', function() {
-    gulp.watch('./src/styles/scss/**/*.scss', gulp.series('sass'))
+    gulp.watch('./styles/scss/**/*.scss', gulp.series('sass'))
 })
 
 gulp.task('default', gulp.series('sass', 'watch'))

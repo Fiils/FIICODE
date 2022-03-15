@@ -1,0 +1,66 @@
+$normal-color: #575A5E;
+$hover-color: #8BBD8B;
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500&display=swap');
+.container {
+    // background-color: black;
+    width: 100vw;
+    height: 9vh;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 3em;
+    color: $normal-color;
+    background-color: white;
+    
+    a {
+        position: relative;
+        transition: all .25s ease-out;
+        font-family: 'Libre Baskerville', sans-serif;
+        font-size: 1rem;
+
+        &:first-child {
+            width: max-content;
+            margin-left: 30px;
+        }
+
+        &:last-child {
+            margin-left: 0;
+        }
+
+        position: relative;
+
+        &:hover:not(:last-child) {
+            color: $hover-color;
+        }
+
+    }
+
+    button {
+        background: none;
+        border-radius: 20px;
+        padding: 1em;
+        text-align: justify;
+        text-justify: inter-character;
+        color: $hover-color;
+        border: 1px solid $hover-color;
+        transition: background .25s ease-in;
+
+        &:hover {
+            background: $hover-color;
+            color: white;
+        }
+    }
+
+    .links {
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1em;
+        margin: 0 20px 0 auto;
+    }
+        
+}
