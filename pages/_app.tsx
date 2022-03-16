@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [ showHeader, setShowHeader ] = useState(true)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if(pathname === '/inregistrare') {
       setShowHeader(false)
     } else {

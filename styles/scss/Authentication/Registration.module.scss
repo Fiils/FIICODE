@@ -11,10 +11,15 @@
     right: 0;
     margin: 10px 10px 0 0;
     font-family: 'Baloo Tamma 2', cursive;
-    transition: all .25s ease-in;
+
+    a {
+        transition: all .25s ease-in;
+    }
     
     &:hover {
-        color: #6CAE75 !important;
+        a {
+            color: #6CAE75 !important;
+        }
     }
 }
 
@@ -32,6 +37,7 @@
     border-radius: 5px;
     border: 2px solid rgb(240, 240, 240);
     padding: 30px 0 50px 0;
+    position: relative;
 
     h2 {
         font-family: 'Libre Baskerville', sans-serif;
@@ -69,8 +75,14 @@
 .input_d {
     width: 70%;
     margin: 20px auto 0 auto;
-    position: relative
+    position: relative;
+
+    input[type=file] {
+        border: none;
+        display: none;
+    }
 }
+
 .svg_container {
     position: absolute;
     display: inline;
@@ -131,11 +143,80 @@
 }
 
 @keyframes slide_left {
+  0% { opacity: 1; transform: translateX(0) }
   100% { opacity: 0; transform: translateX(-300px) }
 }
 
 .animation_slide_left {
     animation: slide_left .6s;
+
+    position: absolute;
+    width: 33vmax;
+
+    h2 {
+        font-family: 'Libre Baskerville', sans-serif;
+        font-size: 1.8rem;
+        width: 80%;
+        margin: 30px auto 40px auto;
+        border-radius: 3px 40px;
+    }
+
+    input, label {
+        display: block;
+    }
+
+    input {
+        width: 100%;
+        border-radius: 4px;
+        padding: 1em;
+        border: 1px solid rgba(200, 200, 200);
+        display: inline;
+        position: relative;
+        padding-right: 30px;
+
+        &:focus {
+            outline-color: #6CAE75;
+        }
+
+    }
+
+    label {
+        font-family: 'Baloo Tamma 2', sans-serif;
+        font-size: .8rem;
+        font-weight: bold;
+    }
+}
+
+@keyframes slide_from_left {
+    0% { opacity: 0; transform: translateX(-300px)}
+    100% { oapcity: 1; transform: translateX(0) }
+}
+
+.animation_slide_from_left {
+    animation: slide_from_left .6s;
+}
+
+
+
+@keyframes slide_from_right {
+    0% { opacity: 0; transform: translateX(300px)}
+    100% { opacity: 1; transform: translateX(0) }
+}
+
+.animation_slide_from_right {
+    animation: slide_from_right .6s;
+
+}
+
+
+@keyframes slide_right {
+    100% { opacity: 0; transform: translateX(300px)}
+}
+.animation_slide_right {
+    animation: slide_right .6s;
+    display: inline-block;
+
+
     position: absolute;
     width: 33vmax;
 
@@ -167,8 +248,29 @@
 
     label {
         font-family: 'Baloo Tamma 2', sans-serif;
-        font-size: .8rem;
+        font-size: .8rem;   
         font-weight: bold;
+    }
+}
+
+.prev {
+    display: flex;
+    flex-direction: row nowrap;
+    align-items: center;
+    font-family: 'Libre Baskerville';
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 15px;
+    width: max-content;
+    
+    &:hover {
+        span {
+            color: #6CAE75;
+        }
+    }
+
+    span {
+        transition: all .35s ease-out;
     }
 }
 
@@ -176,11 +278,26 @@
     display: none;
 }
 
-@keyframes slide_from_right {
-    0% { opacity: 0; transform: translateX(300px)}
-    100% { opacity: 1; transform: translateX(0) }
+.button_file_input {
+    padding: 1em 1.5em;
+    background: none;
+    width: max-content;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 10px;
+    cursor: pointer;
+    height: fit-content;    
+
+    &:hover {
+        background-color: rgb(240, 240, 240);
+    }
 }
 
-.animation_slide_from_right {
-    animation: slide_from_right .8s;
+.file_upload {
+    display: flex;
+    position: relative;
+    gap: 1em;
+}
+
+.wrong_input {
+    border-color: red !important;
 }
