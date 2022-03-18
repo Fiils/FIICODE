@@ -3,6 +3,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'; 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,6 +15,7 @@ import overrideStyles from '../../styles/scss/Authentication/Authentication.modu
 
 
 const Inregistrare: NextPage = () => {
+    const router = useRouter()
 
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
@@ -35,8 +37,12 @@ const Inregistrare: NextPage = () => {
             return;
         };
 
-        const result = await axios.post('http://localhost:9999/api/login', person)
+        const result = await axios.post('http://localhost:9999/api/login', person, { withCredentials: true })
                         .then(res => res.data)
+
+        if(result === 'User logat') {
+            router.push('/')
+        }
     }
 
     return (
@@ -84,7 +90,7 @@ const Inregistrare: NextPage = () => {
                             <Link href='/autentificare/parola-uitata'>Ai uitat parola?</Link>
                         </div>
 
-                        <div className={styles.button_sub}>
+                        <div className={overrideStyles.button_sub}>
                             <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                         </div>     
                     </div>           

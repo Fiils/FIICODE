@@ -50,7 +50,7 @@ const Inregistrare: NextPage = () => {
                             <input type="email" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError(false) }} />
                         </div>
 
-                        <div className={styles.button_sub}>
+                        <div className={overrideStyles.button_sub}>
                             <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                         </div>     
                     </div>           
@@ -63,7 +63,7 @@ const Inregistrare: NextPage = () => {
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40}}>
                             <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
                         </div>
-                        <div className={styles.button_sub} style={{ marginTop: 50 }}>
+                        <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
                             <button>
                                 <Link href='/autentificare'>Autentifică-te</Link>
                             </button>

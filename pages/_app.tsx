@@ -18,6 +18,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       setShowHeader(true)
     }
+    
+    // if(pathname === )
   }, [pathname])
 
 
