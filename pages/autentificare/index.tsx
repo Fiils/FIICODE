@@ -46,7 +46,7 @@ const Inregistrare: NextPage = () => {
                 <KeyboardReturnRoundedIcon />
             </div>
             <div className={styles.logo}>
-                <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} />
+                <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} priority/>
                 <span>ROMDIG</span>
             </div>
 
@@ -60,7 +60,7 @@ const Inregistrare: NextPage = () => {
                         <span>click.</span>
                     </h3>
                     <div>
-                        <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647461367/FIICODE/background-2462430_dhiz4x.jpg' layout='fill' />
+                        <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647461367/FIICODE/background-2462430_dhiz4x.jpg' layout='fill' priority/>
                     </div> 
                 </div>
                 <div>

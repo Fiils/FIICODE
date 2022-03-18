@@ -43,7 +43,7 @@ const Inregistrare: NextPage = () => {
                         <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Ai uitat parola?</h2>
                         <p className={overrideStyles.additional_info}>Dacă ți-ai uitat parola, notează-ți mai jos email-ul si îți vom trimite noi un email prin care ți-o vei putea schimba</p>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20}}>
-                            <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536267/FIICODE/icons8-send-email-100_re8etb.png' width={100} height={100} />
+                            <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536267/FIICODE/icons8-send-email-100_re8etb.png' width={100} height={100} priority/>
                         </div>
                         <div className={`${styles.input_d} ${error ? styles.wrong_input : ''}`}>
                             <label htmlFor='email'>E-mail</label>

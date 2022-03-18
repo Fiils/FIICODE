@@ -15,6 +15,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LocationCityRoundedIcon from '@mui/icons-material/LocationCityRounded';
 import AddRoadTwoToneIcon from '@mui/icons-material/AddRoadTwoTone';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
+import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss';
@@ -23,6 +24,7 @@ import styles from '../../styles/scss/Authentication/Registration.module.scss';
 const Inregistrare: NextPage = () => {
 
     const [ name, setName ] = useState('')
+    const [ firstName, setFirstName ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ gender, setGender ] = useState('')
@@ -38,14 +40,17 @@ const Inregistrare: NextPage = () => {
     const [ showNextPage, setShowNextPage ] = useState(false)
     const [ showPrevPageAnim, setShowPrevPageAnim ] = useState(false)
 
-    const [ error, setError ] = useState({ name: false, email: false, password: false, gender: false, cnp: false, city: false, street: false, domiciliu: false, buletin: false })
+    const [ error, setError ] = useState({ name: false, firstName: false, email: false, password: false, gender: false, cnp: false, city: false, street: false, domiciliu: false, buletin: false })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        const person = { name, email, password, gender }
+        const domiciliu = photo.domiciliu
+        const buletin = photo.buletin
+        const person = { name, firstName, email, password, gender, cnp, city, street, domiciliu, buletin }
 
         setError({
             name: !name.length,
+            firstName: !firstName.length,
             email: !email.length,
             password: !password.length,
             gender: !gender.length,
@@ -55,9 +60,9 @@ const Inregistrare: NextPage = () => {
             domiciliu: !photo.domiciliu.length,
             buletin: !photo.buletin.length
         })
-        if( name === '' || email === '' || password === '' || gender === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
+        if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
 
-        const result = await axios.post('http://localhost:9999/api/register', person)
+        const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
                         .then(res => res.data)
     }
 
@@ -147,12 +152,20 @@ const Inregistrare: NextPage = () => {
                 
                 {!hideFirstPage &&
                     <div className={`${(nextPage && !showPrevPageAnim) ? styles.animation_slide_left : ''} ${hideFirstPage ? styles.hidden : ''} ${showPrevPageAnim ? styles.animation_slide_from_left : ''}`}>
-                    <h2>Creează un nou cont</h2>
-                    <div className={`${styles.input_d} ${error.name ? styles.wrong_input : ''}`}>
-                        <label htmlFor='name'>Nume*</label>
-                        <input type="text" id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }) }} />
-                        <div className={styles.svg_container}>
-                            <BadgeIcon />
+                    <h2 style={{ display: 'flex', alignItems: 'center'}}>
+                        <div>
+                            <AccountBoxOutlinedIcon />
+                        </div>
+                        Creează un nou cont
+                    </h2>
+                    <div className={styles.input_d} style={{ display: 'flex', gap: '2em', justifyContent: 'center'}}>
+                        <div className={`${styles.input_d} ${error.name ? styles.wrong_input : ''}`}>
+                            <label htmlFor='name'>Nume*</label>
+                            <input type="text" id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }) }} />
+                        </div>
+                        <div className={`${styles.input_d} ${error.firstName ? styles.wrong_input : ''}`}>
+                            <label htmlFor='name'>Prenume*</label>
+                            <input type="text" id='name' name='name' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }) }} />
                         </div>
                     </div>
                     <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
@@ -188,7 +201,7 @@ const Inregistrare: NextPage = () => {
                             <label htmlFor='cnp'><abbr title='Cod Numeric Personal' style={{ textDecoration: 'none' }}>CNP</abbr>*</label>
                             <input type="text" id='cnp' name='cnp' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }) }} />
                             <div className={styles.svg_container}>
-                                <SubtitlesIcon />
+                                <BadgeIcon />
                             </div>
                         </div>
                         <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>

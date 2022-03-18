@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   return(
-    <>
+    <div>
       <Head>
         <title>ROMDIG</title>
         <meta name="description" content="O aplicatie pentru administrarea noilor idei oferite de catre oameni dintr-o anumita comuna/localitate/judet pentru imbunatatirea acesteia" />
@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       {showHeader ? <Header /> : <></> }
       <Component {...pageProps} />
-    </>
+    </div>
   )
 }
 
