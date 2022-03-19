@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,7 +9,11 @@ import styles from '../../../../styles/scss/Authentication/Registration.module.s
 import overrideStyles from '../../../../styles/scss/Authentication/ForgotPassword.module.scss';
 
 
-const Token: NextPage = () => {
+interface InitialProps { 
+    status: string;
+}
+
+const Token: NextPage<InitialProps> = ({ status }) => {
     const router = useRouter()
 
     const [ password, setPassword ] = useState('')
@@ -18,7 +22,7 @@ const Token: NextPage = () => {
     const [ error, setError ] = useState({ password: false, cpassword: false })
     const [ errorMessage, setErrorMessage ] = useState({ password: '', cpassword: '' })
 
-    const [ sent, setSent ] = useState(true)
+    const [ sent, setSent ] = useState(false)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -96,6 +100,12 @@ const Token: NextPage = () => {
         }
     }
 
+    useEffect(() => {
+        if(status !== 'allowed') {
+            router.push('/404')
+        }
+    }, [])
+
     return (
         <div className={styles.container}>
             {!sent ?
@@ -143,23 +153,23 @@ export default Token;
 
 
 
-// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-//     const data = await axios.get(`http://localhost:9999/api/login/forgot-password/change-password/${ctx.query.token}`)
-//                          .then(res => res.data)
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+    const data = await axios.get(`http://localhost:9999/api/login/forgot-password/change-password/${ctx.query.token}`)
+                         .then(res => res.data)
 
-//     if(data === 'Cerere găsită') {
-//         return {
-//             props: {
-//                 status: 'allowed'
-//             }
-//         }
-//     } else {
-//         return {
-//             redirect: {
-//                 permanent: false,
-//                 destination: '/404'
-//             },
-//             props: {}
-//         }
-//     }
-// }
+    if(data === 'Cerere găsită') {
+        return {
+            props: {
+                status: 'allowed'
+            }
+        }
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/404'
+            },
+            props: {}
+        }
+    }
+}

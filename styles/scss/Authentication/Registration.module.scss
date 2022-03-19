@@ -214,11 +214,7 @@
 }
 
 .button_sub {
-    margin-bottom: 50px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    margin-top: 30px;
     text-align: center;
 
     button {
@@ -252,7 +248,7 @@
 
 .animation_slide_left {
     animation: slide_left .6s;
-
+    display: inline-block;
     position: absolute;
     @include animation-styles;
 }
@@ -329,12 +325,15 @@
     }
 }
 
+.button_file_uploaded {
+    border-color: #6CAE75;
+}
+
 .file_upload_container {
     display: flex;
     flex-flow: row nowrap;
     align-content: center;
     justify-content: center;
-
 }
 
 .wrong_input {

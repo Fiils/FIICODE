@@ -11,7 +11,6 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
-import LocationCityRoundedIcon from '@mui/icons-material/LocationCityRounded';
 import AddRoadTwoToneIcon from '@mui/icons-material/AddRoadTwoTone';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
@@ -48,8 +47,7 @@ const Inregistrare: NextPage = () => {
         const domiciliu = photo.domiciliu
         const buletin = photo.buletin
         const person = { name, firstName, email, password, gender, cnp, city, county, street, domiciliu, buletin }
-
-        setError({
+        setError({ 
             name: !name.length,
             firstName: !firstName.length,
             email: !email.length,
@@ -62,16 +60,15 @@ const Inregistrare: NextPage = () => {
             domiciliu: !photo.domiciliu.length,
             buletin: !photo.buletin.length
         })
-        if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || county === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
+            if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || county === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
 
         const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
                         .then(res => res.data)
-                        
+
         if(result === 'Cerere acceptată'){
             setCodePage(true)
         }
     }
-
 
 
     // const validateNotEmpty = (value) => {
@@ -168,8 +165,8 @@ const Inregistrare: NextPage = () => {
                                 <input type="text" id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }) }} />
                             </div>
                             <div className={`${styles.input_d} ${error.firstName ? styles.wrong_input : ''}`}>
-                                <label htmlFor='name'>Prenume*</label>
-                                <input type="text" id='name' name='name' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }) }} />
+                                <label htmlFor='firstName'>Prenume*</label>
+                                <input type="text" id='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }) }} />
                             </div>
                         </div>
                         <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
@@ -214,18 +211,12 @@ const Inregistrare: NextPage = () => {
 
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
                                     <label htmlFor='county'>Județ*</label>
-                                    <input type="text" id='county' name='county' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
-                                    {/* <div className={styles.svg_container}>
-                                        <LocationCityRoundedIcon />
-                                    </div> */}
+                                    <input type="text" id='county' name='county' value={county} onChange={e => { setCounty(e.target.value); setError({ ...error, county: false }) }} />
                                 </div>
 
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
                                     <label htmlFor='provenience'>Localitate*</label>
                                     <input type="text" id='provenience' name='provenience' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
-                                    {/* <div className={styles.svg_container}>
-                                        <LocationCityRoundedIcon />
-                                    </div> */}
                                 </div>
 
                             </div>
@@ -241,20 +232,20 @@ const Inregistrare: NextPage = () => {
                                     <label htmlFor='poza' className={styles.hover_for_info} hover-info='Orice act oficial, emis de instituții oficiale române, prin care este dovedit domiciliul'>Dovada domiciliului*</label>
                                     <div className={styles.file_upload}>
                                         <input type="file" id='domiciliu' name='domiciliu' onChange={e => uploadPhoto(e, 1)} multiple={false} accept='image/*' />
-                                        <label htmlFor='domiciliu' className={`${styles.button_file_input} ${error.domiciliu ? styles.wrong_input : ''}`} onClick={() => setError({ ...error, domiciliu: false })}>{photo.domiciliu === ''  ? 'Adaugă poza' : 'Poză adaugată'}</label>
+                                        <label htmlFor='domiciliu' className={`${styles.button_file_input} ${photo.domiciliu !== '' ? styles.button_file_uploaded : ''} ${error.domiciliu ? styles.wrong_input : ''}`} onClick={() => setError({ ...error, domiciliu: false })}>{photo.domiciliu === ''  ? 'Adaugă poza' : 'Poză adaugată'}</label>
                                     </div>
                                 </div>
                                 <div className={styles.input_upload} id='file-upload'>
                                     <label htmlFor='poza'>Poza buletinului*</label>
                                     <div className={styles.file_upload}>
                                         <input type="file" id='buletin' name='buletin' onChange={e => uploadPhoto(e, 2)} multiple={false} accept='image/*' />
-                                        <label htmlFor='buletin' className={`${styles.button_file_input} ${error.buletin ? styles.wrong_input : ''}`} onClick={() => setError({ ...error, buletin: false })}>{photo.buletin === ''  ? 'Adaugă poza' : 'Poză adaugată'}</label>
+                                        <label htmlFor='buletin' className={`${styles.button_file_input} ${photo.buletin !== '' ? styles.button_file_uploaded : ''} ${error.buletin ? styles.wrong_input : ''}`} onClick={() => setError({ ...error, buletin: false })}>{photo.buletin === ''  ? 'Adaugă poza' : 'Poză adaugată'}</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div className={styles.button_sub}>
-                                <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                                    <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                             </div>
                         </div>
                         }
