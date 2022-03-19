@@ -11,7 +11,6 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LocationCityRoundedIcon from '@mui/icons-material/LocationCityRounded';
 import AddRoadTwoToneIcon from '@mui/icons-material/AddRoadTwoTone';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
@@ -30,6 +29,7 @@ const Inregistrare: NextPage = () => {
     const [ cnp, setCnp ] = useState('')
 
     const [ city, setCity ] = useState('')
+    const [ county, setCounty ] = useState('')
     const [ street, setStreet ] = useState('')
     const [ photo, setPhoto ] = useState({ domiciliu: '', buletin: '' })
 
@@ -41,13 +41,13 @@ const Inregistrare: NextPage = () => {
 
     const [ codePage, setCodePage ] = useState(false)
 
-    const [ error, setError ] = useState({ name: false, firstName: false, email: false, password: false, gender: false, cnp: false, city: false, street: false, domiciliu: false, buletin: false })
+    const [ error, setError ] = useState({ name: false, firstName: false, email: false, password: false, gender: false, cnp: false, city: false, county: false, street: false, domiciliu: false, buletin: false })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const domiciliu = photo.domiciliu
         const buletin = photo.buletin
-        const person = { name, firstName, email, password, gender, cnp, city, street, domiciliu, buletin }
+        const person = { name, firstName, email, password, gender, cnp, city, county, street, domiciliu, buletin }
 
         setError({
             name: !name.length,
@@ -57,15 +57,16 @@ const Inregistrare: NextPage = () => {
             gender: !gender.length,
             cnp: !cnp.length,
             city: !city.length,
+            county: !county.length,
             street: !street.length,
             domiciliu: !photo.domiciliu.length,
             buletin: !photo.buletin.length
         })
-        if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
+        if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || county === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
 
         const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
                         .then(res => res.data)
-console.log(result)
+                        
         if(result === 'Cerere acceptată'){
             setCodePage(true)
         }
@@ -202,19 +203,31 @@ console.log(result)
                             <h2 style={{ textAlign: 'center' }}>
                                 Creează un nou cont
                             </h2>
-                            <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
+                            <div className={`${styles.input_d} ${error.cnp ? styles.wrong_input : ''}`}>
                                 <label htmlFor='cnp'><abbr title='Cod Numeric Personal' style={{ textDecoration: 'none' }}>CNP</abbr>*</label>
                                 <input type="text" id='cnp' name='cnp' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }) }} />
                                 <div className={styles.svg_container}>
                                     <BadgeIcon />
                                 </div>
                             </div>
-                            <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
-                                <label htmlFor='provenience'>Localitate*</label>
-                                <input type="text" id='provenience' name='provenience' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
-                                <div className={styles.svg_container}>
-                                    <LocationCityRoundedIcon />
+                            <div className={styles.input_d} style={{ display: 'flex', gap: '2em', justifyContent: 'center', marginTop: 0}}>
+
+                                <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
+                                    <label htmlFor='county'>Județ*</label>
+                                    <input type="text" id='county' name='county' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
+                                    {/* <div className={styles.svg_container}>
+                                        <LocationCityRoundedIcon />
+                                    </div> */}
                                 </div>
+
+                                <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
+                                    <label htmlFor='provenience'>Localitate*</label>
+                                    <input type="text" id='provenience' name='provenience' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
+                                    {/* <div className={styles.svg_container}>
+                                        <LocationCityRoundedIcon />
+                                    </div> */}
+                                </div>
+
                             </div>
                             <div className={`${styles.input_d} ${error.street ? styles.wrong_input : ''}`}>
                                 <label htmlFor='street'>Strada*</label>
@@ -225,7 +238,7 @@ console.log(result)
                             </div>
                             <div className={styles.file_upload_container}>
                                 <div className={styles.input_upload} id='file-upload'>
-                                    <label htmlFor='poza'>Dovada domiciliului*</label>
+                                    <label htmlFor='poza' className={styles.hover_for_info} hover-info='Orice act oficial, emis de instituții oficiale române, prin care este dovedit domiciliul'>Dovada domiciliului*</label>
                                     <div className={styles.file_upload}>
                                         <input type="file" id='domiciliu' name='domiciliu' onChange={e => uploadPhoto(e, 1)} multiple={false} accept='image/*' />
                                         <label htmlFor='domiciliu' className={`${styles.button_file_input} ${error.domiciliu ? styles.wrong_input : ''}`} onClick={() => setError({ ...error, domiciliu: false })}>{photo.domiciliu === ''  ? 'Adaugă poza' : 'Poză adaugată'}</label>

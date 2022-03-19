@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
@@ -18,9 +19,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       setShowHeader(true)
     }
-    
-    // if(pathname === )
+    // if(pathname !== '/autentificare/parola-uitata') {
+    //   axios.post('http://localhost:9999/api/functionalities/delete-cookie')
+    // }
   }, [pathname])
+
+  console.log(pathname)
+
 
 
   return(

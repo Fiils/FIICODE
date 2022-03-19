@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 
 import styles from '../styles/scss/Homepage/Introduction.module.scss'
-// import Post from '../components/HomePage/Post'
 
 const Home: NextPage = () => {
   return (

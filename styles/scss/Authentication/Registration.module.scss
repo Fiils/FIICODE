@@ -108,7 +108,7 @@
         font-size: 2rem;
         letter-spacing: .2em;
         margin-left: .2em;
-        color: #575A5E;
+        color: #8BBD8B;
     }
 }
 
@@ -145,6 +145,36 @@
     input[type=file] {
         border: none;
         display: none;
+    }
+
+    .hover_for_info {
+        position: relative;
+        &:hover {
+            cursor: help;
+        }
+        &::before {
+            content: attr(hover-info);
+            position: absolute;
+            background: rgb(190, 190, 190);
+            height: 50px;
+            width: 120%;
+            margin-left: -10%;
+            margin-top: -50px;
+            font-size: .6rem;
+            text-align: center;
+            border-radius: 2px;
+            border: 1px solid rgb(240, 240, 240);
+            transition: all .25s ease-out;
+            opacity: 0;
+            visibility: hidden;
+            // display: none;
+        }
+
+        &:hover::before {
+            opacity: 1;
+            visibility: visible;
+            // display: block;
+        }
     }
 }
 
