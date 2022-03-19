@@ -19,9 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       setShowHeader(true)
     }
-    // if(pathname !== '/autentificare/parola-uitata') {
-    //   axios.post('http://localhost:9999/api/functionalities/delete-cookie')
-    // }
   }, [pathname])
 
   console.log(pathname)
