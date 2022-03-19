@@ -106,11 +106,11 @@ const Token: NextPage = () => {
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Parola*</label>
-                    <input type='text' id='password' name='password' />
+                    <input type='text' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Confirmă parola*</label>
-                    <input type='text' id='password' name='password' />
+                    <input type='text' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
                 </div>
                 <div className={overrideStyles.button_sub}>
                     <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
@@ -118,8 +118,8 @@ const Token: NextPage = () => {
             </form>
             :
             <div className={overrideStyles.form}>
-                <div style={{ display: 'flex', flexFlow: 'column wrap', alignContent: 'center'}}>
-                    <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Parolă schimbată</h2>
+                <div style={{ marginTop: 60}}>
+                    <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Parolă schimbată</h2>
                     <p className={overrideStyles.additional_info}>
                         De acum vă puteți autentifica în cont folosind parola cea nouă.
                     </p>
@@ -127,7 +127,7 @@ const Token: NextPage = () => {
                         <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647696142/FIICODE/safety-3599_1_pbz0mr.svg' width={100} height={100} priority />
                     </div>
                     <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
-                        <button type="button">
+                        <button>
                             <Link href='/autentificare'>Autentifică-te</Link>
                         </button>
                     </div>     

@@ -167,13 +167,11 @@
             transition: all .25s ease-out;
             opacity: 0;
             visibility: hidden;
-            // display: none;
         }
 
         &:hover::before {
             opacity: 1;
             visibility: visible;
-            // display: block;
         }
     }
 }
@@ -237,6 +235,12 @@
         &:hover {
             background: #6CAE75;
             color: white;
+        }
+
+        &:hover {
+            a {
+                color: white;
+            }
         }
     }
 }
