@@ -21,9 +21,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [pathname])
 
-  console.log(pathname)
-
-
 
   return(
     <div>

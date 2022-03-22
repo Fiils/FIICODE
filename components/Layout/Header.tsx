@@ -7,7 +7,6 @@ import styles from '../../styles/scss/Layout/Header.module.scss'
 const Header: FC = () => {
 
     return (
-        <>
         <div className={styles.container}>
             <div className={styles.logo}>
                 <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} />
@@ -21,7 +20,6 @@ const Header: FC = () => {
                <button><Link href="/inregistrare">Înregistrează-te</Link></button>
             </div>
         </div>
-        </>
     )
 }
 
