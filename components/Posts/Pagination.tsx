@@ -14,43 +14,37 @@ const Pagination: FC<Pagination> = ({ numberOfPages }) => {
     const router = useRouter()
 
     const nextPage = () => {
-        if(numberOfPages >= parseInt(router.query.page_f!.toString()) + 1) {
-            router.replace({ 
-                pathname: router.pathname, 
-                query: { ...router.query, page_f: encodeURIComponent(parseInt(router.query.page_f!.toString()) + 1)} 
+        const page = router.query.page ? router.query.page.toString().split('') : ['p', '1']
+        let number = '';
+        page.map((value: string) => {
+            if(value !== 'p'){
+                number += value
+            }
+        })
+
+        if(router.query.page && parseInt(number) < numberOfPages) {
+            router.replace({
+                query: { page: `p${parseInt(number) + 1}` }
             })
-            setCurrentButton(parseInt(router.query.page_f!.toString()) + 1)
+            setCurrentButton(parseInt(number) + 1)
         }
-}
+    }
 
 const prevPage = () => {
-        if(parseInt(router.query.page_f!.toString()) - 1 >= 1) {
-            router.replace({ 
-                pathname: router.pathname, 
-                query: { ...router.query, page_f: encodeURIComponent(parseInt(router.query.page_f!.toString()) - 1)} 
-            })
-            setCurrentButton(parseInt(router.query.page_f!.toString()) - 1)
+    const page = router.query.page ? router.query.page.toString().split('') : ['p', '1']
+    let number = '';
+    page.map((value: string) => {
+        if(value !== 'p'){
+            number += value
         }
-}
-
-const sendToFirstPage = () => {
-        if(parseInt(router.query.page_f!.toString()) - 1 >= 1) {
-            router.replace({
-                pathname: router.pathname,
-                query: { ...router.query, page_f: encodeURIComponent(1)}
-            })
-            setCurrentButton(1)
-        }
-}
-
-const sendToLastPage = () => {
-        if(numberOfPages >= parseInt(router.query.page_f!.toString()) + 1) {
-            router.replace({
-                pathname: router.pathname,
-                query: { ...router.query, page_f: encodeURIComponent(numberOfPages)}
-            })
-            setCurrentButton(numberOfPages)
-        }
+    })
+    
+    if(router.query.page && parseInt(number) > 1) {
+        router.replace({
+            query: { page: `p${parseInt(number) - 1}` }
+        })
+        setCurrentButton(parseInt(number) - 1)
+    }
 }
 
 const[ arrCurBtn, setArrCurBtn] = useState<any[]>([])
@@ -92,8 +86,7 @@ useEffect(() => {
 
 const change_first_page = (page: string) => {
     router.replace({
-        pathname: router.pathname,
-        query: { ...router.query, page_f: encodeURIComponent(page.toLowerCase()) }
+        query: { page: `p${page}` }
     })
 }
 
@@ -117,7 +110,7 @@ const changePage = (value: number) => {
                         {value.toString() !== dotsInitial && value.toString() !== dotsRight && value.toString() !== dotsLeft ?
                             <button type="button" key={index}
                                     className={currentButton !== value ? styles.disactivated : styles.activated}
-                                    onClick={e => changePage(value)}>{value}</button>
+                                    onClick={e => changePage(value)} disabled={currentButton === value}>{value}</button>
                             : <span key={index}>{value}</span>}
                     </div>
                 )
