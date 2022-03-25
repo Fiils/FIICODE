@@ -17,6 +17,7 @@ $hover-color: #8BBD8B;
     .logo {
         display: flex;
         align-items: center;
+        padding-right: 20px;
 
         span {
             font-weight: bolder;
@@ -24,9 +25,8 @@ $hover-color: #8BBD8B;
             letter-spacing: .2em;
             margin-left: .2em;
             color: #6CAE75;
-            opacity: .9
+            opacity: .8;
         }
-        padding-right: 20px;
     }
     
     a {
@@ -68,6 +68,7 @@ $hover-color: #8BBD8B;
     }
 
     .links {
+        font-family: 'Libre Baskerville';
         position: relative;
         display: flex;
         flex-flow: row nowrap;
@@ -77,4 +78,20 @@ $hover-color: #8BBD8B;
         margin: 0 20px 0 auto;
     }
         
+}
+
+.profile_account {
+    font-family: 'Libre Baskerville';
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1em;
+    margin: 0 20px 0 auto;
+
+    a:hover {
+        color: #575A5E !important;
+        text-decoration: underline;
+    }
 }

@@ -3,8 +3,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import styles from '../../styles/scss/Layout/Header.module.scss'
+import { useAuth } from '../../utils/useAuth'
 
 const Header: FC = () => {
+
+    const user = useAuth()
 
     return (
         <div className={styles.container}>
@@ -13,12 +16,19 @@ const Header: FC = () => {
                 <span>ROMDIG</span>
             </div>
             <Link href="/">Prima pagină</Link>
-            <Link href="/postari">Postări</Link>
-            <Link href="/postari/creare">Creează o postare</Link>
-            <div className={styles.links}>
-               <Link href="/autentificare">Autentifică-te</Link>
-               <button><Link href="/inregistrare">Înregistrează-te</Link></button>
-            </div>
+            <Link href="/postari/cx/p1">Postări</Link>
+            <Link href="/postari/creare-postare">Creează o postare</Link>
+            {!user.user.isLoggedIn ?
+                <div className={styles.links}>
+                <Link href="/autentificare">Autentifică-te</Link>
+                <button><Link href="/inregistrare">Înregistrează-te</Link></button>
+                </div>
+            :
+                <div className={styles.profile_account}>
+                    <Link href="/contul-meu" >Contul meu</Link>
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648229488/FIICODE/user-3295_4_l5mqhx.svg' width={40} height={40} />
+                </div>
+            }
         </div>
     )
 }

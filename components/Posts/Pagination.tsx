@@ -48,7 +48,15 @@ const prevPage = () => {
 }
 
 const[ arrCurBtn, setArrCurBtn] = useState<any[]>([])
-const [currentButton, setCurrentButton] = useState<number>(parseInt(router.query.page_f as string) > 0 ? parseInt(router.query.page_f as string) : 1)
+
+const page = router.query.page ? router.query.page.toString().split('') : ['p', '1']
+let number = '';
+page.map((value: string) => {
+    if(value !== 'p'){
+        number += value
+    }
+})
+const [currentButton, setCurrentButton] = useState<number>(parseInt(number) > 0 ? parseInt(number) : 1)
 
 let numberPages: number[] = []
 for(let i = 1; i <= numberOfPages; i++)

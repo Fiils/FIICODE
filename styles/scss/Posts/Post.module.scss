@@ -3,7 +3,7 @@
 .post {
     width: 70%;
     height: 600px;
-    border: 2px solid gray;
+    border: 1px solid gray;
     border-radius: 4px;
     cursor: pointer;
     position: relative;
@@ -15,6 +15,15 @@
 
 .title {
     margin: 30px 50px;
+    height: 5%;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .image {
@@ -26,9 +35,10 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
+    margin: 10px auto;
     gap: .5em;
     height: 8%;
-    width: 100%;
+    width: 95%;
     background: rgb(235, 235, 235);
     bottom: 0;
     border-radius: 4px;

@@ -37,20 +37,19 @@ const StatusSelect: FC<StatusProps> = ({ status, handleChange }) => {
             renderValue={(selected: string[]) => selected.join(', ')}
             label="Status"
           >
-
-            <MenuItem key={'Trimis'} value={'Trimis'}>
+            <MenuItem value={'Trimis'}>
               <Checkbox checked={status.includes('Trimis')} />
               <ListItemText primary={'Trimis'} />
             </MenuItem>
-            <MenuItem key={'Vizionat'} value={'Vizionat'}>
+            <MenuItem value={'Vizionat'}>
               <Checkbox checked={status.includes('Vizionat')} />
               <ListItemText primary={'Vizionat'} />
             </MenuItem>
-            <MenuItem key={'În lucru'} value={'În lucru'}>
+            <MenuItem value={'În lucru'}>
               <Checkbox checked={status.includes('În lucru')} />
               <ListItemText primary={'În lucru'} />
             </MenuItem>
-            <MenuItem key={'Efectuat'} value={'Efectuat'}>
+            <MenuItem value={'Efectuat'}>
               <Checkbox checked={status.includes('Efectuat')} />
               <ListItemText primary={'Efectuat'} />
             </MenuItem>

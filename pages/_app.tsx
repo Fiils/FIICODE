@@ -6,6 +6,7 @@ import axios from 'axios'
 
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
+import { AuthProvider } from '../utils/useAuth'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -23,18 +24,20 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
   return(
-    <div>
-      <Head>
-        <title>ROMDIG</title>
-        <meta name="description" content="O aplicatie pentru administrarea noilor idei oferite de catre oameni dintr-o anumita comuna/localitate/judet pentru imbunatatirea acesteia" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <meta charSet="utf-8" />
-        <link rel="canonical" href="http://localhost:3000" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-      </Head>
-      {showHeader ? <Header /> : <></> }
-      <Component {...pageProps} />
-    </div>
+    <AuthProvider>
+      <div>
+        <Head>
+          <title>ROMDIG</title>
+          <meta name="description" content="O aplicatie pentru administrarea noilor idei oferite de catre oameni dintr-o anumita comuna/localitate/judet pentru imbunatatirea acesteia" />
+          <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+          <meta charSet="utf-8" />
+          <link rel="canonical" href="http://localhost:3000" />
+          <link rel="shortcut icon" href="/favicon.ico" />
+        </Head>
+        {showHeader ? <Header /> : <></> }
+        <Component {...pageProps} />
+      </div>
+    </AuthProvider>
   )
 }
 

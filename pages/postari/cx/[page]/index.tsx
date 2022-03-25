@@ -9,6 +9,16 @@ import gridStyles from '../../../../styles/scss/Posts/Grid.module.scss'
 import PostGrid from '../../../../components/Posts/PostGrid'
 import Pagination from '../../../../components/Posts/Pagination'
 import StatusSelect from '../../../../components/Posts/StatusSelect'
+import { useAuth } from '../../../../utils/useAuth'
+
+
+interface User {
+    user: {
+        isLoggedIn: boolean;
+        userId: string;
+    }
+    setUser: any;
+}
 
 interface ListItems {
     text: string;
@@ -49,6 +59,14 @@ interface InitialFetchProps {
 }
 const Postari: NextPage<InitialFetchProps> = () => {
     const router = useRouter()
+
+    const user: User = useAuth()
+
+    useEffect(() => {
+        if(!user.user.isLoggedIn) {
+            router.push('/autentificare')
+        }
+    }, [])
      
     const [ force, setForce ] = useState(false)
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
@@ -67,6 +85,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const changeCategory = async (category: string) => {
         const page = router.query.page ? router.query.page.toString().split('') : ['p', '1']
         let number = '';
+
         if(page.length > 1) {
             page.map((value: string) => {
                 if(value !== 'p'){
@@ -76,6 +95,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         }
 
         setLoading(true)
+        setPosts({ numberOfPages: 0, posts: []})
         const result = await axios.get(`http://localhost:9999/api/post/show${category}?page=${parseInt(number) - 1}`, { withCredentials: true })
                         .then(res => res.data)
 
@@ -84,7 +104,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 query: { page: 'p1' }
             })
 
-            const res = await axios.get(`http://localhost:9999/api/post/show${category}?page=0`, { withCredentials: true })
+            const res = await axios.get(`http://localhost:9999/api/post/show${category}?page=${number}`, { withCredentials: true })
                              .then(res => res.data)
             setPosts({
                 numberOfPages: res.numberOfPages,
@@ -150,12 +170,12 @@ const Postari: NextPage<InitialFetchProps> = () => {
             setStatus(status.filter(status => !status.includes(event.target.value)))
         }
 
-        // await changeCategory(event, `${pref}?status_a=${status[0] ? status[0] : ''}&status_b=${status[1] ? status[1] : ''}&status_c=${status[2] ? status[2] : ''}status_d=${status[3] ? status[3] : ''}`)
+        // await changeCategory(pref, `&status_a=${status[0] ? status[0] : ''}&status_b=${status[1] ? status[1] : ''}&status_c=${status[2] ? status[2] : ''}status_d=${status[3] ? status[3] : ''}`)
     };
 
     return (
         <>
-        <StatusSelect status={status} handleChange={handleChange} />
+        {/* <StatusSelect status={status} handleChange={handleChange} /> */}
         <div style={{ display: 'flex', flexFlow: 'row nowrap', gap: '4em'}}>
             <div className={styles.container_sm}>
                 <div className={styles.list_cat}>
@@ -173,9 +193,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
                     {posts.numberOfPages !== 0 &&
                         posts.posts.map((value: any, key: number) => {
                             return (
-                                <PostGrid key={key} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
+                                <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
                                         description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
-                                        media={value.media} status={value.status} reports={value.reports  } favorites={value.favorites} force={force} />
+                                        media={value.media} status={value.status} reports={value.reports  } favorites={value.favorites} />
                             )
                     })}
                    {loading && <div className={gridStyles.loader}></div> }
