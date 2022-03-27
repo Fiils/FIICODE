@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import axios from 'axios'
 
 import styles from '../../styles/scss/Posts/Pagination.module.scss'
 

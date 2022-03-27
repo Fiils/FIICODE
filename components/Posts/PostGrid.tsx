@@ -34,9 +34,13 @@ interface Post {
     firstNameAuthor: string;
     media: Array<any>;
     status: string;
+    views: {
+        count: number;
+        people: Array<any>;
+    }
 }
 
-const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports }) => {
+const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views }) => {
     const router = useRouter()
 
     const user = useAuth()
@@ -116,7 +120,7 @@ const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description
 
     return (
         <div key={_id} className={styles.post}>
-            <h3 key={'j' + _id} className={styles.title}> upVotes: {upVoted.count} downVotes: {downVoted.count} favorites: {favorites.count}</h3>
+            <h3 key={'j' + _id} className={styles.title}> upVotes: {upVoted.count} downVotes: {downVoted.count} views: {views.count}</h3>
             <div key={'k' + _id} className={styles.image}>
                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647549815/FIICODE/cool-background_1_sl1c6x.png' width={600} height={400} key={'l' + _id} /> 
             </div>

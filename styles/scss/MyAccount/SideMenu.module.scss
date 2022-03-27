@@ -1,25 +1,56 @@
-.container_grid {
-    display: grid;
-    width: 80vw;
-    height: 500px;
-    background: rgb(255, 255, 255);
-    margin: 5vh auto 0 auto;
-    grid-template-columns: .8fr 3fr;
-    gap: 2em;
-}
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
 
 .user_list {
-    border-right: 5px solid black;
-    text-align: center;
+    width: 21%;
+    height: fit-content;
+    background: white;
+    box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.27);
+    border-radius: 3px;
 
     ul {
         list-style-type: none;
         padding-left: 0;
         margin-top: 0;
+        margin-bottom: .7em;
 
         li {
-            border-bottom: 1.5px solid gray;
-            padding: 1em 0;
+            padding: 1em 0 .3em 0;
+            font-family: 'Baloo Tamma 2';
+            font-size: 1.05rem;
+
+            &:first-child {
+                padding-top: 1.2em;
+                border-radius: 3px 3px 0 0;
+            }
+
+            &:not(:last-child) {
+                border-bottom: 1.5px solid gray;
+            }
+
+            a {
+                margin-left: 10px;
+
+            }
+
+            a:hover {
+                opacity: .8;
+                text-decoration: underline;
+            }
         }
     }
+}
+
+.active_link {
+    color: rgb(120, 120, 120);
+}
+
+.active_item {
+    background-color: rgba(245, 245, 245);
+}
+
+.logout {
+    color: red;
+    font-weight: 700;
+    cursor: pointer;
 }
