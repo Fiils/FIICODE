@@ -22,6 +22,7 @@ export function AuthProvider(props: any) {
     async function login() {
         const response = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true })
                             .then(res => res.data)
+                            .catch(err => console.log(err.response))
         if(response){
             setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId })
         }

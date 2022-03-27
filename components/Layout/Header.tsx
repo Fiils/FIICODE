@@ -20,8 +20,8 @@ const Header: FC = () => {
             <Link href="/postari/creare-postare">Creează o postare</Link>
             {!user.user.isLoggedIn ?
                 <div className={styles.links}>
-                <Link href="/autentificare">Autentifică-te</Link>
-                <button><Link href="/inregistrare">Înregistrează-te</Link></button>
+                    <Link href="/autentificare">Autentifică-te</Link>
+                    <button><Link href="/inregistrare">Înregistrează-te</Link></button>
                 </div>
             :
                 <div className={styles.profile_account}>

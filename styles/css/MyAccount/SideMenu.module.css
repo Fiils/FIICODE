@@ -1,0 +1,1 @@
+.container_grid{background:#fff;display:grid;gap:2em;grid-template-columns:.8fr 3fr;height:500px;margin:5vh auto 0;width:80vw}.user_list{border-right:5px solid #000;text-align:center}.user_list ul{list-style-type:none;margin-top:0;padding-left:0}.user_list ul li{border-bottom:1.5px solid gray;padding:1em 0}

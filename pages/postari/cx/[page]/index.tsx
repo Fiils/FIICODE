@@ -98,30 +98,39 @@ const Postari: NextPage<InitialFetchProps> = () => {
         setPosts({ numberOfPages: 0, posts: []})
         const result = await axios.get(`http://localhost:9999/api/post/show${category}?page=${parseInt(number) - 1}`, { withCredentials: true })
                         .then(res => res.data)
+                        .catch(err => {
+                            console.log(err); 
+                            return;
+                        })
+        if(result) {
+            if(result.posts.length === 0) {
+                router.replace({
+                    query: { page: 'p1' }
+                })
 
-        if(result.posts.length === 0) {
-            router.replace({
-                query: { page: 'p1' }
-            })
-
-            const res = await axios.get(`http://localhost:9999/api/post/show${category}?page=${number}`, { withCredentials: true })
-                             .then(res => res.data)
+                const res = await axios.get(`http://localhost:9999/api/post/show${category}?page=${number}`, { withCredentials: true })
+                                .then(res => res.data)
+                                .catch(err => {
+                                    console.log(err)
+                                    return;
+                                })
+                setPosts({
+                    numberOfPages: res.numberOfPages,
+                    posts: res.posts
+                })
+                setPref(category)
+                setLoading(false)
+                setForce(!force)
+                return;
+            }
             setPosts({
-                numberOfPages: res.numberOfPages,
-                posts: res.posts
+                numberOfPages: result.numberOfPages,
+                posts: result.posts
             })
             setPref(category)
-            setLoading(false)
             setForce(!force)
-            return;
         }
-        setPosts({
-            numberOfPages: result.numberOfPages,
-            posts: result.posts
-        })
-        setPref(category)
-        setForce(!force)
-        setLoading(false)
+    setLoading(false)
     }
 
     useEffect(() => {

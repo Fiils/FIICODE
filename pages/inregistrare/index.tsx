@@ -41,53 +41,64 @@ const Inregistrare: NextPage = () => {
     const [ codePage, setCodePage ] = useState(false)
 
     const [ error, setError ] = useState({ name: false, firstName: false, email: false, password: false, gender: false, cnp: false, city: false, county: false, street: false, domiciliu: false, buletin: false })
+    const [ errorMessages, setErrorMessages ] = useState({ name: '', firstName: '', email: '', password: '', gender: '', cnp: '', city: '', county: '', street: '', domiciliu: '', buletin: '' })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const domiciliu = photo.domiciliu
         const buletin = photo.buletin
         const person = { name, firstName, email, password, gender, cnp, city, county, street, domiciliu, buletin }
+
+        const regex = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i
+        const cnpRegex = /^\d+$/
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
         setError({ 
             name: !name.length,
             firstName: !firstName.length,
-            email: !email.length,
-            password: !password.length,
+            email: !email.length ? !email.length : (!email.match(emailRegex) ? true : false ),
+            password: !password.length ? !password.length : (password.length < 8 ? true : (!regex.test(password) ? true : false )),
             gender: !gender.length,
-            cnp: !cnp.length,
+            cnp: !cnp.length ? !cnp.length : (!cnpRegex.test(cnp) ? true : (cnp.length !== 13 ? true : false )),
             city: !city.length,
             county: !county.length,
             street: !street.length,
             domiciliu: !photo.domiciliu.length,
             buletin: !photo.buletin.length
         })
-            if( name === '' || firstName === '' || email === '' || password === '' || gender === '' || county === '' || city === '' || street === '' || photo.domiciliu === '' || photo.buletin === '' || cnp === '') return;
+        setErrorMessages({
+            name: !name.length ? 'Spațiul nu poate fi gol' : '',
+            firstName: !firstName.length ? 'Spațiul nu poate fi gol' : '',
+            email: !email.length ? 'Spațiul nu poate fi gol' : (!email.match(emailRegex) ? 'Email invalid' : '' ),
+            password: !password.length ? 'Spațiul nu poate fi gol' : (password.length < 8 ? 'Parolă prea scurtă' : (!regex.test(password) ? 'Parola trebuie să conțină caractere alfanumerice' : '' )),
+            gender: !gender.length ? 'Spațiul nu poate fi gol' : '',
+            cnp: !cnp.length ? 'Spațiul nu poate fi gol' : (!cnpRegex.test(cnp) ? 'CNP-ul conține doar cifre' : (cnp.length !== 13 ? 'CNP-ul are doar 13 cifre' : '' )),
+            city: !city.length ? 'Spațiul nu poate fi gol' : '',
+            county: !county.length ? 'Spațiul nu poate fi gol' : '',
+            street: !street.length ? 'Spațiul nu poate fi gol' : '',
+            domiciliu: !domiciliu.length ? 'Spațiul nu poate fi gol' : '',
+            buletin: !buletin.length ? 'Spațiul nu poate fi gol' : '',
+        })
+        
+        if(error.name || error.firstName || error.email || error.password || error.gender || error.cnp || error.city || error.county || error.street || error.domiciliu || error.buletin) return;
 
         const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
                         .then(res => res.data)
+                        .catch(err => {
+                            if(err.response.data.type === 'email') {
+                                setErrorMessages({ ...errorMessages, email: err.response.data.message })
+                                setError({ ...error, email: true })
+                            } else if(err.response.data.type === 'cnp') {
+                                setErrorMessages({ ...errorMessages, cnp: err.response.data.message })
+                                setError({ ...error, cnp: true })
+                            } else console.log(err)
+                        })
 
-        if(result === 'Cerere acceptată'){
+        if(result && result === 'Cerere acceptată'){
             setCodePage(true)
         }
     }
 
-
-    // const validateNotEmpty = (value) => {
-    //     return !value.length;
-    // }
-    
-    // const validatePassword = (value) => {
-    //     return value.length > 8;
-    // }
-    
-    // const validateField = (rules, value) => {
-    //     for (rule in rules) {
-    //         if (!rule(value)) return false;
-    //     }
-    // }
-    
-    // setError({
-    //     password: validateField([validateNotEmpty, validatePassword], password)
-    // })
 
     useEffect(() => {
         if(nextPage) {
@@ -141,7 +152,6 @@ const Inregistrare: NextPage = () => {
     }
 
 
-
     return (
         <div className={styles.container}>
             <div className={styles.go_back}>
@@ -162,26 +172,30 @@ const Inregistrare: NextPage = () => {
                         <div className={styles.input_d} style={{ display: 'flex', gap: '2em', justifyContent: 'center', marginTop: 0}}>
                             <div className={`${styles.input_d} ${error.name ? styles.wrong_input : ''}`}>
                                 <label htmlFor='name'>Nume*</label>
-                                <input type="text" id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }) }} />
+                                <input type="text" autoComplete='name' id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }); setErrorMessages({ ...errorMessages, name: '' }) }} />
+                                {errorMessages.name !== '' ? <label style={{ color: 'red' }}>{errorMessages.name}</label> : <></> }
                             </div>
                             <div className={`${styles.input_d} ${error.firstName ? styles.wrong_input : ''}`}>
                                 <label htmlFor='firstName'>Prenume*</label>
-                                <input type="text" id='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }) }} />
+                                <input type="text" id='firstName' autoComplete='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }); setErrorMessages({ ...errorMessages, firstName: '' }) }} />
+                                {errorMessages.firstName !== ''  ? <label style={{ color: 'red' }}>{errorMessages.firstName}</label> : <></> }
                             </div>
                         </div>
                         <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
                             <label htmlFor='email'>E-mail*</label>
-                            <input type="email" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }) }} />
+                            <input type="text" id='email' name='email' autoComplete='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: ''  }) }} />
                             <div className={styles.svg_container}>
                                 <EmailIcon />
                             </div>
+                            {errorMessages.email !== ''  ? <label style={{ color: 'red' }}>{errorMessages.email}</label> : <></> }
                         </div>
                         <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                             <label htmlFor='password'>Parolă*</label>
-                            <input type={!showPassword ? 'password' : 'text'} minLength={8} id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }) }} />
+                            <input type={!showPassword ? 'password' : 'text'} autoComplete='current-password' minLength={8} id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }); setErrorMessages({ ...errorMessages, password: '' }) }} />
                             <div className={styles.svg_container}>
                                 {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
                             </div>
+                            {errorMessages.password !== ''  ? <label style={{ color: 'red' }}>{errorMessages.password}</label> : <></> }
                         </div>
                         <div className={`${styles.buttons_gender} ${error.gender ? styles.wrong_input : ''}`}>
                             <button className={gender === 'barbat' ? styles.selected : ''} type="button" onClick={() => { setGender('barbat'); setError({ ...error, gender: false }) }}><ManIcon /></button>
@@ -202,30 +216,34 @@ const Inregistrare: NextPage = () => {
                             </h2>
                             <div className={`${styles.input_d} ${error.cnp ? styles.wrong_input : ''}`}>
                                 <label htmlFor='cnp'><abbr title='Cod Numeric Personal' style={{ textDecoration: 'none' }}>CNP</abbr>*</label>
-                                <input type="text" id='cnp' name='cnp' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }) }} />
+                                <input type="text" id='cnp' name='cnp' autoComplete='CNP' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }); setErrorMessages({ ...errorMessages, cnp: '' }) }} />
                                 <div className={styles.svg_container}>
                                     <BadgeIcon />
                                 </div>
+                                {errorMessages.cnp !== ''  ? <label style={{ color: 'red' }}>{errorMessages.cnp}</label> : <></> }
                             </div>
                             <div className={styles.input_d} style={{ display: 'flex', gap: '2em', justifyContent: 'center', marginTop: 0}}>
 
-                                <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
+                                <div className={`${styles.input_d} ${error.county ? styles.wrong_input : ''}`}>
                                     <label htmlFor='county'>Județ*</label>
-                                    <input type="text" id='county' name='county' value={county} onChange={e => { setCounty(e.target.value); setError({ ...error, county: false }) }} />
+                                    <input type="text" id='county' name='county' autoComplete='county' value={county} onChange={e => { setCounty(e.target.value); setError({ ...error, county: false }); setErrorMessages({ ...errorMessages, county: '' }) }} />
+                                    {errorMessages.county !== ''  ? <label style={{ color: 'red' }}>{errorMessages.county}</label> : <></> }
                                 </div>
 
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
-                                    <label htmlFor='provenience'>Localitate*</label>
-                                    <input type="text" id='provenience' name='provenience' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }) }} />
+                                    <label htmlFor='locality'>Localitate*</label>
+                                    <input type="text" id='locality' name='locality' autoComplete='city' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }); setErrorMessages({ ...errorMessages, city: '' }) }} />
+                                    {errorMessages.city !== ''  ? <label style={{ color: 'red' }}>{errorMessages.city}</label> : <></> }
                                 </div>
 
                             </div>
                             <div className={`${styles.input_d} ${error.street ? styles.wrong_input : ''}`}>
                                 <label htmlFor='street'>Strada*</label>
-                                <input type="text" id='street' name='street' value={street} onChange={e => { setStreet(e.target.value); setError({ ...error, street: false }) }} />
+                                <input type="text" id='street' name='street' value={street} autoComplete='street' onChange={e => { setStreet(e.target.value); setError({ ...error, street: false }); setErrorMessages({ ...errorMessages, street: '' }) }} />
                                 <div className={styles.svg_container}>
                                     <AddRoadTwoToneIcon />
                                 </div>
+                                {errorMessages.street !== ''  ? <label style={{ color: 'red' }}>{errorMessages.street}</label> : <></> }
                             </div>
                             <div className={styles.file_upload_container}>
                                 <div className={styles.input_upload} id='file-upload'>

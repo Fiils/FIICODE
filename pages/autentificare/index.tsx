@@ -22,25 +22,50 @@ const Inregistrare: NextPage = () => {
 
     const [ showPassword, setShowPassword ] = useState(false)
     const [ error, setError ] = useState({ email: false, password: false })
+    const [ errorMessages, setErrorMessages ] = useState({ email: '', password: '' })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const person = { email, password }
 
-        if(email === '' || password === '') {
-            if(email === ''){
-                setError({ ...error, email: true })
-            }
-            if(password === ''){
-                setError({ ...error, password: true })
-            }
-            return;
-        };
+        const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+        setError({
+            email: !email.length ? !email.length : (!email.match(emailRegex) ? true : false),
+            password: !password.length
+        })
+        setErrorMessages({
+            email: !email.length ? 'Spațiul nu poate fi gol' : (!email.match(emailRegex) ? 'Email invalid' : ''),
+            password: !password.length ? 'Spațiul nu poate fi gol' : ''
+        })
+
+        if(error.email || error.password) return;
 
         const result = await axios.post('http://localhost:9999/api/login', person, { withCredentials: true })
                         .then(res => res.data)
+                        .catch(err => {
+                            if(err.response.data.type === 'email') {
+                                setError({
+                                    ...error,
+                                    email: true
+                                })
+                                setErrorMessages({
+                                    ...errorMessages,
+                                    email: err.response.data.message
+                                })
+                            } else if(err.response.data.type === 'password') {
+                                setError({
+                                    ...error,
+                                    password: true
+                                })
+                                setErrorMessages({
+                                    ...errorMessages,
+                                    password: err.response.data.message
+                                })
+                            } else console.log(err)
+                        })
 
-        if(result === 'User logat') {
+        if(result && result === 'User logat') {
             router.push('/')
         }
     }
@@ -73,17 +98,19 @@ const Inregistrare: NextPage = () => {
                         <h2>Intră în cont</h2>
                         <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
                             <label htmlFor='email'>E-mail*</label>
-                            <input type="email" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }) }} />
+                            <input type="text" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: '' }) }} />
                             <div className={styles.svg_container}>
                                 <EmailIcon />
                             </div>
+                            {errorMessages.email !== ''  ? <label style={{ color: 'red' }}>{errorMessages.email}</label> : <></> }
                         </div>
                         <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                             <label htmlFor='password'>Parolă*</label>
-                            <input type={!showPassword ? 'password' : 'text'} id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }) }} />
+                            <input type={!showPassword ? 'password' : 'text'} id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }); setErrorMessages({ ...errorMessages, password: '' }) }} />
                             <div className={styles.svg_container}>
                                 {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
                             </div>
+                            {errorMessages.password !== ''  ? <label style={{ color: 'red' }}>{errorMessages.password}</label> : <></> }
                         </div>
 
                         <div className={styles.additional_info}>
