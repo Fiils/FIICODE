@@ -1,14 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@300;400;500;600&display=swap');
 
-// .static {
-//     position: relative !important;
-// }
-
 .container_sm {
     width: 30%;
-    position: absolute !important;
+    position: relative;
     left: 0;
-    margin-top: 3%; 
+    padding-top: 2%; 
 }
 
 .list_cat {
@@ -68,11 +64,11 @@
     position: relative;
 
     p {
-        color: #6CAE75 !important;
+        color: #60BF60 !important;
     }
 
     &::after {
-        background: #6CAE75 !important;
+        background: #60BF60 !important;
         z-index: 2000;
     }
 }

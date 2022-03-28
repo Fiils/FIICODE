@@ -34,7 +34,7 @@ const Code: FC = () => {
                         })
         
         if(result && result.message === 'Utilizator creat') {
-            router.push('/')
+            router.reload()
             setLoading(false)
         } else {
             setLoading(false)
@@ -51,7 +51,7 @@ const Code: FC = () => {
             <p className={overrideStyles.additional_info}>Verifică-ți inboxul emailului și o să vezi că ai primit un mail cu un cod. Introdu-l mai jos pentru a finaliza crearea noului tău cont. Dacă nu îl găsești, verifică secțiunea spam.</p>
             <div className={`${styles.input_d} ${codeError ? styles.wrong_input : ''}`}>
                 <label htmlFor='code'>Cod</label>
-                <input type="text" id='code' name='code' value={code} maxLength={6} onChange={e => { setCode(e.target.value); setCodeError(false) }} />
+                <input type="text" autoComplete='code' id='code' name='code' value={code} maxLength={6} onChange={e => { setCode(e.target.value); setCodeError(false) }} />
                 {codeError && <label style={{ color: 'red' }}>Cod incorect</label> }
              </div>
             <div className={overrideStyles.button_sub}>

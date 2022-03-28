@@ -40,8 +40,8 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                         .catch(err => console.log(err))
 
         if(result) {
+            router.reload()
             user.setUser({ isLoggedIn: false, active: false, userId: '' })
-            router.push('/')
         }
     }
 

@@ -69,7 +69,7 @@ const Inregistrare: NextPage = () => {
                     </div>
                     <div className={`${styles.input_d} ${error ? styles.wrong_input : ''}`}>
                         <label htmlFor='email'>E-mail*</label>
-                        <input type="email" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError(false); setErrorMessage('') }} />
+                        <input type="email" autoComplete='email' id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError(false); setErrorMessage('') }} />
                         {errorMessage !== ''  ? <label style={{ color: 'red' }}>{errorMessage}</label> : <></> }
                     </div>
                     <div className={styles.additional_info}>

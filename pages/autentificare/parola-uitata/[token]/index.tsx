@@ -131,11 +131,11 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Parola*</label>
-                    <input type='text' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
+                    <input type='text' autoComplete='password' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Confirmă parola*</label>
-                    <input type='text' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
+                    <input type='text' autoComplete='same-password' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
                 </div>
                 <div className={overrideStyles.button_sub}>
                     {!loading ?

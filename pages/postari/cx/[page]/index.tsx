@@ -2,7 +2,6 @@ import type { NextPage, GetServerSideProps } from 'next';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useInView } from 'react-intersection-observer';
 
 import styles from '../../../../styles/scss/Posts/SideMenu.module.scss'
 import gridStyles from '../../../../styles/scss/Posts/Grid.module.scss'
@@ -49,27 +48,15 @@ interface InitialFetchProps {
         views: {
             count: number;
             people: Array<any>;
-        }
+        };
+        creationDate: Date;
+        nameAuthor: string;
     }
 }
 
 
 const Postari: NextPage<InitialFetchProps> = () => {
     const router = useRouter()
-
-    const { ref, inView, entry } = useInView({
-        threshold: 0,
-      });
-
-    const [ fixed, setFixed ] = useState(true)
-    useEffect(() => {
-        if(inView){
-            setFixed(false)
-        } else {
-            setFixed(true)
-        }
-    }, [inView])
-    
      
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
@@ -248,7 +235,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         <>
         <StatusSelect status={status} handleChange={handleChange} />
 
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', gap: '4em'}}>
+        <div style={{ display: 'flex', flexFlow: 'row nowrap'}}>
             <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
@@ -268,7 +255,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                             return (
                                 <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
                                         description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
-                                        media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} />
+                                        media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} creationDate={value.creationDate} nameAuthor={value.nameAuthor} />
                             )
                     })
                     :
@@ -277,10 +264,10 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         </div>
                     }
                    {loading && <div className={gridStyles.loader}></div> }
-                   <div ref={ref}>
-                    {posts.numberOfPages !== 0 &&
-                        <Pagination numberOfPages={posts.numberOfPages} />
-                    }
+                   <div>
+                        {posts.numberOfPages !== 0 &&
+                            <Pagination numberOfPages={posts.numberOfPages} />
+                        }
                     </div>
             </div>
 

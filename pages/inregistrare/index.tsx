@@ -211,8 +211,8 @@ const Inregistrare: NextPage = () => {
                             {errorMessages.password !== ''  ? <label style={{ color: 'red' }}>{errorMessages.password}</label> : <></> }
                         </div>
                         <div className={`${styles.buttons_gender} ${error.gender ? styles.wrong_input : ''}`}>
-                            <button className={gender === 'barbat' ? styles.selected : ''} type="button" onClick={() => { setGender('barbat'); setError({ ...error, gender: false }) }}><ManIcon /></button>
-                            <button className={gender === 'femeie' ? styles.selected : ''} type="button" onClick={() => { setGender('femeie');  setError({ ...error, gender: false }) }}><WomanIcon /></button>
+                            <button className={gender === 'Bărbat' ? styles.selected : ''} type="button" onClick={() => { setGender('Bărbat'); setError({ ...error, gender: false }) }}><ManIcon /></button>
+                            <button className={gender === 'Femeie' ? styles.selected : ''} type="button" onClick={() => { setGender('Femeie');  setError({ ...error, gender: false }) }}><WomanIcon /></button>
                         </div>
                         <div className={styles.button_sub}>
                             <button type="button" onClick={() => setNextPage(true)}>Următorul pas</button>

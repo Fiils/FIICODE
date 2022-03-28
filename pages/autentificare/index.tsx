@@ -108,7 +108,7 @@ const Inregistrare: NextPage = () => {
                         <h2>Intră în cont</h2>
                         <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
                             <label htmlFor='email'>E-mail*</label>
-                            <input type="text" id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: '' }) }} />
+                            <input type="text" autoComplete='email' id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: '' }) }} />
                             <div className={styles.svg_container}>
                                 <EmailIcon />
                             </div>
@@ -116,7 +116,7 @@ const Inregistrare: NextPage = () => {
                         </div>
                         <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                             <label htmlFor='password'>Parolă*</label>
-                            <input type={!showPassword ? 'password' : 'text'} id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }); setErrorMessages({ ...errorMessages, password: '' }) }} />
+                            <input type={!showPassword ? 'password' : 'text'} autoComplete='password' id='password' name='password' value={password} onChange={e => { setPassword(e.target.value); setError({ ...error, password: false }); setErrorMessages({ ...errorMessages, password: '' }) }} />
                             <div className={styles.svg_container}>
                                 {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
                             </div>

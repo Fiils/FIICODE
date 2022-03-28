@@ -2,11 +2,13 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 5em;
-    justify-content: center;
+    // justify-content: center;
     justify-items: center;
-    width: 70%;
+    width: 65%;
     padding-top: 5%;
-    margin-left: 30%;
+    margin-right: 0;
+    margin-left: 0;
+    // margin-right: 10%;
 }
 
 .loader {

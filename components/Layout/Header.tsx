@@ -8,7 +8,6 @@ import { useAuth } from '../../utils/useAuth'
 const Header: FC = () => {
 
     const user = useAuth()
-    console.log(user)
 
     return (
         <div className={styles.container}>
@@ -27,7 +26,7 @@ const Header: FC = () => {
             :
                 <div className={styles.profile_account}>
                     <Link href="/contul-meu/date-personale">Contul meu</Link>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648229488/FIICODE/user-3295_4_l5mqhx.svg' width={40} height={40} />
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648476786/FIICODE/user-4250_psd62d.svg' width={40} height={40} />
                 </div>
             }
         </div>
