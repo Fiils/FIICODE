@@ -56,11 +56,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const token = req.cookies['x-access-token']
     let redirect = false
 
-    if(!token) {
+    const shouldRedirect = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                        .then(res => res.data)
+                        .catch(err => {
+                            console.log(err.response);
+                            redirect = true
+                        })
+
+    if(!redirect || (shouldRedirect && shouldRedirect.active && shouldRedirect.active === false)) {
         return {
             redirect: {
                 permanent: false,
-                destination: '/autentificare'
+                destination: '/'
             },
             props: {}
         }
@@ -70,18 +77,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response);
-                            redirect = true
                         })
 
-    if(redirect) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/autentificare'
-            },
-            props: {}
-        }
-    }
 
     return {
         props: {

@@ -15,6 +15,7 @@ const Inregistrare: NextPage = () => {
 
     const [ email, setEmail ] = useState('')
 
+    const [ loading, setLoading ] = useState(false)
 
     const [ sent, setSent ] = useState(false)
     const [ error, setError ] = useState(false)
@@ -22,6 +23,7 @@ const Inregistrare: NextPage = () => {
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
         const person = { email }
 
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -30,20 +32,27 @@ const Inregistrare: NextPage = () => {
         setError(!email.length ? !email.length : (!email.match(emailRegex) ? true : false))
         setErrorMessage(!email.length ? 'Spațiul nu poate fi gol' : (!email.match(emailRegex) ? 'Email invalid' : ''))
 
-        if(error) return;
+        if(!email.length || !email.match(emailRegex)) {
+            setLoading(false)
+            return;
+        }
         
 
         const result = await axios.post('http://localhost:9999/api/login/forgot-password', person)
                         .then(res => res.data)
                         .catch(err => {
-                            if(err.response.data.type === 'email') {
+                            setLoading(false)
+                            if(err.response.data.type && err.response.data.type === 'email') {
                                 setError(true)
                                 setErrorMessage(err.response.data.message)
                             } else console.log(err)
                         })
 
-        if(result && result === 'Email trimis') {
+        if(result && result.message === 'Email trimis') {
             setSent(true)
+            setLoading(false)
+        } else {
+            setLoading(false)
         }
     }
 
@@ -68,7 +77,10 @@ const Inregistrare: NextPage = () => {
                     </div>
 
                     <div className={overrideStyles.button_sub} style={{ marginTop: 30}}>
+                        {!loading ?
                         <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                        :
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
                     </div>     
                 </div>           
             </form>

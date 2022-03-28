@@ -5,6 +5,7 @@ interface User {
     user: {
         isLoggedIn: boolean;
         userId: string;
+        active: boolean;
     }
     setUser: any;
 }
@@ -16,7 +17,7 @@ const AuthContext = React.createContext<any>({})
 // Auth Provider
 export function AuthProvider(props: any) {
     // Create State
-    const [user, setUser] = useState({ isLoggedIn: false, userId: ''})
+    const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false })
 
     // Methods
     async function login() {
@@ -24,7 +25,7 @@ export function AuthProvider(props: any) {
                             .then(res => res.data)
                             .catch(err => console.log(err.response))
         if(response){
-            setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId })
+            setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active })
         }
     }
     useEffect(() => {

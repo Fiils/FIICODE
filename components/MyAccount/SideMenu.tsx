@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { FC } from 'react'
 
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
+import { useAuth } from '../../utils/useAuth'
 
 interface ListItem {
     name: string;
@@ -19,6 +20,8 @@ interface PropsForStyling {
 
 const MyAccount: FC<PropsForStyling> = ({ active }) => {
     const router = useRouter()
+
+    const user = useAuth()
 
     const ListItem = ({name, url, index}: ListItem) => {
 
@@ -37,6 +40,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                         .catch(err => console.log(err))
 
         if(result) {
+            user.setUser({ isLoggedIn: false, active: false, userId: '' })
             router.push('/')
         }
     }

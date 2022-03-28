@@ -2,6 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useInView } from 'react-intersection-observer';
 
 import styles from '../../../../styles/scss/Posts/SideMenu.module.scss'
 import gridStyles from '../../../../styles/scss/Posts/Grid.module.scss'
@@ -55,10 +56,26 @@ interface InitialFetchProps {
 
 const Postari: NextPage<InitialFetchProps> = () => {
     const router = useRouter()
+
+    const { ref, inView, entry } = useInView({
+        threshold: 0,
+      });
+
+    const [ fixed, setFixed ] = useState(true)
+    useEffect(() => {
+        if(inView){
+            setFixed(false)
+        } else {
+            setFixed(true)
+        }
+    }, [inView])
+    
      
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
     const [ pref, setPref ] = useState('/mupvotes')
+
+    const [ old, setOld ] = useState(false)
 
     const [ categories, setCategories ] = useState({
         popular: false,
@@ -148,7 +165,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
             pathname: router.pathname,
             query: { page: 'p1' }
         })
-        console.log(status)
+
         status.map((value: string, index: number) => {
                 if(index === 0) {
                     urlPart += `/${value}`
@@ -230,8 +247,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
     return (
         <>
         <StatusSelect status={status} handleChange={handleChange} />
+
         <div style={{ display: 'flex', flexFlow: 'row nowrap', gap: '4em'}}>
-            <div className={styles.container_sm}>
+            <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
                         <ListItem text='Populare' category='/popular' index={1} />
@@ -245,18 +263,25 @@ const Postari: NextPage<InitialFetchProps> = () => {
             </div>
 
             <div className={gridStyles.grid_posts}>
-                    {posts.numberOfPages !== 0 &&
+                    {posts.numberOfPages !== 0 ?
                         posts.posts.map((value: any, key: number) => {
                             return (
                                 <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
                                         description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
                                         media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} />
                             )
-                    })}
+                    })
+                    :
+                        <div>
+                            
+                        </div>
+                    }
                    {loading && <div className={gridStyles.loader}></div> }
+                   <div ref={ref}>
                     {posts.numberOfPages !== 0 &&
                         <Pagination numberOfPages={posts.numberOfPages} />
                     }
+                    </div>
             </div>
 
             
@@ -281,14 +306,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie! } })
+    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response);
                             redirect = true
                         })
 
-    if(redirect) {
+    if(redirect)  {
         return {
             redirect: {
                 permanent: false,

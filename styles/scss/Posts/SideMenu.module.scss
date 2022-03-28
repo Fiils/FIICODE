@@ -1,16 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@300;400;500;600&display=swap');
 
+// .static {
+//     position: relative !important;
+// }
 
 .container_sm {
     width: 30%;
-    // height: 89vh;
-    position: fixed;
-    // margin-top: 5%;
-    // padding-top: 6%;
-    margin-top: 3%;
-    // border-right: 2px solid gray; 
-    // border-bottom: 2px solid gray;
-    z-index: 1;
+    position: absolute !important;
+    left: 0;
+    margin-top: 3%; 
 }
 
 .list_cat {

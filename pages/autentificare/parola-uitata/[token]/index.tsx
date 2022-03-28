@@ -22,17 +22,19 @@ const Token: NextPage<InitialProps> = ({ status }) => {
     const [ error, setError ] = useState({ password: false, cpassword: false })
     const [ errorMessage, setErrorMessage ] = useState({ password: '', cpassword: '' })
 
+    const [ loading, setLoading ] = useState(false)
     const [ sent, setSent ] = useState(false)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
 
         setError({
             password: !password.length,
             cpassword: !confirmedPassword.length
         })
 
-        if(error.password && error.cpassword) {
+        if(!password.length && !confirmedPassword.length) {
             setError({
                 password: true,
                 cpassword: true
@@ -41,8 +43,9 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 password: 'Introduceți o nouă parolă',
                 cpassword: 'Introduceți o nouă parolă'
             })
+            setLoading(false)
             return;
-        } else if(error.password){
+        } else if(!password.length){
             setError({
                 ...error,
                 password: true
@@ -51,8 +54,9 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 ...errorMessage,
                 password: 'Introduceți o nouă parolă'
             })
+            setLoading(false)
             return;
-        } else if(error.cpassword){
+        } else if(!confirmedPassword.length){
             setError({
                 ...error,
                 cpassword: true
@@ -61,6 +65,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 ...errorMessage,
                 cpassword: 'Introduceți o nouă parolă'
             })
+            setLoading(false)
             return;
         }
 
@@ -73,6 +78,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 ...errorMessage,
                 password: 'Parola trebuie să aibă minim 8 caractere'
             })
+            setLoading(false)
             return;
         }
 
@@ -85,18 +91,27 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 ...errorMessage,
                 password: 'Parolele nu coincid'
             })
+            setLoading(false)
             return;
         }
 
         if(!router.query.token){
             router.push('/')
+            setLoading(false)
         }
 
         const result = await axios.post(`http://localhost:9999/api/login/forgot-password/change-password/${router.query.token}`, { password, confirmedPassword })
                                 .then(res => res.data)
+                                .catch(err => {
+                                    setLoading(false)
+                                    console.log(err)
+                                })
 
-        if(result === 'Parolă schimbată cu succes'){
+        if(result && result.message === 'Parolă schimbată cu succes'){
             setSent(true)
+            setLoading(false)
+        } else {
+            setLoading(false)
         }
     }
 
@@ -123,7 +138,10 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                     <input type='text' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
                 </div>
                 <div className={overrideStyles.button_sub}>
+                    {!loading ?
                     <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                    :
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
                 </div>     
             </form>
             :
@@ -157,7 +175,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const data = await axios.get(`http://localhost:9999/api/login/forgot-password/change-password/${ctx.query.token}`)
                          .then(res => res.data)
 
-    if(data === 'Cerere găsită') {
+    if(data && data.message === 'Cerere găsită') {
         return {
             props: {
                 status: 'allowed'

@@ -2,23 +2,23 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
+import Footer from '../components/Layout/Footer'
 import { AuthProvider } from '../utils/useAuth'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const pathname = router.pathname
 
-  const [ showHeader, setShowHeader ] = useState(true)
+  const [ showLayout, setShowLayout ] = useState(true)
 
   useEffect(() => {
     if(pathname === '/inregistrare' || pathname === '/autentificare') {
-      setShowHeader(false)
+      setShowLayout(false)
     } else {
-      setShowHeader(true)
+      setShowLayout(true)
     }
   }, [pathname])
 
@@ -34,8 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="canonical" href="http://localhost:3000" />
           <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
-        {showHeader ? <Header /> : <></> }
+        {showLayout ? <Header /> : <></> }
         <Component {...pageProps} />
+        {showLayout ? <Footer /> : <></> }
       </div>
     </AuthProvider>
   )

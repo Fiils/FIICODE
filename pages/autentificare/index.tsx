@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import axios from 'axios'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -20,12 +20,15 @@ const Inregistrare: NextPage = () => {
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
 
+    const [ loading, setLoading ] = useState(false)
+
     const [ showPassword, setShowPassword ] = useState(false)
     const [ error, setError ] = useState({ email: false, password: false })
     const [ errorMessages, setErrorMessages ] = useState({ email: '', password: '' })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
         const person = { email, password }
 
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -39,12 +42,16 @@ const Inregistrare: NextPage = () => {
             password: !password.length ? 'Spațiul nu poate fi gol' : ''
         })
 
-        if(error.email || error.password) return;
+        if(!email.length || !password.length || !email.match(emailRegex)) {
+            setLoading(false)
+            return;
+        }
 
         const result = await axios.post('http://localhost:9999/api/login', person, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
-                            if(err.response.data.type === 'email') {
+                            setLoading(false)
+                            if(err.response.data.type && err.response.data.type === 'email') {
                                 setError({
                                     ...error,
                                     email: true
@@ -53,7 +60,7 @@ const Inregistrare: NextPage = () => {
                                     ...errorMessages,
                                     email: err.response.data.message
                                 })
-                            } else if(err.response.data.type === 'password') {
+                            } else if(err.response.data.type && err.response.data.type === 'password') {
                                 setError({
                                     ...error,
                                     password: true
@@ -65,8 +72,11 @@ const Inregistrare: NextPage = () => {
                             } else console.log(err)
                         })
 
-        if(result && result === 'User logat') {
-            router.push('/')
+        if(result && result.message === 'User logat') {
+            router.reload()
+            setLoading(false)
+        } else {
+            setLoading(false)
         }
     }
 
@@ -118,7 +128,10 @@ const Inregistrare: NextPage = () => {
                         </div>
 
                         <div className={overrideStyles.button_sub}>
+                            {!loading ?
                             <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                            :
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
                         </div>     
                     </div>           
             </form>
@@ -127,3 +140,26 @@ const Inregistrare: NextPage = () => {
 }
 
 export default Inregistrare;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const token = req.cookies['x-access-token']
+    let redirect = false
+
+    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                        .then(res => res.data)
+                        .catch(err => {
+                            redirect = true
+                        })
+
+    if(!redirect || (user && user.active && user.active === false)) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            },
+            props: {}
+        }
+    }
+
+    return { props: {} }
+}

@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import axios from 'axios';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -38,13 +38,18 @@ const Inregistrare: NextPage = () => {
     const [ showNextPage, setShowNextPage ] = useState(false)
     const [ showPrevPageAnim, setShowPrevPageAnim ] = useState(false)
 
+    const [ loading, setLoading ] = useState(false)
+
     const [ codePage, setCodePage ] = useState(false)
 
+    const [ fullError, setFullError ] = useState(false)
     const [ error, setError ] = useState({ name: false, firstName: false, email: false, password: false, gender: false, cnp: false, city: false, county: false, street: false, domiciliu: false, buletin: false })
     const [ errorMessages, setErrorMessages ] = useState({ name: '', firstName: '', email: '', password: '', gender: '', cnp: '', city: '', county: '', street: '', domiciliu: '', buletin: '' })
     
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
+        setFullError(false)
         const domiciliu = photo.domiciliu
         const buletin = photo.buletin
         const person = { name, firstName, email, password, gender, cnp, city, county, street, domiciliu, buletin }
@@ -80,22 +85,30 @@ const Inregistrare: NextPage = () => {
             buletin: !buletin.length ? 'Spațiul nu poate fi gol' : '',
         })
         
-        if(error.name || error.firstName || error.email || error.password || error.gender || error.cnp || error.city || error.county || error.street || error.domiciliu || error.buletin) return;
+        if(!name.length || !firstName.length || !email.length || !password.length || !gender.length || !cnp.length || !city.length || !county.length || !street.length || !photo.buletin.length || !photo.domiciliu.length || !email.match(emailRegex) || password.length < 8 || !cnpRegex.test(cnp) || !regex.test(password) || cnp.length !== 13){
+            setLoading(false);
+            return;
+        } 
 
         const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
-                            if(err.response.data.type === 'email') {
+                            setLoading(false)
+                            setFullError(true)
+                            if(err.response.data && err.response.data.type === 'email') {
                                 setErrorMessages({ ...errorMessages, email: err.response.data.message })
                                 setError({ ...error, email: true })
-                            } else if(err.response.data.type === 'cnp') {
+                            } else if(err.response.data && err.response.data.type === 'cnp') {
                                 setErrorMessages({ ...errorMessages, cnp: err.response.data.message })
                                 setError({ ...error, cnp: true })
                             } else console.log(err)
                         })
-
-        if(result && result === 'Cerere acceptată'){
+        
+        if(result && result.message === 'Cerere acceptată'){
             setCodePage(true)
+            setLoading(false)
+        } else {
+            setLoading(false)
         }
     }
 
@@ -208,8 +221,8 @@ const Inregistrare: NextPage = () => {
                         {showNextPage && 
                         <div className={`${nextPage ? styles.animation_slide_from_right : styles.animation_slide_right}`}>
                             <div className={styles.prev} onClick={e => previousStep(e)}>
-                                <ArrowCircleUpIcon style={{transform: 'rotate(-90deg)' }}/>
-                                <span>Pasul anterior</span>
+                                <ArrowCircleUpIcon style={{transform: 'rotate(-90deg)', color: (error.name || error.firstName || error.email || error.password || error.gender) ? 'red' : 'black' }}/>
+                                <span style={{ color: (error.name || error.firstName || error.email || error.password || error.gender) ? 'red' : 'black' }}>Pasul anterior</span>
                             </div>
                             <h2 style={{ textAlign: 'center' }}>
                                 Creează un nou cont
@@ -263,8 +276,12 @@ const Inregistrare: NextPage = () => {
                             </div>
 
                             <div className={styles.button_sub}>
-                                    <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                                {!loading ?
+                                <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                                :
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
                             </div>
+                            {fullError && <label style={{ display: 'flex', justifyContent: 'center', alignContent: 'flex-end', color: 'red', fontWeight: 800 }}>Ceva neașteptat s-a întamplat </label> }
                         </div>
                         }
             </form>
@@ -276,3 +293,27 @@ const Inregistrare: NextPage = () => {
 }
 
 export default Inregistrare;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const token = req.cookies['x-access-token']
+    let redirect = false
+
+    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                        .then(res => res.data)
+                        .catch(err => {
+                            console.log(err.response);
+                            redirect = true
+                        })
+
+    if(!redirect || (user && user.active && user.active === false)) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            },
+            props: {}
+        }
+    }
+
+    return { props: {} }
+}

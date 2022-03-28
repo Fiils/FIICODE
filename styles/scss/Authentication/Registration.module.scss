@@ -155,7 +155,7 @@
         &::before {
             content: attr(hover-info);
             position: absolute;
-            background: rgb(190, 190, 190);
+            background: rgb(230, 230, 230);
             height: 50px;
             width: 120%;
             margin-left: -10%;
@@ -298,6 +298,7 @@
     &:hover {
         span {
             color: #6CAE75;
+            text-decoration: underline;
         }
     }
 

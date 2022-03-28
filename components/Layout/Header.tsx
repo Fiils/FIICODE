@@ -8,6 +8,7 @@ import { useAuth } from '../../utils/useAuth'
 const Header: FC = () => {
 
     const user = useAuth()
+    console.log(user)
 
     return (
         <div className={styles.container}>
@@ -18,7 +19,7 @@ const Header: FC = () => {
             <Link href="/">Prima pagină</Link>
             <Link href="/postari/cx/p1">Postări</Link>
             <Link href="/postari/creare-postare">Creează o postare</Link>
-            {!user.user.isLoggedIn ?
+            {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                 <div className={styles.links}>
                     <Link href="/autentificare">Autentifică-te</Link>
                     <button><Link href="/inregistrare">Înregistrează-te</Link></button>
