@@ -1,17 +1,17 @@
 import type { NextPage } from 'next'
 
 import SideMenu from '../../../components/MyAccount/SideMenu'
-import styles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
-
+import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
+import styles from '../../../styles/scss/MyAccount/PostsSection.module.scss'
 
 const Posts: NextPage = () => {
 
     return (
-        <div className={styles.container_grid}>
+        <div className={gridStyles.container_grid}>
             <SideMenu active={2} />
             
-            <div className={styles.container_options}>
-
+            <div className={gridStyles.container_options}>
+                <h2 className={styles.title}>Postări votate pozitiv</h2>
             </div>
         </div>
     )

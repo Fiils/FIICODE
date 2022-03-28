@@ -41,9 +41,10 @@ interface Post {
         people: Array<any>;
     };
     creationDate: Date;
+    profilePicture: string;
 }
 
-const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor }) => {
+const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, profilePicture }) => {
     const router = useRouter()
 
     const user = useAuth()
@@ -158,9 +159,12 @@ const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description
                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647549815/FIICODE/cool-background_1_sl1c6x.png' layout='fill' key={'l' + _id} /> 
             </div>
             <div className={styles.post_info}>
-                <span>{nameAuthor}</span>
-                <br />
-                <span>{formattedDate}</span>
+                <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={35} height={35} />
+                <div>
+                    <span>{nameAuthor}</span>
+                    <br />
+                    <span>{formattedDate}</span>
+                </div>
             </div>
             <h3 key={'j' + _id} className={styles.title}> upVotes: {upVoted.count} downVotes: {downVoted.count} views: {views.count}</h3>
                 <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} key={description}>

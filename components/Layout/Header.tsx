@@ -26,7 +26,7 @@ const Header: FC = () => {
             :
                 <div className={styles.profile_account}>
                     <Link href="/contul-meu/date-personale">Contul meu</Link>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648476786/FIICODE/user-4250_psd62d.svg' width={40} height={40} />
+                    <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648476786/FIICODE/user-4250_psd62d.svg' : user.user.profilePicture } width={40} height={40} />
                 </div>
             }
         </div>

@@ -5,6 +5,9 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+
 import styles from '../../../../styles/scss/Authentication/Registration.module.scss';
 import overrideStyles from '../../../../styles/scss/Authentication/ForgotPassword.module.scss';
 
@@ -24,6 +27,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
 
     const [ loading, setLoading ] = useState(false)
     const [ sent, setSent ] = useState(false)
+    const [ showPassword, setShowPassword ] = useState(false)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -107,8 +111,10 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                                     console.log(err)
                                 })
 
+        console.log(result)
         if(result && result.message === 'Parolă schimbată cu succes'){
             setSent(true)
+            router.push('/autentificare')
             setLoading(false)
         } else {
             setLoading(false)
@@ -127,15 +133,18 @@ const Token: NextPage<InitialProps> = ({ status }) => {
             <form className={overrideStyles.form}>
                 <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Schimbă parola</h2>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-                    <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647695526/FIICODE/reset-stock-password_hqhya1.svg' width={100} height={100} priority/>
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647695526/FIICODE/reset-stock-password_hqhya1.svg' width={100} height={100} priority/>
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Parola*</label>
-                    <input type='text' autoComplete='password' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
+                    <input type={!showPassword ? 'password' : 'text'} autoComplete='password' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
+                    <div className={styles.svg_container}>
+                        {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
+                    </div>
                 </div>
                 <div className={styles.input_d}>
                     <label htmlFor="password">Confirmă parola*</label>
-                    <input type='text' autoComplete='same-password' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
+                    <input type='password' autoComplete='same-password' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
                 </div>
                 <div className={overrideStyles.button_sub}>
                     {!loading ?

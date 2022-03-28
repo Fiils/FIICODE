@@ -42,7 +42,7 @@ const Inregistrare: NextPage = () => {
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)
-                            if(err.response.data.type && err.response.data.type === 'email') {
+                            if(err.response && err.response.data.type && err.response.data.type === 'email') {
                                 setError(true)
                                 setErrorMessage(err.response.data.message)
                             } else console.log(err)

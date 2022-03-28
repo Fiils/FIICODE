@@ -7,17 +7,25 @@
     width: 65%;
     height: 580px;
     border: 2px solid rgb(220, 220, 220);
+    background: rgb(255, 255, 255);
     border-radius: 4px;
     cursor: pointer;
     position: relative;
 }
 
 .post_info {
+    display: flex;
+    align-items: center;
     margin-left: 20px;
     font-family: 'Baloo Bhai 2';
     font-weight: 400;
     margin-top: 10px;
     line-height: 1.15;
+    gap: 1em;
+
+    img {
+        border-radius: 50%;
+    }
 }
 
 .title {

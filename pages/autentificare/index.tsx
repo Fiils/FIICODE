@@ -51,7 +51,7 @@ const Inregistrare: NextPage = () => {
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)
-                            if(err.response.data.type && err.response.data.type === 'email') {
+                            if(err.response && err.response.data.type && err.response.data.type === 'email') {
                                 setError({
                                     ...error,
                                     email: true
@@ -60,7 +60,7 @@ const Inregistrare: NextPage = () => {
                                     ...errorMessages,
                                     email: err.response.data.message
                                 })
-                            } else if(err.response.data.type && err.response.data.type === 'password') {
+                            } else if(err.response &&  err.response.data.type && err.response.data.type === 'password') {
                                 setError({
                                     ...error,
                                     password: true
@@ -144,6 +144,10 @@ export default Inregistrare;
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const token = req.cookies['x-access-token']
     let redirect = false
+
+    if(!token) {
+        return { props: {} }
+    }
 
     const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                         .then(res => res.data)

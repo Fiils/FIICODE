@@ -6,32 +6,29 @@ interface User {
         isLoggedIn: boolean;
         userId: string;
         active: boolean;
+        profilePicture: string;
     }
     setUser: any;
 }
 
 
-// Create Auth context
 const AuthContext = React.createContext<any>({})
 
-// Auth Provider
 export function AuthProvider(props: any) {
-    // Create State
-    const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false })
+    const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '' })
 
-    // Methods
     async function login() {
         const response = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true })
                             .then(res => res.data)
                             .catch(err => console.log(err.response))
         if(response){
-            setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active })
+            setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active, profilePicture: response.profilePicture })
         }
     }
     useEffect(() => {
         login()
     }, [])
-    // Export elements that will be available through the useAuth() hook
+
     const value: User = {user, setUser}
     return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
 }
