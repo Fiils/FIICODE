@@ -38,17 +38,21 @@ const Inregistrare: NextPage = () => {
         }
         
 
+        let redirect
         const result = await axios.post('http://localhost:9999/api/login/forgot-password', person)
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)
-                            if(err.response && err.response.data.type && err.response.data.type === 'email') {
+                            if(err.response && err.response.data.type && err.response.data.type === 'email' && err.response.data.message !== 'Emailul nu a fost găsit') {
                                 setError(true)
                                 setErrorMessage(err.response.data.message)
+                            } else if(err.response.data.message === 'Emailul nu a fost găsit') {
+                                redirect = err.response.data.message
                             } else console.log(err)
                         })
 
-        if(result && result.message === 'Email trimis') {
+
+        if((result && result.message === 'Email trimis') || (redirect && redirect === 'Emailul nu a fost găsit')) {
             setSent(true)
             setLoading(false)
         } else {
@@ -88,7 +92,7 @@ const Inregistrare: NextPage = () => {
             <div className={overrideStyles.form}>
                 <div>
                         <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Email trimis</h2>
-                        <p className={overrideStyles.additional_info}>Tocmai ce v-a fost trimis un email; în el veți găsi un link, iar dacă îl accesați vă veți putea schimba parola cu una nouă. Dacă nu-l găsiți în inbox, verificați în secțiunea spam. </p>
+                        <p className={overrideStyles.additional_info}>Dacă emailul este valid, atunci veți primi un mail de la noi; în el veți găsi un link, iar dacă îl accesați vă veți putea schimba parola cu una nouă. Dacă nu-l găsiți în inbox, verificați în secțiunea spam. </p>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40}}>
                             <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
                         </div>

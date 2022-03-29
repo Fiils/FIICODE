@@ -1,11 +1,28 @@
 
 .container_options {
+    position: relative;
     width: 70%;
     height: auto;
     border-radius: 3px;
     background: white;
     padding: 1em 3em 10vh 3em;
     flex-flow: column wrap;
+}
+
+.restricted_view {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, .7)
+}
+
+.display_none {
+    display: none;
 }
 
 .title {
@@ -105,4 +122,47 @@
     flex-flow: row nowrap;
     justify-content: center;
     gap: 3em;
+}
+
+.setting {
+    font-family: 'Baloo Tamma 2';
+    color: rgb(50, 50, 50);
+    display: flex;
+    align-items: flex-start;
+    gap: 3em;
+    margin-top: 50px;
+
+    h2:first-child {
+        margin-top: 0;
+    }
+}
+
+.input {
+    display: flex;
+    flex-flow: column wrap;
+    width: 120%;
+    position: relative;
+
+    &:nth-child(2) {
+        margin-top: 20px;
+    }
+
+    input {
+        padding: .8em 1em;
+        border: 1px solid rgba(200, 200, 200);
+        display: inline;
+        position: relative;
+        border-radius: 3px;
+
+        &:focus {
+            outline-color: #6CAE75;
+        }
+    }
+
+    
+    label {
+        font-family: 'Baloo Tamma 2', sans-serif;
+        font-size: .8rem;
+        font-weight: bold;
+    }
 }

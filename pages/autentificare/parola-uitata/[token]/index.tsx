@@ -135,16 +135,18 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                     <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647695526/FIICODE/reset-stock-password_hqhya1.svg' width={100} height={100} priority/>
                 </div>
-                <div className={styles.input_d}>
+                <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                     <label htmlFor="password">Parola*</label>
-                    <input type={!showPassword ? 'password' : 'text'} autoComplete='password' id='password' name='password' value={password} onChange={e => setPassword(e.target.value.toString())} />
+                    <input type={!showPassword ? 'password' : 'text'} autoComplete='password' id='password' name='password' value={password} onChange={e => { setPassword(e.target.value.toString()); setErrorMessage({ ...errorMessage, password: '' }); setError({ ...error, password: false }); }} />
                     <div className={styles.svg_container}>
                         {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
                     </div>
+                    {errorMessage.password !== '' && <label>{errorMessage.password}</label> }
                 </div>
-                <div className={styles.input_d}>
+                <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                     <label htmlFor="password">Confirmă parola*</label>
-                    <input type='password' autoComplete='same-password' id='password' name='password' value={confirmedPassword} onChange={e => setConfirmedPassword(e.target.value.toString())}/>
+                    <input type='password' autoComplete='same-password' id='password' name='password' value={confirmedPassword} onChange={e => { setConfirmedPassword(e.target.value.toString()); setErrorMessage({ ...errorMessage, cpassword: '' }); setError({ ...error, cpassword: false }) }}/>
+                    {errorMessage.cpassword !== '' && <label style={{ color: 'red'}}>{errorMessage.cpassword}</label> }
                 </div>
                 <div className={overrideStyles.button_sub}>
                     {!loading ?

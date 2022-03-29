@@ -261,11 +261,14 @@ const Postari: NextPage<InitialFetchProps> = () => {
                                         nameAuthor={value.nameAuthor} profilePicture={value.profilePicture} />
                             )
                     })
-                    :
-                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center'}}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' width={200} height={200} />
-                            <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
-                        </div>
+                        : 
+                        <> {!loading &&
+                            <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center'}}>
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' width={200} height={200} />
+                                <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
+                            </div>
+                            }
+                        </>
                     }
                    {loading && <div className={gridStyles.loader}></div> }
                    <div>

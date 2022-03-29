@@ -1,8 +1,14 @@
 .title {
     display: flex;
     flex-flow: row nowrap;
-    align-items: center;
     text-transform: uppercase;
     font-family: 'Baloo Tamma 2';
-    font-size: 1.2rem;
+    font-size: .8rem;
+    gap: .3em;
+    font-weight: 600;
+
+    img {
+        margin-top: -5px !important;
+    }
 }
+

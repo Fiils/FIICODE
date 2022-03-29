@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 import styles from '../../styles/scss/Posts/Post.module.scss';
 import { useAuth } from '../../utils/useAuth'
+import formatDate from '../../utils/formatDate'
 
 interface Post { 
     index: number;
@@ -44,7 +45,7 @@ interface Post {
     profilePicture: string;
 }
 
-const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, profilePicture }) => {
+const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, profilePicture }) => {
     const router = useRouter()
 
     const user = useAuth()
@@ -102,35 +103,6 @@ const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description
         }
     }
 
-    const switchMonth = (month: number) => {
-        switch (month) {
-            case 0: 
-                return 'Ian';
-            case 1: 
-                return 'Feb';
-            case 2: 
-                return 'Mar';
-            case 3: 
-                return 'Apr';
-            case 4: 
-                return 'Mai';
-            case 5: 
-                return 'Iun';
-            case 6: 
-                return 'Iul';
-            case 7: 
-                return 'Aug';
-            case 8: 
-                return 'Sep';            
-            case 9: 
-                return 'Oct';
-            case 10: 
-                return 'Noi';
-            case 11: 
-                return 'Dec';
-        }
-    }
-
     const FavoriteRequest = async (e: any) => {
         e.preventDefault()
         if(press) {
@@ -150,40 +122,49 @@ const Post: FC<Post> = ({ index, _id, title, authorId, city, county, description
         const result = await axios.patch(`http://localhost:9999/api/post/report/${_id}`, {}, { withCredentials: true })
     }
 
-    const date = new Date(creationDate)
-    const formattedDate = `${date.getDate()} ${switchMonth(date.getMonth())} ${date.getFullYear()}`
-
     return (
+        <Link href={`/postari/${_id}`}>
         <div key={_id} className={styles.post}>
-            <div key={'k' + _id} className={styles.image}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647549815/FIICODE/cool-background_1_sl1c6x.png' layout='fill' key={'l' + _id} /> 
+            <div key={'k' + _id} className={styles.image} style={{ border: !media[0] ? '2px solid rgb(220, 220, 220)' : '0px' }}>
+                {media[0] && <Image src={media[0]} layout='fill' key={'l' + _id} /> }
+                {!media[0] && 
+                    <div style={{ display: 'flex', flexFlow: 'column wrap', justifyContent: 'center', position: 'relative' }}>
+                        <div style={{ marginTop: 95}}>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647938098/FIICODE/no-image-6663_bwocug.svg' height={120} width={120} />
+                            <h3 style={{ color: 'rgb(186, 186, 186)'}}>Nicio imagine de afișat</h3>
+                        </div>
+                    </div>
+                }
             </div>
-            <div className={styles.post_info}>
-                <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={35} height={35} />
-                <div>
-                    <span>{nameAuthor}</span>
-                    <br />
-                    <span>{formattedDate}</span>
+            <div>
+                <div className={styles.post_info}>
+                    <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={40} height={40} />
+                    <div>
+                        <span>{nameAuthor} {firstNameAuthor}</span>
+                        <br />
+                        <span>{formatDate(creationDate)}</span>
+                    </div>
                 </div>
-            </div>
-            <h3 key={'j' + _id} className={styles.title}> upVotes: {upVoted.count} downVotes: {downVoted.count} views: {views.count}</h3>
-                <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} key={description}>
-                    <div key={'a' + _id} className={styles.manip_section}>
-                        <Link href={`/postari/${_id}`}>
-                            <div className={styles.manip_item}>
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648474271/FIICODE/hearts-7890_2_maukcl.svg' width={20} height={20} />
-                                <span>{upVoted.count} voturi</span>
-                            </div>
-                        </Link>
-                        <Link href={`/postari/${_id}`}>
-                            <div className={styles.manip_item}>
-                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648474242/FIICODE/support-1091_1_smleyp.svg' width={20} height={20} />
-                                    <span>{upVoted.count} comentarii</span>
-                            </div>
-                        </Link>
+                <h3 key={'j' + _id} className={styles.title}>{title}</h3>
+                    <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} key={description}>
+                        <div key={'a' + _id} className={styles.manip_section}>
+                            <Link href={`/postari/${_id}`}>
+                                <div className={styles.manip_item}>
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648474271/FIICODE/hearts-7890_2_maukcl.svg' width={20} height={20} />
+                                    <span>{upVoted.count + downVoted.count} voturi</span>
+                                </div>
+                            </Link>
+                            <Link href={`/postari/${_id}`}>
+                                <div className={styles.manip_item}>
+                                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648474242/FIICODE/support-1091_1_smleyp.svg' width={20} height={20} />
+                                        <span>{upVoted.count} comentarii</span>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </div>
         </div>
+        </Link>
     )
 }
 

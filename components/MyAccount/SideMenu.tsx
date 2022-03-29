@@ -39,7 +39,8 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                         .then(res => res.data)
                         .catch(err => console.log(err))
 
-        if(result) {
+        console.log(result)
+        if(result.message === 'User delogat') {
             router.reload()
             user.setUser({ isLoggedIn: false, active: false, userId: '' })
         }
@@ -49,7 +50,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
             <div className={styles.user_list}>
                 <ul>
                     <ListItem name='Date Personale' url='date-personale' index={1} />
-                    <ListItem name='Postări' url='postari' index={2} />
+                    <ListItem name='Postări Apreciate' url='postari-apreciate' index={2} />
                     <ListItem name='Postările mele' url='postari-personale' index={3} />
                     <ListItem name='Favorite' url='favorite' index={4} />
                     <ListItem name='Securitate' url='securitate' index={5} />

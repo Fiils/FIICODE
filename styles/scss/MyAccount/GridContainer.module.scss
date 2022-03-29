@@ -13,6 +13,24 @@
     height: auto;
     border-radius: 3px;
     background: white;
-    padding: 1em 3em 10vh 3em;
+    padding: 1em 3em 3vh 3em;
     flex-flow: column wrap;
+}   
+
+.next_page {
+    position: absolute;
+    // overflow: visible;
+}
+
+.no_data {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    padding: 5em 0;
+
+    h1 {
+        width: 70%;
+        text-align: center;
+        color: rgb(220, 220, 220);
+    }
 }
