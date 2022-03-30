@@ -182,20 +182,12 @@ const PersonalData: NextPage<User> = ({ user }) => {
 
                 </div>
 
-
-                <div className={styles.title}>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648567025/FIICODE/filter-6546_rqaul5.svg' width={50} height={50} priority/>
-                    <h1>
-                        Setările Contului
-                    </h1>
-                </div>
-
-                <div className={styles.setting}>
+                <div className={styles.setting} style={{ marginTop: 100 }}>
                     <div>
                         <h2>Schimbă parola</h2>
-                        <p style={{ color: 'rgb(180, 180, 180)', width: '400px' }}>Introdu alături vechea ta parolă, după care introdu noua ta parola pe care vrei să o folosești</p>
+                        <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Introdu alături vechea ta parolă, după care introdu noua ta parola pe care vrei să o folosești</p>
                     </div>
-                    <div>
+                    <div className={styles.reset}>
                         <div className={styles.input}>
                             <label htmlFor='current-password'>Parola curentă</label>
                             <input id='current-password' name='current-password' value={password} onChange={e => setPassword(e.target.value)} />
@@ -208,6 +200,16 @@ const PersonalData: NextPage<User> = ({ user }) => {
                             <label htmlFor='reset-new-password'>Verificare parola nouă</label>
                             <input id='reset-new-password' name='reset-new-password' value={resetNewPassword} onChange={e => setResetNewPassword(e.target.value)} />
                         </div>
+                        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', width: '120%' }}>
+                            <button onClick={e => handleResetPassword(e)}>Schimbă parola</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.setting} style={{ marginTop: 100 }}>
+                    <div>
+                        <h2 style={{ marginTop: 0 }}>Schimbarea datelor</h2>
+                        <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Pentru schimbarea a oricărei date din formularul de înregistrare, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)'}}>contact.romdig@gmail.com</span></p>
                     </div>
                 </div>
 

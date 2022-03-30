@@ -50,9 +50,13 @@ interface InitialFetchProps {
             count: number;
             people: Array<any>;
         };
+        comments: {
+            count: number;
+            people: Array<any>;
+        };
         creationDate: Date;
         nameAuthor: string;
-        profilePicture: string;
+        authorProfilePicture: string;
     }
 }
 
@@ -233,6 +237,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
         changeStatus(status)
     }, [status])
 
+    console.log(posts)
+
     return (
         <>
         <StatusSelect status={status} handleChange={handleChange} />
@@ -245,7 +251,6 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         <ListItem text='Cele mai apreciate' category='/mupvotes' index={2} />
                         <ListItem text='Cele mai vizionate' category='/mviews' index={3} />
                         <ListItem text='Cele mai multe comentarii' category='/mcomments' index={4} />
-                        {/* <ListItem text='Cele mai puțin apreciate' category='/mdownvotes' index={5} /> */}
                         <ListItem text='Cele mai noi' category='/age' index={5} />
                     </ul>
                 </div>
@@ -258,7 +263,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                                 <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
                                         description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
                                         media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} creationDate={value.creationDate} 
-                                        nameAuthor={value.nameAuthor} profilePicture={value.profilePicture} />
+                                        nameAuthor={value.nameAuthor} authorProfilePicture={value.authorProfilePicture} comments={value.comments} />
                             )
                     })
                         : 

@@ -39,7 +39,6 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                         .then(res => res.data)
                         .catch(err => console.log(err))
 
-        console.log(result)
         if(result.message === 'User delogat') {
             router.reload()
             user.setUser({ isLoggedIn: false, active: false, userId: '' })
@@ -53,7 +52,6 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                     <ListItem name='Postări Apreciate' url='postari-apreciate' index={2} />
                     <ListItem name='Postările mele' url='postari-personale' index={3} />
                     <ListItem name='Favorite' url='favorite' index={4} />
-                    <ListItem name='Securitate' url='securitate' index={5} />
                     <li className={styles.logout}>
                         <a onClick={() => LogOut()} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', justifyContent: 'center'}}>
                             Deloghează-te

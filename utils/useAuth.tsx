@@ -15,7 +15,7 @@ interface User {
 const AuthContext = React.createContext<any>({})
 
 export function AuthProvider(props: any) {
-    const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '' })
+    const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '/' })
 
     async function login() {
         const response = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true })

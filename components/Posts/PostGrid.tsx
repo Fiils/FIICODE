@@ -41,86 +41,18 @@ interface Post {
         count: number;
         people: Array<any>;
     };
+    comments: {
+        count: number;
+        people: Array<any>;
+    };
     creationDate: Date;
-    profilePicture: string;
+    authorProfilePicture: string;
 }
 
-const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, profilePicture }) => {
+const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments }) => {
     const router = useRouter()
 
     const user = useAuth()
-
-    const [ like, setLike ] = useState(false)
-    const [ dislike, setDislike ] = useState(false)
-    const [ favorite, setFavorite ] = useState(false)
-
-    const [ press, setPress ] = useState(true)
-
-    useEffect(() => {
-        if(upVoted.people.includes(user.user.userId)) {
-            setLike(true)
-        } else if(downVoted.people.includes(user.user.userId)) {
-            setDislike(true)
-        }
-        if(favorites.people.includes(user.user.userId)) {
-            setFavorite(true)
-        }
-
-        return () => {
-
-        }
-    }, [])
-
-    const LikeRequest = async (e: any) => {
-        e.preventDefault()
-        if(press) {
-            setPress(false)
-            if(!like || dislike) {
-                setLike(!like); 
-                setDislike(false)
-                const result = await axios.patch(`http://localhost:9999/api/post/upvote/${_id}`, {}, { withCredentials: true })
-            } else {
-                setLike(!like); 
-                const result = await axios.patch(`http://localhost:9999/api/post/upvote/un/${_id}`, {}, { withCredentials: true })   
-            }
-            setPress(true)
-        }
-    }
-
-    const DislikeRequest = async (e: any) => {
-        e.preventDefault()
-        if(press) {
-            setPress(false)
-            if(!dislike || like) {
-                setDislike(!dislike); 
-                setLike(false)
-                const result = await axios.patch(`http://localhost:9999/api/post/downvote/${_id}`, {}, { withCredentials: true })
-            } else {
-                setDislike(!dislike); 
-                const result = await axios.patch(`http://localhost:9999/api/post/downvote/un/${_id}`, {}, { withCredentials: true })   
-            }
-            setPress(true)
-        }
-    }
-
-    const FavoriteRequest = async (e: any) => {
-        e.preventDefault()
-        if(press) {
-            setPress(false)
-            if(favorite) {
-                setFavorite(!favorite)
-                const result = await axios.patch(`http://localhost:9999/api/post/favorite/un/${_id}`, {}, { withCredentials: true })
-            } else {
-                setFavorite(!favorite)
-                const result = await axios.patch(`http://localhost:9999/api/post/favorite/${_id}`, {}, { withCredentials: true })
-            }
-            setPress(true)
-        }
-    }
-
-    const ReportRequest = async () => {
-        const result = await axios.patch(`http://localhost:9999/api/post/report/${_id}`, {}, { withCredentials: true })
-    }
 
     return (
         <Link href={`/postari/${_id}`}>
@@ -138,11 +70,15 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
             </div>
             <div>
                 <div className={styles.post_info}>
-                    <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={40} height={40} />
+                    <Image src={authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : authorProfilePicture } width={40} height={40} />
                     <div>
                         <span>{nameAuthor} {firstNameAuthor}</span>
                         <br />
                         <span>{formatDate(creationDate)}</span>
+                    </div>
+                    <div className={styles.status}>
+                        <div className={status === 'Trimis' ? styles.sent : (status === 'Vizionat' ? styles.seen : (status === 'În lucru' ? styles.working : styles.done))}></div>
+                        <p>{status}</p>
                     </div>
                 </div>
                 <h3 key={'j' + _id} className={styles.title}>{title}</h3>
@@ -157,7 +93,7 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
                             <Link href={`/postari/${_id}`}>
                                 <div className={styles.manip_item}>
                                         <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648474242/FIICODE/support-1091_1_smleyp.svg' width={20} height={20} />
-                                        <span>{upVoted.count} comentarii</span>
+                                        <span>{comments.count} comentarii</span>
                                 </div>
                             </Link>
                         </div>
