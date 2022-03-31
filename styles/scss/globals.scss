@@ -57,3 +57,10 @@ a {
 .swiper-button-prev::after {
   display: none;
 }
+
+.rdw-editor-main {
+  border: 1px solid rgb(220, 220, 220);
+  min-height: 400px;
+  max-height: 400px;
+  background: rgb(250, 250, 250);
+}

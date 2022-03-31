@@ -1,17 +1,34 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
 import Image from 'next/image'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
 import ImageOverlayed from '../../components/CreatePost/ImageOverlayed'
-import { style } from '@mui/material/node_modules/@mui/system'
+import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+
+import dynamic from 'next/dynamic'
+import { EditorProps } from 'react-draft-wysiwyg'
+
+const Editor = dynamic<EditorProps>(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  { ssr: false }
+)
+
 
 
 const CreatePost: NextPage = () => {
+    const router = useRouter()
+
     const [ title, setTitle ] = useState('')
     const [ files, setFiles ] = useState<Array<string>>([])
     const [ video, setVideo ] = useState('')
-    const [ description, setDescription ] = useState('')
+    const [ description, setDescription ] = useState(EditorState.createEmpty())
+
+    const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 
 
     const convertToBase64 = (file: any): any => {
@@ -27,103 +44,174 @@ const CreatePost: NextPage = () => {
         })
     }
 
-    const uploadPhoto = async (e: any) => {
-        Array.from(e.target.files).forEach(
-            async (file: any) => {
-                const base64: string = await convertToBase64(file)
-                setFiles([ ...files, base64 ])
-            })
-    }
-
 
    const uploadVideo = async (e: any) => {
-        if(e.target.files[0]) {
+        if(e.target.files[0] && e.target.files[0].size / 1000000 < 100) {
             console.log(e.target.files[0])
             const base64: string = await convertToBase64(e.target.files[0])
             setVideo(base64)
         }
    }
 
+   const [ loading, setLoading ] = useState(false)
+   const [ error, setError ] = useState({ title: false, description: false })
+   const [ errorMessages, setErrorMessages ] = useState({ title : '', description : '' })
+   const [ fullError, setFullError ] = useState(false)
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault()
+
+        const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
+        setFullError(false)
+        setLoading(true)
+        
+        let numberOfChars = 0;
+        for(const letter in convertToRaw(description.getCurrentContent()).blocks){
+            for(let i = 0; i < convertToRaw(description.getCurrentContent()).blocks[letter].text.split('').length; i++){
+                if(convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== '' && convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== ' '){
+                    numberOfChars++;
+                }
+            }
+        }
+
+        setError({
+            title: title.split('').length < 15 ? true : false,
+            description: numberOfChars < 50 ? true : false
+        })
+
+        setErrorMessages({
+            title: title.split('').length < 15 ? 'Titlu prea scurt' : '',
+            description: numberOfChars < 50 ? 'Descriere prea scurtă' : ''
+        })
+
+        if(title.split('').length < 15 || numberOfChars < 50) {
+            setLoading(false)
+            return;
+        }
+
+        const result = await axios.post('http://localhost:9999/api/post/create', { descriptionText, title, files, video }, { withCredentials: true })
+                                    .then(res => res.data)
+                                    .catch(err => {
+                                        setFullError(true)
+                                        setLoading(false)
+                                        console.log(err)
+                                    })        
+
+        if(result && result.message === 'Postare afișată'){
+            setLoading(false)
+            setDescription('')
+            setTitle('')
+            setFiles([])
+            setVideo('')
+            setDescription(EditorState.createEmpty())
+
+            router.push(`/postari/${result._id}`)
+        }
+                                    
+    }
+
+    function wrongInput() {
+        if (error.description) {
+          return 'wrong_input';
+        }
+      }
+
     return (
         <div>
             <div className={styles.heading}>
-                {/* <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648723146/FIICODE/pencil-9435_6_vy4qhc.svg' height={70} width={70} /> */}
                 <h1>Creează o nouă postare:</h1>
             </div>
-            {/* <div className={styles.informative}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648735273/FIICODE/news-4309_kvmcvx.svg' width={200} height={200} />
-                <p>Completează spațiile de mai jos, iar apoi postează-ți, după care doar așteaptă ca aceasta să fie și ceilalți locuitori care ți-o vor vota.</p>
-            </div> */}
             <form className={styles.form}>
                 <div className={styles.background_make}>
-                    <div className={styles.input} style={{ width: '100%' }}>
+                    <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} style={{ width: '100%' }}>
                         <label htmlFor='title'>Titlu</label>
-                        <input id='title' name='title' value={title} onChange={e => setTitle(e.target.value)} />
+                        <p>Oferă cât mai multe informații, în cât mai puține cuvinte <span style={{ color : '#8BBD8B'}}>(minimum 15 caractere)</span></p>
+                        <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
+                        <p style={{ alignSelf: 'flex-end', marginRight: '30%', marginTop: 0 }}>{title.split('').length}/150</p>
                     </div>
                 </div>
-                <div className={styles.flex_add}>
-                    <div style={{ width: '70%' }}>
+                <div className={styles.background_make_photos}>
+                    <div className={styles.flex_add}>
                         <div className={`${styles.input}`}>
-                            <label htmlFor='file'>Media</label>
+                            <label id='#photo' htmlFor='file'>Imagini</label>
+                            <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(o imagine nu trebuie să aibă mai mult de 5mb)</span></p>
                             <div className={styles.image_container}>
-                                {files.length > 0 ?
-                                <>
-                                    {files.map((img: string, i: number) => {
-                                        return <ImageOverlayed key={img + i} img={img} i={i} files={files} setFiles={setFiles} />
+                                    {mapOut.map((index: number) => {
+                                        return <ImageOverlayed key={index} img={files[index]} i={index} files={files} setFiles={setFiles} />
                                     })}
-                                </>
-                                : 
-                                    <div className={styles.no_content}>
-                                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg' width={100} height={100} />
-                                        <p>Nicio poză selectată</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.background_make_video}>
+                        <div style={{ width: '100%' }}>
+                                    <div className={styles.input}>
+                                        <label>Video</label>
+                                        <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(videoul nu trebuie să aibă mai mult de 100mb)</span></p>
+                                        <div className={styles.flex_add}>
+                                            <div className={styles.container_video}>
+                                                {(!video || video === '') ? 
+                                                <label htmlFor='video' className={styles.no_content}>
+                                                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' width={100} height={100} />
+                                                        <p>Niciun video selectat</p>
+                                                        <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept="video/mp4,video/x-m4v,video/*" />
+                                                </label>
+                                                : 
+                                                    <div className={styles.video}>
+                                                        <video
+                                                            className="VideoInput_video"
+                                                            width="100%"
+                                                            height={'100%'}
+                                                            controls
+                                                            src={video}
+                                                        />
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div className={styles.delete_icon}>
+                                                <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={30} height={30} />
+                                            </div>
+                                        </div>
                                     </div>
-                                }
+                                
+                        </div>
+                </div>
+                <div className={styles.background_make_description}>
+                    <div style={{ width: '100%' }}>
+                        <div className={styles.description}>
+                            <label htmlFor='description'>Descriere</label>
+                            <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
+                            <div style={{ width: '80%' }} className={error.description ? styles.wrong_input : ''}>
+                                <Editor
+                                    wrapperClassName="wrapper-class"
+                                    editorClassName="editor-class"
+                                    toolbarClassName="toolbar-class"
+                                    defaultEditorState={description}
+                                    onEditorStateChange={setDescription}
+                                    onChange={() => setError({ ...error, description: false })}
+                                    toolbar={{
+                                        options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                        fontSize: {
+                                            options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
+                                        }
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
-                    <div className={`${styles.input} ${styles.input_upload}`}> 
-                        <label htmlFor='file'>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648737190/FIICODE/add-button-12004_2_wykdch.svg' width={100} height={100} />
-                        </label>
-                        <input type='file' id='file' name='file' onChange={uploadPhoto} onClick={e => e.target.value = '' } accept='image/*' />
-                    </div>
                 </div>
-                <div className={styles.flex_add}>
-                    <div className={`${styles.input} ${styles.input_upload}`} style={{ width: '50%'}}>
-                        <label htmlFor='video'>Video</label>
-                        <div className={styles.container_video}>
-                            {(!video || video === '') ? 
-                            <div className={`${styles.no_content} ${styles.video_nc}`}>
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' width={100} height={100} />
-                                <p>Niciun video selectat</p>
-                            </div>
-                            : 
-                                <div className={styles.video}>
-                                    <video
-                                        className="VideoInput_video"
-                                        width="100%"
-                                        height={'100%'}
-                                        controls
-                                        src={video}
-                                    />
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div className={`${styles.input} ${styles.input_upload}`} style={{ gap: '5em'}}> 
-                        <div>
-                            <label htmlFor='video'>
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724485/FIICODE/add-button-12016_c7lysa.svg' width={100} height={100} />
-                            </label>
-                            <input type='file' id='video' name='video' onChange={uploadVideo} onClick={e => e.target.value = '' } accept="video/mp4,video/x-m4v,video/*" />
-                        </div>
-                        <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648734543/FIICODE/cancel-close-10371_t58cgj.svg' width={100} height={100} />
-                    </div>
+                
+                <div className={styles.background_make_button}>
+                    {!loading ?
+                        <>
+                            {fullError && <span style={{ color: 'red', marginRight: 10 }}>Ceva neașteptat s-a întâmplat</span>}
+                            <button type='submit' onClick={handleSubmit}>Postează</button>
+                        </>
+                    :
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
+                    }
                 </div>
-                <div className={styles.input}>
-                    <label htmlFor='description'>Descriere</label>
-                    <textarea id='description' name='description' value={description} placeholder='Descrie mai pe larg ideea...' onChange={e => setDescription(e.target.value)}/>
-                </div>
+
             </form>
         </div>
     )

@@ -7,6 +7,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import { Navigation } from 'swiper'
 import { useRouter } from 'next/router'
+import parse from 'html-react-parser'
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
 import { useAuth } from '../../../utils/useAuth'
@@ -240,9 +241,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                 </div>
             </div>
             <div className={styles.description}>
-                <p>
-                    {data.description}
-                </p>
+                {parse(data.description)}
             </div>
 
             <CommentSection key={router.query.id?.toString()} comments={comments} />
