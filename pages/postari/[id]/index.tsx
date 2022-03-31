@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { Navigation } from 'swiper'
+import { useRouter } from 'next/router'
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
 import { useAuth } from '../../../utils/useAuth'
@@ -87,6 +88,7 @@ interface Post {
 
 const Page: NextPage<Post> = ({ post, comments }) => {
     const [ data, setData ] = useState(post.post)
+    const router = useRouter()
 
     const user = useAuth()
 
@@ -190,7 +192,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             <span>{formatDate(data.creationDate)}</span>
                         </div>
                         <div className={styles.status}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' height={20} width={20} />
+                            <Image src={data.status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (data.status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (data.status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
                             <p>{data.status}</p>
                         </div>
                     </div>
@@ -243,7 +245,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                 </p>
             </div>
 
-            <CommentSection key={comments.comments[0]._id} comments={comments} />
+            <CommentSection key={router.query.id?.toString()} comments={comments} />
         </div>
     )
 }
@@ -279,7 +281,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const post = await axios.get(`http://localhost:9999/api/post/show/specific/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response)
+                            console.log(err.response) 
                             redirect = true
                         })
 

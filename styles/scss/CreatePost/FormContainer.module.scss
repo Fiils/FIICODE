@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@300;400;500;600&display=swap');
+
+
+.background_make {
+    background: white;
+    height: 200px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+}
+
+.heading {
+    margin-left: 10vw;
+    justify-content: center;
+    gap: 1em;
+    font-size: 1.4rem;
+    font-family: 'Baloo Tamma 2';
+    margin-top: 10vh;
+}
+
+.informative {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Libre Baskerville';
+    font-size: 1.2rem;
+    
+    p {
+        width: 50%;
+        text-align: center;
+    }
+}
+
+.form {
+    margin-left: 10vw;
+    margin-top: 10vh;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 3em;
+}
+
+.input {
+    display: flex;
+    flex-flow: column wrap;
+
+    label {
+        font-family: 'Baloo Tamma 2';
+        font-size: 1.2rem;
+    }
+
+    input {
+        width: 70%;
+        padding: .8em 1em .8em .5em;
+        border-radius: 5px;
+        border: 1px solid rgb(130, 130, 130);
+        font-size: 1rem;
+        font-family: sans-serif;
+        background: rgb(250, 250, 250);
+
+        &:focus {
+            outline-color: #6CAE75;
+            border-color: #6CAE75;
+        }
+
+        &[type=file] {
+            border: none;
+            display: none;
+        }
+    }
+
+    textarea {
+        width: 70%;
+        padding: .8em 1em .8em .5em;
+        border-radius: 5px;
+        border: 1px solid rgb(130, 130, 130);
+        font-size: 1rem;
+        height: 400px;
+        resize: none;
+        font-family: sans-serif;
+
+        &:focus {
+            outline-color: #6CAE75;
+            border-color: #6CAE75;
+        }
+    }
+}
+
+.input_upload {
+    position: relative;
+    margin: 0 !important;
+
+    img {
+        cursor: pointer;
+    }
+}
+
+.image_container {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 2em;
+    align-items: center;
+    border: 1px solid rgb(130, 130, 130);
+    width: 100%;
+    border-radius: 5px;
+    height: 280px;
+    background: white;
+    padding: 0 30px;
+    overflow-x: scroll;
+}
+
+@keyframes appear_anim {
+    0% { transform: scale(0) }
+    100% { transform: scale(1) }
+}
+
+
+.delete_photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: 26%;
+
+
+    button {
+        padding: .5em 1em;
+        border: 1px solid rgb(230, 230, 230);
+        background: rgb(240, 240, 240);
+        cursor: pointer;
+        border-radius: 3px;
+        transition: all .2s ease-out;
+        font-family: 'Baloo Bhai 2';
+        font-weight: 500;
+        animation: appear_anim .25s;
+
+        &:hover {
+            background: rgb(245, 245, 245);
+        }
+
+        &:active {
+            border-color: rgb(180, 180, 180);
+            background: rgb(230, 230, 230);
+        }
+    }
+}
+
+.image_lay {
+    position: relative;
+    transition: all .2s ease-out;
+    width: 300px !important;
+
+
+    &:hover {
+        filter: saturate(30%)
+    }
+}
+
+.no_content {
+    margin-left: calc(33% + 100px);
+    justify-self: center;
+    align-self: center;
+
+    p {
+        font-family: 'Baloo Bhai 2';
+        color: rgb(220, 220, 220);
+        font-size: 1.3rem;
+        margin-left: -25%;
+        margin-top: 0 !important;
+    }
+}
+
+.video_nc {
+    margin-left: 100px !important;
+}
+
+.flex_add {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 2.5em;
+    position: relative;
+}
+
+.container_video {
+    border: 1px solid gray;
+    width: 100%;
+    height: 400px;
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: white;
+}

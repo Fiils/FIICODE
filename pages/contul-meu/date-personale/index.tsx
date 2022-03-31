@@ -4,6 +4,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+
 import SideMenu from '../../../components/MyAccount/SideMenu'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/PersonalData.module.scss'
@@ -28,6 +31,9 @@ const PersonalData: NextPage<User> = ({ user }) => {
     const router = useRouter()
 
     const auth = useAuth()
+
+    const [ showPassword, setShowPassword ] = useState(false)
+    const [ showNewPassword, setShowNewPassword ] = useState(false)
 
     const [ mouseOver, setMouseOver ] = useState(false)
     const [ loading, setLoading ] = useState(false)
@@ -74,23 +80,38 @@ const PersonalData: NextPage<User> = ({ user }) => {
     const [ resetNewPassword, setResetNewPassword ] = useState('')
 
     const [ loadingPassword, setLoadingPassword ] = useState(false)
-    const [ succes, setSuccess ] = useState(false)
+    const [ success, setSuccess ] = useState(false)
+    const [ errorPassword, setErrorPassword ] = useState(false)
 
     const handleResetPassword = async (e: any) => {
         e.preventDefault()
 
-        setLoading(true)
-        const result = await axios.post('http://localhost:9999/api/login/reset-known-password', { password, newPassword, resetNewPassword }, { withCredentials: true })
+        setLoadingPassword(true)
+        setErrorPassword(false)
+
+        if(password === '' || newPassword === '' || resetNewPassword === '' || newPassword !== resetNewPassword) {
+            setErrorPassword(true)
+            setLoadingPassword(false)
+            return;
+        }
+
+        const result = await axios.patch('http://localhost:9999/api/login/reset-known-password', { password, newPassword, resetNewPassword }, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err)
-                            setLoading(false)
+                            setLoadingPassword(false)
+                            setErrorPassword(true)
                         })
 
         if(result && result.message === 'Parolă schimbată cu succes') {
-            setLoading(false)
+            setLoadingPassword(false)
+            setSuccess(true)
+            setPassword('')
+            setNewPassword('')
+            setResetNewPassword('')
         } else {
-            setLoading(false)
+            setLoadingPassword(false)
+            setErrorPassword(true)
         }
     }
 
@@ -188,20 +209,27 @@ const PersonalData: NextPage<User> = ({ user }) => {
                         <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Introdu alături vechea ta parolă, după care introdu noua ta parola pe care vrei să o folosești</p>
                     </div>
                     <div className={styles.reset}>
-                        <div className={styles.input}>
+                        <div className={`${styles.input} ${errorPassword ? styles.wrong_input : ''}`}>
                             <label htmlFor='current-password'>Parola curentă</label>
-                            <input id='current-password' name='current-password' value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type={!showPassword ? 'password' : 'text'} id='current-password' name='current-password' value={password} onChange={e => { setPassword(e.target.value); setSuccess(false) }} />
+                            <div className={styles.svg_container}>
+                                {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
+                            </div>
                         </div>
-                        <div className={styles.input}>
+                        <div className={`${styles.input} ${errorPassword ? styles.wrong_input : ''}`}>
                             <label htmlFor='new-password'>Parola nouă</label>
-                            <input id='new-password' name='new-password' value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+                            <input type={!showNewPassword ? 'password' : 'text' } id='new-password' name='new-password' value={newPassword} onChange={e => { setNewPassword(e.target.value); setSuccess(false) }} />
+                            <div className={styles.svg_container}>
+                                {!showNewPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowNewPassword(!showNewPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowNewPassword(!showNewPassword)}/> }
+                            </div>
                         </div>
-                        <div className={styles.input}>
+                        <div className={`${styles.input} ${errorPassword ? styles.wrong_input : ''}`}>
                             <label htmlFor='reset-new-password'>Verificare parola nouă</label>
-                            <input id='reset-new-password' name='reset-new-password' value={resetNewPassword} onChange={e => setResetNewPassword(e.target.value)} />
+                            <input type='password' id='reset-new-password' name='reset-new-password' value={resetNewPassword} onChange={e => { setResetNewPassword(e.target.value); setSuccess(false) }} />
                         </div>
-                        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', width: '120%' }}>
+                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', width: '120%' }}>
                             <button onClick={e => handleResetPassword(e)}>Schimbă parola</button>
+                            <p style={{ color: '#8BBD8B' }}>{success ? 'Parolă schimbată' : ''}</p>
                         </div>
                     </div>
                 </div>

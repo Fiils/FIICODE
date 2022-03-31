@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 
@@ -77,7 +75,7 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
                         <span>{formatDate(creationDate)}</span>
                     </div>
                     <div className={styles.status}>
-                        <div className={status === 'Trimis' ? styles.sent : (status === 'Vizionat' ? styles.seen : (status === 'În lucru' ? styles.working : styles.done))}></div>
+                        <Image src={status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
                         <p>{status}</p>
                     </div>
                 </div>

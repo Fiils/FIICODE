@@ -171,6 +171,7 @@
 
     input {
         padding: .8em 1em;
+        padding-right: 2em;
         border: 1px solid rgba(200, 200, 200);
         display: inline;
         position: relative;
@@ -186,5 +187,24 @@
         font-family: 'Baloo Tamma 2', sans-serif;
         font-size: .8rem;
         font-weight: bold;
+    }
+}
+
+.wrong_input {
+    input {
+        border-color: red !important;
+        outline-color: red !important;
+    }
+}
+
+.svg_container {
+    position: absolute;
+    display: inline;
+    right: 0;
+    margin-right: 2px;
+    margin-top: 29px;
+    
+    [id=pass] {
+        cursor: pointer;
     }
 }

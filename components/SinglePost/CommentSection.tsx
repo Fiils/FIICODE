@@ -63,7 +63,7 @@ const CommentSection: FC<Comments> = ({ comments }) => {
         }
 
         const text = comment
-        const result = await axios.post(`http://localhost:9999/api/comment/commentonpost/${data[0].originalPostId}`, { text }, { withCredentials: true })
+        const result = await axios.post(`http://localhost:9999/api/comment/commentonpost/${router.query.id}`, { text }, { withCredentials: true })
                                 .then(res => res.data)
                                 .catch(err => {
                                     console.log(err)

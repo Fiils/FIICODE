@@ -17,7 +17,7 @@ const Header: FC = () => {
             </div>
             <Link href="/">Prima pagină</Link>
             <Link href="/postari/cx/p1">Postări</Link>
-            <Link href="/postari/creare-postare">Creează o postare</Link>
+            <Link href="/creare-postare">Creează o postare</Link>
             {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                 <div className={styles.links}>
                     <Link href="/autentificare">Autentifică-te</Link>

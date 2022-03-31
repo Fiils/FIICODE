@@ -172,7 +172,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             return;
         }
         const text = textComment
-        const result = await axios.post(`http://localhost:9999/api/comment/comment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
+        const result = await axios.post(`http://localhost:9999/api/comment/commentoncomment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
                                 .then(res => res.data)
                                 .catch(err => {
                                     console.log(err)
