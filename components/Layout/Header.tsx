@@ -16,7 +16,7 @@ const Header: FC = () => {
                 <span>ROMDIG</span>
             </div>
             <Link href="/">Prima pagină</Link>
-            <Link href="/postari/cx/p1">Postări</Link>
+            <a href="/postari/cx/popular/p1">Postări</a>
             <Link href="/creare-postare">Creează o postare</Link>
             {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                 <div className={styles.links}>

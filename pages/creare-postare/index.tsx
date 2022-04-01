@@ -99,7 +99,6 @@ const CreatePost: NextPage = () => {
 
         if(result && result.message === 'Postare afișată'){
             setLoading(false)
-            setDescription('')
             setTitle('')
             setFiles([])
             setVideo('')

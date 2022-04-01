@@ -53,6 +53,7 @@ interface Post {
             creationDate: Date;
             nameAuthor: string;
             authorProfilePicture: string;
+            video: string;
         }
     };
     comments: {
@@ -219,6 +220,17 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     centeredSlides
                     navigation
                     >
+                        {(data.video && data.video !== '') &&
+                            <SwiperSlide>
+                                <video
+                                    className="VideoInput_video"
+                                    width="100%"
+                                    height={'100%'}
+                                    controls
+                                    src={data.video}
+                                />
+                            </SwiperSlide>
+                        }
                         {data.media.length > 0 ?
                         <>
                             {data.media.map((img: string, i: number) => {
@@ -229,10 +241,14 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         </>
                         : 
                         <>
-                            <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 650, border: '2px solid black', borderRadius: 3 }}>
-                                <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
-                                <h1 className={styles.no_image}>Nicio imagine</h1>
-                            </SwiperSlide>
+                            {(data.video && data.video !== '') &&
+                                <>
+                                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 650, border: '2px solid black', borderRadius: 3 }}>
+                                        <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
+                                        <h1 className={styles.no_image}>Nicio imagine</h1>
+                                    </SwiperSlide>
+                                </>
+                            }
                         </>
                         }
                        

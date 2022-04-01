@@ -25,7 +25,7 @@ const Pagination: FC<Pagination> = ({ numberOfPages }) => {
 
         if(router.query.page && parseInt(number) < numberOfPages) {
             router.replace({
-                query: { page: `p${parseInt(number) + 1}` }
+                query: { ...router.query, page: `p${parseInt(number) + 1}` }
             })
             setCurrentButton(parseInt(number) + 1)
         }
@@ -42,7 +42,7 @@ const prevPage = () => {
     
     if(router.query.page && parseInt(number) > 1) {
         router.replace({
-            query: { page: `p${parseInt(number) - 1}` }
+            query: { ...router.query, page: `p${parseInt(number) - 1}` }
         })
         setCurrentButton(parseInt(number) - 1)
     }
@@ -95,7 +95,7 @@ useEffect(() => {
 
 const change_first_page = (page: string) => {
     router.replace({
-        query: { page: `p${page}` }
+        query: { ...router.query, page: `p${page}` }
     })
 }
 

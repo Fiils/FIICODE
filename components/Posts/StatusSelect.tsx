@@ -27,7 +27,7 @@ const StatusSelect: FC<StatusProps> = ({ status, handleChange }) => {
     return (
         <ThemeProvider theme={customSelect}>
         <FormControl variant="standard" sx={{ m: 1, width: 200, position: 'absolute', right: 0, mr: 2 }}>
-          <InputLabel id="sort-by-status">Sortează după status</InputLabel>
+          <InputLabel id="sort-by-status">Sortează după statut</InputLabel>
           <Select
             MenuProps={{ disableScrollLock: true }}
             labelId="sort-by-status"

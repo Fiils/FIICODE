@@ -4,17 +4,17 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import styles from '../../../../styles/scss/Posts/SideMenu.module.scss'
-import gridStyles from '../../../../styles/scss/Posts/Grid.module.scss'
-import PostGrid from '../../../../components/Posts/PostGrid'
-import Pagination from '../../../../components/Posts/Pagination'
-import StatusSelect from '../../../../components/Posts/StatusSelect'
+import styles from '../../../../../styles/scss/Posts/SideMenu.module.scss'
+import gridStyles from '../../../../../styles/scss/Posts/Grid.module.scss'
+import PostGrid from '../../../../../components/Posts/PostGrid'
+import Pagination from '../../../../../components/Posts/Pagination'
+import StatusSelect from '../../../../../components/Posts/StatusSelect'
 
 
 interface ListItems {
     text: string;
-    category: string;
     index: number;
+    category: string;
 }
 
 interface InitialFetchProps { 
@@ -66,22 +66,38 @@ const Postari: NextPage<InitialFetchProps> = () => {
      
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
-    const [ pref, setPref ] = useState('/mupvotes')
+    const categoriesAllowed = [ 'apreciate', 'popular', 'vizionate', 'comentarii', 'noi' ]
+
+    const chooseCategoryServer = (categ: string | undefined | string[]) => {
+        switch(categ) {
+            case 'apreciate':
+                return '/mupvotes';
+            case 'vizionate':
+                return '/mviews';
+            case 'popular':
+                return '/popular';
+            case 'comentarii':
+                return '/mcomments';
+            case 'noi':
+                return '/age';
+            default:
+                return '/popular'
+        }
+    }
 
     const [ old, setOld ] = useState(false)
 
-    const [ categories, setCategories ] = useState({
-        popular: false,
-        upvotes: true,
-        views: false,
-        comments: false,
-        downvotes: false,
-        age: false
-    })
     const [ loading, setLoading ] = useState(false)
 
-    const changePage = async (category: string) => {
-        const page = router.query.page ? router.query.page.toString().split('') : ['p', '1']
+    const changePage = async (category: string | undefined | string[]) => {
+        if(Array.isArray(category) || !categoriesAllowed.includes(category || 'a')){
+            router.push('/404')
+        }
+        if(!router.query.page) {
+            router.push('/404')
+        }
+
+        const page = router.query.page!.toString().split('')
         let number = '';
 
         if(page.length > 1) {
@@ -94,7 +110,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
-        const result = await axios.get(`http://localhost:9999/api/post/show${category}?page=${parseInt(number) - 1}`, { withCredentials: true })
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -104,7 +120,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         if(!result) {
             router.replace({
                 pathname: router.pathname,
-                query: { page: 'p1' }
+                query: { ...router.query, page: 'p1' }
             })
         }
 
@@ -112,7 +128,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
             setLoading(false)
             return router.replace({
                 pathname: router.pathname,
-                query: { page: 'p1' }
+                query: { ...router.query, page: 'p1' }
             })
         } else {
             setLoading(false)
@@ -124,39 +140,50 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }
 
     const changeCategory = async (category: string) => {
-        router.replace({
+        if(category === router.query.category) return;
+        router.push({
             pathname: router.pathname,
-            query: { page: 'p1' }
+            query: { category: category, page: 'p1' }
         })
-        setPref(category)
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
-        const result = await axios.get(`http://localhost:9999/api/post/show${category}?page=0`, { withCredentials: true })
+        if(status.length > 0) {
+            setStatus([])
+        }
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=0`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
                             return;
                         })
-        setLoading(false)
+                        setLoading(false)
         if(!result) {
             router.replace({
                 pathname: router.pathname,
-                query: { page: 'p1' }
+                query: { ...router.query, page: 'p1' }
             })
         }
         setPosts({
-            numberOfPages: result.numberOfPages,
-            posts: result.posts
+            numberOfPages: result ? result.numberOfPages : 0,
+            posts: result ? result.posts : []
         })
     }
 
     const changeStatus = async (status: string[]) => {
+        if(Array.isArray(router.query.category) || !categoriesAllowed.includes(router.query.category || 'a')){
+            router.push('/404')
+        }
+        if(!router.query.page) {
+            router.push('/404')
+        }
+
+
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
         let urlPart = '';
         router.replace({
             pathname: router.pathname,
-            query: { page: 'p1' }
+            query: { ...router.query, page: 'p1' }
         })
 
         status.map((value: string, index: number) => {
@@ -170,7 +197,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
                     urlPart += `/${value}`
                 }
         })
-        const result = await axios.get(`http://localhost:9999/api/post/show${pref}${urlPart}?page=0`, { withCredentials: true })
+
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -178,45 +206,21 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         })
         setLoading(false)
         setPosts({
-            numberOfPages: result.numberOfPages,
-            posts: result.posts
+            numberOfPages: result ? result.numberOfPages : 1,
+            posts: result ? result.posts : []
         })
     }
 
     useEffect(() => {
-        changePage(pref)
+        changePage(router.query.category)
     }, [router.query.page])
 
-    const ListItem = ({ text, category, index }: ListItems) => {
-        const active = index === 1 ? categories.popular : ( index === 2 ? categories.upvotes : ( index === 3 ? categories.views : ( index === 4 ? categories.comments : categories.downvotes)))
-        const onClick= (e: any) => {
-            if(!active) {
-                switch(index) {
-                case 1:
-                    setCategories({ popular: true, upvotes: false, views: false, comments: false, downvotes: false, age: false })
-                    break;
-                case 2:
-                    setCategories({ popular: false, upvotes: true, views: false, comments: false, downvotes: false, age: false })
-                    break;            
-                case 3:
-                    setCategories({ popular: false, upvotes: false, views: true, comments: false, downvotes: false, age: false })
-                    break;            
-                case 4:
-                    setCategories({ popular: false, upvotes: false, views: false, comments: true, downvotes: false, age: false })
-                    break;
-                case 5:
-                    setCategories({ popular: false, upvotes: false, views: false, comments: false, downvotes: true, age: false })
-                    break;
-                case 6:
-                    setCategories({ popular: false, upvotes: false, views: false, comments: false, downvotes: false, age: true })
-                    break;
-                }
-                changeCategory(category)
-            }
-        }
-
+    const ListItem = ({ text, category, index, }: ListItems) => {
+        const active = index === 1 ? router.query.category === 'popular' : ( index === 2 ? router.query.category === 'apreciate' : ( index === 3 ? router.query.category === 'vizionate' : ( index === 4 ? router.query.category === 'comentarii' : router.query.category === 'noi')))
+        
+                
         return (
-                <li key={index} className={active ? styles.active : ''} onClick={(e) => onClick(e)}>
+                <li key={index} className={active ? styles.active : ''} onClick={() => changeCategory(category)}>
                     <p key={index}>
                         {text}
                     </p>
@@ -237,8 +241,6 @@ const Postari: NextPage<InitialFetchProps> = () => {
         changeStatus(status)
     }, [status])
 
-    console.log(posts)
-
     return (
         <>
         <StatusSelect status={status} handleChange={handleChange} />
@@ -247,11 +249,11 @@ const Postari: NextPage<InitialFetchProps> = () => {
             <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
-                        <ListItem text='Populare' category='/popular' index={1} />
-                        <ListItem text='Cele mai apreciate' category='/mupvotes' index={2} />
-                        <ListItem text='Cele mai vizionate' category='/mviews' index={3} />
-                        <ListItem text='Cele mai multe comentarii' category='/mcomments' index={4} />
-                        <ListItem text='Cele mai noi' category='/age' index={5} />
+                        <ListItem text='Populare' category='popular' index={1} />
+                        <ListItem text='Cele mai apreciate' category='apreciate' index={2} />
+                        <ListItem text='Cele mai vizionate' category='vizionate' index={3} />
+                        <ListItem text='Cele mai multe comentarii' category='comentarii' index={4} />
+                        <ListItem text='Cele mai noi' category='noi' index={5} />
                     </ul>
                 </div>
             </div>
