@@ -61,8 +61,15 @@ const Home: NextPage = () => {
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className={styles.icon_inf}>
               <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648230455/FIICODE/user-browser-login-11948_zuyxma.svg' width={130} height={110} />
             </div>
-        </div>
+          </div>
       </div>
+      <div className={styles.info_back}>
+        <p>Primul program ce constă în implementarea ideilor cetățenilor legate de îmbunătățirea propriei localități, evitând cozi sufocante și zile de așteptare</p>
+      </div>
+      <div className={styles.info_followup}>
+
+      </div>
+
     </div>
   )
 }

@@ -296,28 +296,16 @@ export default Inregistrare;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const token = req.cookies['x-access-token']
-    let redirect = false
     
     if(!token) {
         return { props: {} }
-    }
-
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
-                        .then(res => res.data)
-                        .catch(err => {
-                            console.log(err.response);
-                            redirect = true
-                        })
-
-    if(!redirect || (user && user.active && user.active === false)) {
+    } else {
         return {
             redirect: {
-                permanent: false,
-                destination: '/'
+                destination: '/',
+                permanent: false
             },
             props: {}
         }
     }
-
-    return { props: {} }
 }

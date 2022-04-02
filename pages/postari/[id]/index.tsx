@@ -198,9 +198,10 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             <p>{data.status}</p>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '1em', marginLeft: -55 }} className={styles.img_full}>
-                    <div className={styles.manip_sec}>
-                        <div className={`${styles.option} ${(data.media.length >= 2) ? styles.big_icon : ''}`}>
+                    {/*  marginLeft: -55 */}
+                    <div style={{ display: 'flex', gap: '1em', }} className={styles.img_full}>
+                    <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
+                        <div className={`${styles.option}`}>
                             <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
                             <span id='#text'>{data.upVoted.count}</span>
                         </div>
@@ -221,13 +222,13 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     navigation
                     >
                         {(data.video && data.video !== '') &&
-                            <SwiperSlide>
+                            <SwiperSlide className={styles.video}>
                                 <video
-                                    className="VideoInput_video"
-                                    width="100%"
-                                    height={'100%'}
+                                    width="950px"
+                                    height={'600px'}
                                     controls
                                     src={data.video}
+                                    style={{ paddingTop: 0 }}
                                 />
                             </SwiperSlide>
                         }
@@ -241,9 +242,9 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         </>
                         : 
                         <>
-                            {(data.video && data.video !== '') &&
+                            {(data.video === '') &&
                                 <>
-                                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 650, border: '2px solid black', borderRadius: 3 }}>
+                                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 600, border: '2px solid black', borderRadius: 3 }}>
                                         <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
                                         <h1 className={styles.no_image}>Nicio imagine</h1>
                                     </SwiperSlide>

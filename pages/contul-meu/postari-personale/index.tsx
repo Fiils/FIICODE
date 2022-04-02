@@ -49,6 +49,15 @@ interface InitialFetchProps {
 }
 
 const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
+    const maxSize = personalPosts.posts.length > 5 ? 5 : personalPosts.posts.length 
+    const iterations = []
+    for(let i = 0; i < maxSize; i++) {
+        if(maxSize <= 0) {
+            break;
+        } else {
+            iterations.push(i)
+        }
+    }
     return (
         <div className={gridStyles.container_grid}>
             <SideMenu active={3} />
@@ -64,10 +73,10 @@ const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
                         </div>
 
                         <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '5em'}}>
-                            {personalPosts.posts.map((value: any, i: number) => {
-                                return <Post key={value._id} _id={value._id} title={value.title} description={value.description} downVoted={value.downVoted} upVoted={value.upVoted}
-                                firstNameAuthor={value.firstNameAuthor} nameAuthor={value.nameAuthor} media={value.media} status={value.status} creationDate={value.creationDate}
-                                profilePicture={value.profilePicture}  />
+                            {iterations.map((value: any, i: number) => {
+                                return <Post key={personalPosts.posts[i]._id} _id={personalPosts.posts[i]._id} title={personalPosts.posts[i].title} description={personalPosts.posts[i].description} downVoted={personalPosts.posts[i].downVoted} upVoted={personalPosts.posts[i].upVoted}
+                                firstNameAuthor={personalPosts.posts[i].firstNameAuthor} nameAuthor={personalPosts.posts[i].nameAuthor} media={personalPosts.posts[i].media} status={personalPosts.posts[i].status} creationDate={personalPosts.posts[i].creationDate}
+                                profilePicture={personalPosts.posts[i].profilePicture}  />
                             })}
                         </div>
 
@@ -90,7 +99,7 @@ const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
                         <div className={gridStyles.no_data}>
                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648565768/FIICODE/warning-3092_1_yzwvzq.svg' width={120} height={120} />
                             <h1>
-                                Nu ați publicat nicio postare până acum. Apăsați pe butonul de mai jos pentru a posta una.
+                                Nu ați publicat nicio postare până acum. Apăsați <Link href='/creare-postare'>aici</Link> pentru a posta una.
                             </h1>
                         </div>
 

@@ -66,7 +66,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
      
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
-    const categoriesAllowed = [ 'apreciate', 'popular', 'vizionate', 'comentarii', 'noi' ]
+    const categoriesAllowed = [ 'apreciate', 'popular', 'vizionate', 'comentarii', 'noi', 'vechi' ]
 
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
         switch(categ) {
@@ -80,12 +80,12 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 return '/mcomments';
             case 'noi':
                 return '/age';
+            case 'vechi':
+                return '/age';
             default:
                 return '/popular'
         }
     }
-
-    const [ old, setOld ] = useState(false)
 
     const [ loading, setLoading ] = useState(false)
 
@@ -110,7 +110,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}`, { withCredentials: true })
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -150,7 +150,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         if(status.length > 0) {
             setStatus([])
         }
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=0`, { withCredentials: true })
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=0&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -198,7 +198,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 }
         })
 
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0`, { withCredentials: true })
+        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -216,7 +216,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }, [router.query.page])
 
     const ListItem = ({ text, category, index, }: ListItems) => {
-        const active = index === 1 ? router.query.category === 'popular' : ( index === 2 ? router.query.category === 'apreciate' : ( index === 3 ? router.query.category === 'vizionate' : ( index === 4 ? router.query.category === 'comentarii' : router.query.category === 'noi')))
+        const active = index === 1 ? router.query.category === 'popular' : ( index === 2 ? router.query.category === 'apreciate' : ( index === 3 ? router.query.category === 'vizionate' : ( index === 4 ? router.query.category === 'comentarii' : (index === 5 ? router.query.category === 'noi' : router.query.category === 'vechi' ))))
         
                 
         return (
@@ -245,7 +245,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         <>
         <StatusSelect status={status} handleChange={handleChange} />
 
-        <div style={{ display: 'flex', flexFlow: 'row nowrap'}}>
+        <div style={{ display: 'flex', flexFlow: 'row nowrap', marginTop: 0}}>
             <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
@@ -254,10 +254,11 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         <ListItem text='Cele mai vizionate' category='vizionate' index={3} />
                         <ListItem text='Cele mai multe comentarii' category='comentarii' index={4} />
                         <ListItem text='Cele mai noi' category='noi' index={5} />
+                        <ListItem text='Cele mai vechi' category='vechi' index={6} />
                     </ul>
                 </div>
             </div>
-
+            
             <div className={gridStyles.grid_posts}>
                     {posts.numberOfPages !== 0 ?
                         posts.posts.map((value: any, key: number) => {
@@ -270,7 +271,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                     })
                         : 
                         <> {!loading &&
-                            <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center'}}>
+                            <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center', mixBlendMode: 'multiply'}}>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' width={200} height={200} />
                                 <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
                             </div>

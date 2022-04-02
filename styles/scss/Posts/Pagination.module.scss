@@ -4,9 +4,9 @@
     flex-flow: row nowrap;
     flex: 1;
     justify-self: end;
-    align-items: flex-start;
+    align-self: start;
     margin-bottom: 20px;
-    margin-right: 15%;
+    margin-right: -15%;
     gap: .5em;
     width: max-content;
 
@@ -39,16 +39,5 @@
 
 .activated {
     background: #393D3F !important;
-    // border-color: black !important;
     color: white;
 }
-// .disactivated {
-//     opacity: 0.5;
-//     font-size: 0.9rem !important;
-//     transition: all 0.5s ease-in-out;
-
-//     &:hover {
-//         transform: scale(1.2) !important;
-//         transition: all 0.5s ease-in-out;
-//     }
-// }

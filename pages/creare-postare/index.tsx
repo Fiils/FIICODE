@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import { useState } from 'react'
 import Image from 'next/image'
 import axios from 'axios'
@@ -207,7 +207,7 @@ const CreatePost: NextPage = () => {
                             <button type='submit' onClick={handleSubmit}>Postează</button>
                         </>
                     :
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
                     }
                 </div>
 
@@ -217,3 +217,39 @@ const CreatePost: NextPage = () => {
 }
 
 export default CreatePost;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const token = req.cookies['x-access-token']
+    let redirect = false
+
+    if(!token) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/autentificare'
+            },
+            props: {}
+        }
+    }
+
+    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                        .then(res => res.data)
+                        .catch(err => {
+                            console.log(err);
+                            redirect = true
+                        })
+
+    if(redirect)  {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/autentificare'
+            },
+            props: {}
+        }
+    }
+
+    return {
+        props: {}
+    }
+}

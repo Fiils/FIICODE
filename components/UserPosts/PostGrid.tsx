@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 
-import styles from '../../styles/scss/Posts/Post.module.scss';
+import styles from '../../styles/scss/UserPosts/Post.module.scss';
 import { useAuth } from '../../utils/useAuth'
 import formatDate from '../../utils/formatDate'
 
@@ -51,6 +51,7 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
     const router = useRouter()
 
     const user = useAuth()
+    // console.log(upVoted.count)
 
     return (
         <div key={_id} className={styles.post}>

@@ -134,18 +134,20 @@ const PersonalData: NextPage<User> = ({ user }) => {
                 </div>
                 <div style={{ position: 'relative'}}>
                     <div className={styles.image_profile}>
-                        <Image onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={120} height={120} /> 
-                        <div className={`${styles.overlay} ${loading ? styles.display_on : ''}`}>
-                            {!loading ? 
-                                <>
-                                    <label htmlFor='profile-picture'>Schimbă</label>
-                                    <input id='profile-picture' type='file' onChange={e => handleChange(e)} style={{ display: 'none' }}/>
-                                </> 
-                            : 
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />
-                            }
+                            <Image className={styles.make_visible} onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={120} height={120} /> 
+                                {!loading ? 
+                                    <>
+                                    {mouseOver &&
+                                    <div onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} className={`${mouseOver ? styles.overlay : ''} ${loading ? styles.display_on : ''}`}>
+                                        <label htmlFor='profile-picture'>Schimbă</label>
+                                        <input id='profile-picture' type='file' onChange={e => handleChange(e)} style={{ display: 'none' }}/>
+                                    </div>
+                                    }
+                                    </> 
+                                : 
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />
+                                }
                         </div>
-                    </div>
                 </div>
                 
                 <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '2em'}}>

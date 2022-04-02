@@ -49,6 +49,15 @@ interface InitialFetchProps {
 }
 
 const Posts: NextPage<InitialFetchProps> = ({ favoritePosts }) => {
+    const maxSize = favoritePosts.posts.length > 5 ? 5 : favoritePosts.posts.length 
+    const iterations = []
+    for(let i = 0; i < maxSize; i++) {
+        if(maxSize <= 0) {
+            break;
+        } else {
+            iterations.push(i)
+        }
+    }
     return (
         <div className={gridStyles.container_grid}>
             <SideMenu active={4} />
@@ -64,10 +73,10 @@ const Posts: NextPage<InitialFetchProps> = ({ favoritePosts }) => {
                         </div>
 
                         <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '5em'}}>
-                            {favoritePosts.posts.map((value: any, i: number) => {
-                                return <Post key={value._id} _id={value._id} title={value.title} description={value.description} downVoted={value.downVoted} upVoted={value.upVoted}
-                                firstNameAuthor={value.firstNameAuthor} nameAuthor={value.nameAuthor} media={value.media} status={value.status} creationDate={value.creationDate}
-                                profilePicture={value.profilePicture}  />
+                            {iterations.map((value: number, i: number) => {
+                                return <Post key={favoritePosts.posts[i]._id} _id={favoritePosts.posts[i]._id} title={favoritePosts.posts[i].title} description={favoritePosts.posts[i].description} downVoted={favoritePosts.posts[i].downVoted} upVoted={favoritePosts.posts[i].upVoted}
+                                firstNameAuthor={favoritePosts.posts[i].firstNameAuthor} nameAuthor={favoritePosts.posts[i].nameAuthor} media={favoritePosts.posts[i].media} status={favoritePosts.posts[i].status} creationDate={favoritePosts.posts[i].creationDate}
+                                profilePicture={favoritePosts.posts[i].profilePicture}  />
                             })}
                         </div>
 

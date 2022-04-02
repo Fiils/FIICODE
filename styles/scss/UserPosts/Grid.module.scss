@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500&display=swap');
+
+
+.title {
+    font-family: 'Baloo Tamma 2';
+    font-size: 1.6rem;
+    margin-top: 50px;
+    // margin-left: 100px;
+    text-align: center;
+    color: #60BF60;
+    h1 {
+        margin-bottom: 0 !important;
+    }
+}
+
+.grid_posts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5em;
+    justify-items: center;
+    padding-top: 5%;
+}
+
+.loader {
+    border: 10px solid gray;
+    border-top: 10px solid black;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-top: 15vh;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.more_button {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    mix-blend-mode: multiply;
+    
+    button {
+        padding: .8em 1.5em;
+        font-family: 'Baloo Tamma 2';
+        font-size: 1.1rem;
+        border-radius: 3px;
+        background: #60BF60;
+        border: none;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+            opacity: .9;
+        }
+
+        &:active {
+            opacity: .8;
+        }
+    }
+}
+
+.no_data {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    padding: 5em 0;
+
+    h1 {
+        width: 70%;
+        text-align: center;
+        color: rgb(220, 220, 220);
+    }
+}

@@ -59,10 +59,14 @@
 }
 
 .manip_sec {
-    display: flex;
+    display: inline-flex;
     flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
     gap: .2em;
-    margin-left: 10px;
+    margin-top: -10px;
+    margin-left: -60px;
     position: relative;
 }
 
@@ -76,12 +80,14 @@
     margin-top: 5px;
 
     img:hover {
-        background-color: rgb(230, 230, 230)
+        background-color: rgb(230, 230, 230);
     }
 
     img {
         cursor: pointer;
         transition: all .3s ease-out;
+        padding: 10px !important;
+        border-radius: 30%;
     }
 
     span[id='#text'] {
@@ -102,10 +108,15 @@
         content: '';
         position: absolute;
         height: 2px;
-        margin-left: 56.5px;
-        width: calc(100% - 55px);
+        width:100%;
         bottom: -10px;
         background-color: rgb(200, 200, 200);
+    }
+}
+
+.video {
+    video {
+        margin-top: -35px !important;
     }
 }
 

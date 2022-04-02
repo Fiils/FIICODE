@@ -49,7 +49,15 @@ interface InitialFetchProps {
 }
 
 const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
-    console.log(likedPosts)
+    const maxSize = likedPosts.posts.length > 5 ? 5 : likedPosts.posts.length 
+    const iterations = []
+    for(let i = 0; i < maxSize; i++) {
+        if(maxSize <= 0) {
+            break;
+        } else {
+            iterations.push(i)
+        }
+    }
     return (
         <div className={gridStyles.container_grid}>
             <SideMenu active={2} />
@@ -64,16 +72,16 @@ const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
                         </h1>
                     </div>
                         <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '5em'}}>
-                            {likedPosts.posts.map((value: any, i: number) => {
-                                return <Post key={value._id} _id={value._id} title={value.title} description={value.description} downVoted={value.downVoted} upVoted={value.upVoted}
-                                firstNameAuthor={value.firstNameAuthor} nameAuthor={value.nameAuthor} media={value.media} status={value.status} creationDate={value.creationDate}
-                                profilePicture={value.profilePicture}  />
+                            {iterations.map((value: any, i: number) => {
+                                return <Post key={likedPosts.posts[i]._id} _id={likedPosts.posts[i]._id} title={likedPosts.posts[i].title} description={likedPosts.posts[i].description} downVoted={likedPosts.posts[i].downVoted} upVoted={likedPosts.posts[i].upVoted}
+                                firstNameAuthor={likedPosts.posts[i].firstNameAuthor} nameAuthor={likedPosts.posts[i].nameAuthor} media={likedPosts.posts[i].media} status={likedPosts.posts[i].status} creationDate={likedPosts.posts[i].creationDate}
+                                profilePicture={likedPosts.posts[i].profilePicture}  />
                             })}
                         </div>
 
                         {likedPosts.posts.length > 5 &&
                             <div className={styles.forward}>
-                                <Link href='/posts/user/pozitiv'>Vezi mai multe</Link>
+                                <Link href='/user/pozitiv'>Vezi mai multe</Link>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648562603/FIICODE/mail-2573_i6sgdl.svg' width={20} height={20} />
                             </div>
                         }
@@ -150,25 +158,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
                             console.log(err)
                         })
 
-    const dislikedPosts = await axios.get('http://localhost:9999/api/user/downvotes', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a'}} )
-                        .then(res => res.data)  
-                        .catch(err => {
-                            redirect = false;
-                            console.log(err)
-                        })
-
-    const commentedPosts = await axios.get('http://localhost:9999/api/user/comments', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a'}} )
-                        .then(res => res.data)
-                        .catch(err => {
-                            redirect = false;
-                            console.log(err)
-                        })
-
     return {
         props: {
             likedPosts,
-            dislikedPosts,
-            commentedPosts
         }
     }
 }

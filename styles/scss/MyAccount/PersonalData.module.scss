@@ -37,14 +37,19 @@
     font-size: 1.2rem;
 }
 
+@keyframes appear_overlay {
+    // 100% { opacity:.2}
+}
 .image_profile {
     position: relative;
     display: flex;
     justify-content: center;
     margin-bottom: 50px;
+    mix-blend-mode: multiply;
 
     .overlay {
-        display: none;
+        display: block;
+        animation: appear_overlay 1s;
         position: absolute;
         width: 120px;
         height: 120px;
@@ -70,17 +75,12 @@
         display: block !important;
     }
 
-    &:hover {
-        .overlay {
-            display: block;
-        }
-    }
-
     img {
         border-radius: 50%;
         transition: all .25s ease-out;
     }
 }
+
 
 .edit_icon {
     position: absolute !important;
