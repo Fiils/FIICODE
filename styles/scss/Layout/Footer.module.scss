@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
 
 .container_footer {
     width: 100%;
@@ -61,4 +59,13 @@
         left: 10%;
         background: rgb(200, 200, 200);
     }
+}
+
+.team {
+    font-family: 'Changa';
+    font-size: 2.5rem;
+    color: rgba(130, 130, 130, .6);
+    position: absolute;
+    right: 10%;
+    top: 290px;
 }

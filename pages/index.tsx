@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           <div className={styles.cp2_inf}>
             <h2>Cum îmi fac cont?</h2>
             <p>
-              Pentru crearea unui cont, apăsați pe butonul "Înregistrare" din susul paginii, care vă va trimite spre pagina de înregistrare. Acolo, trebuie să introduceți
+              Pentru crearea unui cont, apăsați pe butonul &quot;Înregistrare&quot; din susul paginii, care vă va trimite spre pagina de înregistrare. Acolo, trebuie să introduceți
               doar câteva date, după care să introduceți un cod. Apoi, va trebui să așteptați ca contul dumneavoastră să fie activat de unul dintre specialiștii noștrii
             </p>
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className={styles.icon_inf}>

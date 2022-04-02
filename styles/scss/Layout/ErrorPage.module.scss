@@ -1,0 +1,44 @@
+.container_flex {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 200px;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        margin-top: 50px !important;
+    }
+}
+
+.info {
+    width: 35%;
+    
+    h1 {
+        font-size: 4rem;
+        line-height: 1;
+    }
+    
+    p {
+        font-size: 1.5rem;
+        line-height: 1.5;
+    }
+
+    button {
+        padding: 1em 2em;
+        font-family: 'Baloo Bhai 2';
+        font-weight: 600;
+        background: #60BF60;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1.3rem;
+
+        &:hover {
+            opacity: .9;
+        }
+
+        &:active {
+            opacity: .8
+        }
+    }
+}

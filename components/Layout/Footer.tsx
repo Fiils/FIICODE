@@ -24,6 +24,9 @@ const Footer = () => {
                     </Link>
                 </div>  
             </div>
+            <div className={styles.team}>
+                Echipa: bionic
+            </div>
         <div className={styles.copyright}>
             Drepturi de autor © 2022, ROMDIG
         </div>

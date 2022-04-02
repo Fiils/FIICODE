@@ -295,7 +295,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             {showMore &&
                 <div className={`${styles.comment} ${styles.deep_level} ${styles.border_left_more}`}>
                     {moreComments.map((comment: any, i: number) => {
-                        return  <CommentOnCommentOnComment comment={comment} />
+                        return  <CommentOnCommentOnComment key={comment._id} comment={comment} />
                     })}
                 </div>
             }
