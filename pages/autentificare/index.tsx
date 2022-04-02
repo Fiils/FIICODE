@@ -74,7 +74,8 @@ const Inregistrare: NextPage = () => {
                         })
 
         if(result && result.message === 'User logat') {
-            router.reload()
+            // router.reload()
+            console.log(result)
             setLoading(false)
         } else {
             setLoading(false)
