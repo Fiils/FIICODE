@@ -141,7 +141,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                                     <>
                                     {mouseOver &&
                                     <div onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} className={`${mouseOver ? styles.overlay : ''} ${loading ? styles.display_on : ''}`}>
-                                        <label htmlFor='profile-picture'>Schimbă</label>
+                                        <label htmlFor='profile-picture'><p>Schimbă</p></label>
                                         <input id='profile-picture' type='file' onChange={e => handleChange(e)} style={{ display: 'none' }}/>
                                     </div>
                                     }

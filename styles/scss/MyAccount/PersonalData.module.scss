@@ -65,6 +65,11 @@
             font-weight: 500;
             cursor: pointer;
 
+            p {
+                margin-top: 43px !important;
+                margin-left: 28px;
+            }
+
             &:hover {   
                 text-decoration: underline;
             }
