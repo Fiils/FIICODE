@@ -7,7 +7,7 @@ import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
 import Footer from '../components/Layout/Footer'
 import { AuthProvider } from '../utils/useAuth'
-import './test/a.css'
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
