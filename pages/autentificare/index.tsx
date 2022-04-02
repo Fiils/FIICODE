@@ -12,6 +12,7 @@ import EmailIcon from '@mui/icons-material/Email';
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/Authentication.module.scss'
+import { server } from '../../config/server'
 
 
 const Inregistrare: NextPage = () => {
@@ -47,7 +48,7 @@ const Inregistrare: NextPage = () => {
             return;
         }
 
-        const result = await axios.post('http://localhost:9999/api/login', person, { withCredentials: true })
+        const result = await axios.post(`${server}/api/login`, person, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)

@@ -5,10 +5,12 @@ import Image from 'next/image'
 
 import gridStyles from '../../../styles/scss/UserPosts/Grid.module.scss';
 import PostGrid from '../../../components/UserPosts/PostGrid'
+import { server } from '../../../config/server'
+
 
 interface InitialFetchProps { 
-    numberOfPages: number;
     posts: {
+        numberOfPages: number;
         posts: [{
             key: number;
             _id: string;
@@ -96,7 +98,7 @@ interface Post {
 
 
 const Personal: NextPage<InitialFetchProps> = ({ posts }) => {
-    const [ data, setData ] = useState(posts.posts)
+    const [ data, setData ] = useState<any>(posts.posts)
     const [ numberOfPages, setNumberOfPages ] = useState(posts.numberOfPages)
     const [ addPosts, setAddPosts ] = useState(0)
     const [ error, setError ] = useState(false)
@@ -104,7 +106,7 @@ const Personal: NextPage<InitialFetchProps> = ({ posts }) => {
     
     useEffect(() => {
         const getMorePosts = async () => {
-            const result: Post = await axios.get(`http://localhost:9999/api/user/personal?page=${addPosts}`, { withCredentials: true })
+            const result: Post = await axios.get(`${server}/api/user/personal?page=${addPosts}`, { withCredentials: true })
                             .then(res => res.data)
                             .catch(err => {
                                 setError(true)
@@ -168,7 +170,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         return { props: {} }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
+    const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response);
@@ -185,7 +187,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     }
 
-    const posts = await axios.get(`http://localhost:9999/api/user/personal`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
+    const posts = await axios.get(`${server}/api/user/personal`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response) 

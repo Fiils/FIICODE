@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 import styles from '../../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../../styles/scss/Authentication/ForgotPassword.module.scss'
+import { server } from '../../../config/server'
 
 
 const Inregistrare: NextPage = () => {
@@ -39,7 +40,7 @@ const Inregistrare: NextPage = () => {
         
 
         let redirect
-        const result = await axios.post('http://localhost:9999/api/login/forgot-password', person)
+        const result = await axios.post(`${server}/api/login/forgot-password`, person)
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)

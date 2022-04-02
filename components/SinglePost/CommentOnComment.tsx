@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 import styles from '../../styles/scss/SinglePost/Comment.module.scss'
 import { useAuth  } from '../../utils/useAuth'
+import { server } from '../../config/server'
 import CommentOnCommentOnComment from './CommentOnCommentOnComment'
 
 interface Comment {
@@ -73,12 +74,12 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                     data.downVoted.count--;
                 }
                 data.upVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/comment/upvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/comment/upvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setLike(!like); 
                 data.upVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/comment/upvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/comment/upvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -96,12 +97,12 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                     data.upVoted.count--;
                 }
                 data.downVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/comment/downvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/comment/downvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setDislike(!dislike); 
                 data.downVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/comment/downvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/comment/downvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -141,7 +142,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
 
     useEffect(() => {
         const getComments = async () => {
-            const result = await axios.get(`http://localhost:9999/api/comment/show-commentoncomment/${router.query.id}/${comment._id}`, { withCredentials: true })
+            const result = await axios.get(`${server}/api/comment/show-commentoncomment/${router.query.id}/${comment._id}`, { withCredentials: true })
                                     .then(res => res.data)
                                     .catch(err => console.log(err))
 
@@ -172,7 +173,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             return;
         }
         const text = textComment
-        const result = await axios.post(`http://localhost:9999/api/comment/commentoncomment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
+        const result = await axios.post(`${server}/api/comment/commentoncomment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
                                 .then(res => res.data)
                                 .catch(err => {
                                     console.log(err)
@@ -209,7 +210,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             return;
         }
         const reason = textReport
-        const result = await axios.patch(`http://localhost:9999/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
+        const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
                                 .then(res => res.data)
                                 .catch(err => {
                                     console.log(err)

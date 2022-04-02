@@ -1,10 +1,8 @@
 import type { FC } from 'react';
 import Image from 'next/image'
-import { useRouter } from 'next/router';
 import Link from 'next/link'
 
 import styles from '../../styles/scss/UserPosts/Post.module.scss';
-import { useAuth } from '../../utils/useAuth'
 import formatDate from '../../utils/formatDate'
 
 interface Post { 
@@ -48,11 +46,6 @@ interface Post {
 }
 
 const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments }) => {
-    const router = useRouter()
-
-    const user = useAuth()
-    // console.log(upVoted.count)
-
     return (
         <div key={_id} className={styles.post}>
             <a href={`/postari/${_id}`}>

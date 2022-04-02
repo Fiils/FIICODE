@@ -9,6 +9,7 @@ import gridStyles from '../../../../../styles/scss/Posts/Grid.module.scss'
 import PostGrid from '../../../../../components/Posts/PostGrid'
 import Pagination from '../../../../../components/Posts/Pagination'
 import StatusSelect from '../../../../../components/Posts/StatusSelect'
+import { server } from '../../../../../config/server'
 
 
 interface ListItems {
@@ -110,7 +111,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -150,7 +151,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         if(status.length > 0) {
             setStatus([])
         }
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(category)}?page=0&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=0&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -198,7 +199,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 }
         })
 
-        const result = await axios.get(`http://localhost:9999/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -308,7 +309,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+    const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err);

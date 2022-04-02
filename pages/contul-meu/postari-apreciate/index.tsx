@@ -7,6 +7,7 @@ import SideMenu from '../../../components/MyAccount/SideMenu'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/Posts/PostsSection.module.scss'
 import Post from '../../../components/MyAccount/Post'
+import { server } from '../../../config/server'
 
 interface InitialFetchProps { 
     likedPosts: {
@@ -124,7 +125,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+    const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
         .then(res => res.data)
         .catch(err => {
             console.log(err);
@@ -151,7 +152,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const likedPosts = await axios.get('http://localhost:9999/api/user/upvotes', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a'}} )
+    const likedPosts = await axios.get(`${server}/api/user/upvotes`, { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a'}} )
                         .then(res => res.data)
                         .catch(err => {
                             redirect = false;

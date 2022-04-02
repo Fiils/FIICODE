@@ -10,6 +10,8 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 
 import styles from '../../../../styles/scss/Authentication/Registration.module.scss';
 import overrideStyles from '../../../../styles/scss/Authentication/ForgotPassword.module.scss';
+import { server } from '../../../../config/server'
+
 
 
 interface InitialProps { 
@@ -104,7 +106,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
             setLoading(false)
         }
 
-        const result = await axios.post(`http://localhost:9999/api/login/forgot-password/change-password/${router.query.token}`, { password, confirmedPassword })
+        const result = await axios.post(`${server}/api/login/forgot-password/change-password/${router.query.token}`, { password, confirmedPassword })
                                 .then(res => res.data)
                                 .catch(err => {
                                     setLoading(false)
@@ -183,7 +185,7 @@ export default Token;
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-    const data = await axios.get(`http://localhost:9999/api/login/forgot-password/change-password/${ctx.query.token}`)
+    const data = await axios.get(`${server}/api/login/forgot-password/change-password/${ctx.query.token}`)
                          .then(res => res.data)
 
     if(data && data.message === 'Cerere găsită') {

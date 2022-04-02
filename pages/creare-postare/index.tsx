@@ -5,11 +5,13 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
+import { server } from '../../config/server'
 import ImageOverlayed from '../../components/CreatePost/ImageOverlayed'
+
+
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
 
@@ -89,7 +91,7 @@ const CreatePost: NextPage = () => {
             return;
         }
 
-        const result = await axios.post('http://localhost:9999/api/post/create', { descriptionText, title, files, video }, { withCredentials: true })
+        const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video }, { withCredentials: true })
                                     .then(res => res.data)
                                     .catch(err => {
                                         setFullError(true)
@@ -232,7 +234,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+    const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err);

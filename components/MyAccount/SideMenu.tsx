@@ -6,6 +6,7 @@ import type { FC } from 'react'
 
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
 import { useAuth } from '../../utils/useAuth'
+import { server } from '../../config/server'
 
 interface ListItem {
     name: string;
@@ -35,7 +36,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
     }
 
     const LogOut = async () => {
-        const result = await axios.post('http://localhost:9999/api/functionalities/logout', {}, { withCredentials: true })
+        const result = await axios.post(`${server}/api/functionalities/logout`, {}, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => console.log(err))
 

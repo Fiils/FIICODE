@@ -13,6 +13,8 @@ import styles from '../../../styles/scss/SinglePost/Post.module.scss'
 import { useAuth } from '../../../utils/useAuth'
 import formatDate from '../../../utils/formatDate'
 import CommentSection from '../../../components/SinglePost/CommentSection'
+import { server } from '../../../config/server'
+
 
 interface Post {
     post: {
@@ -122,12 +124,12 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     data.downVoted.count--;
                 }
                 data.upVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/post/upvote/${data._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/post/upvote/${data._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setLike(!like); 
                 data.upVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/post/upvote/un/${data._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/post/upvote/un/${data._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -145,12 +147,12 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     data.upVoted.count--;
                 }
                 data.downVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/post/downvote/${data._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/post/downvote/${data._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setDislike(!dislike); 
                 data.downVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/post/downvote/un/${data._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/post/downvote/un/${data._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -164,12 +166,12 @@ const Page: NextPage<Post> = ({ post, comments }) => {
             if(favorite) {
                 setFavorite(!favorite)
                 data.favorites.count--;
-                const result = await axios.patch(`http://localhost:9999/api/post/favorite/un/${data._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/post/favorite/un/${data._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setFavorite(!favorite)
                 data.favorites.count++;
-                const result = await axios.patch(`http://localhost:9999/api/post/favorite/${data._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/post/favorite/${data._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -177,7 +179,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     }
 
     const ReportRequest = async () => {
-        const result = await axios.patch(`http://localhost:9999/api/post/report/${data._id}`, {}, { withCredentials: true })
+        const result = await axios.patch(`${server}/api/post/report/${data._id}`, {}, { withCredentials: true })
                                     .catch(err => console.log(err))
     }
 
@@ -277,7 +279,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         return { props: {} }
     }
 
-    const user = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
+    const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response);
@@ -294,14 +296,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     }
 
-    const post = await axios.get(`http://localhost:9999/api/post/show/specific/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
+    const post = await axios.get(`${server}/api/post/show/specific/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response) 
                             redirect = true
                         })
 
-    const comments = await axios.get(`http://localhost:9999/api/comment/show-commentonpost/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
+    const comments = await axios.get(`${server}/api/comment/show-commentonpost/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                             .then(res => res.data)
                             .catch(err => console.log(err))
 

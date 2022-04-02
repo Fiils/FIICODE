@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react"
 import axios from 'axios'
+import { server } from '../config/server'
 
 interface User {
     user: {
@@ -18,7 +19,7 @@ export function AuthProvider(props: any) {
     const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '/' })
 
     async function login() {
-        const response = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true })
+        const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true })
                             .then(res => res.data)
                             .catch(err => console.log(err.response))
         if(response){

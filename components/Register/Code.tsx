@@ -5,6 +5,8 @@ import Image from 'next/image'
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/ForgotPassword.module.scss'
+import { server } from '../../config/server'
+
 
 const Code: FC = () => {
     const router = useRouter()
@@ -26,7 +28,7 @@ const Code: FC = () => {
             return;
         }
 
-        const result = await axios.post('http://localhost:9999/api/register/code-validation', { codeValue }, { withCredentials: true })
+        const result = await axios.post(`${server}/api/register/code-validation`, { codeValue }, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err)

@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import styles from '../../styles/scss/SinglePost/Comment.module.scss'
 import { useAuth  } from '../../utils/useAuth'
+import { server } from '../../config/server'
+
 
 interface Comment {
     comment: {
@@ -72,12 +74,12 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                     data.downVoted.count--;
                 }
                 data.upVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/comment/upvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/comment/upvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setLike(!like); 
                 data.upVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/comment/upvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/comment/upvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -95,12 +97,12 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                     data.upVoted.count--;
                 }
                 data.downVoted.count++;
-                const result = await axios.patch(`http://localhost:9999/api/comment/downvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
+                const result = await axios.patch(`${server}/api/comment/downvote/${router.query.id}/${comment._id}`, {}, { withCredentials: true })
                                             .catch(err => console.log(err))
             } else {
                 setDislike(!dislike); 
                 data.downVoted.count--;
-                const result = await axios.patch(`http://localhost:9999/api/comment/downvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
+                const result = await axios.patch(`${server}/api/comment/downvote/un/${router.query.id}/${comment._id}`, {}, { withCredentials: true })   
                                             .catch(err => console.log(err))
             }
             setPress(true)
@@ -124,7 +126,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             return;
         }
         const reason = textReport
-        const result = await axios.patch(`http://localhost:9999/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
+        const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
                                 .then(res => res.data)
                                 .catch(err => {
                                     console.log(err)

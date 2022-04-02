@@ -16,6 +16,7 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss';
 import CodeComponent from '../../components/Register/Code'
+import { server } from '../../config/server'
 
 
 const Inregistrare: NextPage = () => {
@@ -90,7 +91,7 @@ const Inregistrare: NextPage = () => {
             return;
         } 
 
-        const result = await axios.post('http://localhost:9999/api/register', person, { withCredentials: true })
+        const result = await axios.post(`${server}/api/register`, person, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             setLoading(false)

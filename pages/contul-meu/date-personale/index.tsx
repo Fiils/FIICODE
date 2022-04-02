@@ -11,6 +11,8 @@ import SideMenu from '../../../components/MyAccount/SideMenu'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/PersonalData.module.scss'
 import { useAuth } from '../../../utils/useAuth'
+import { server } from '../../../config/server'
+
 
 interface User {
     user: {
@@ -63,7 +65,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
             setLoading(true)
             const photo = profilePicture.profile
             console.log(loading)
-            await axios.post('http://localhost:9999/api/functionalities/profile-picture', { photo }, { withCredentials: true })
+            await axios.post(`${server}/api/functionalities/profile-picture`, { photo }, { withCredentials: true })
                 .then(res => res.data)
                 .catch(err => console.log(err))
             setLoading(false)
@@ -95,7 +97,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
             return;
         }
 
-        const result = await axios.patch('http://localhost:9999/api/login/reset-known-password', { password, newPassword, resetNewPassword }, { withCredentials: true })
+        const result = await axios.patch(`${server}/api/login/reset-known-password`, { password, newPassword, resetNewPassword }, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err)
@@ -266,7 +268,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const shouldRedirect = await axios.get('http://localhost:9999/api/functionalities/cookie-ax', { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+    const shouldRedirect = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err);
@@ -283,7 +285,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const user = await axios.get('http://localhost:9999/api/myaccount/pd-personaldata', { withCredentials: true, headers: { Cookie: req.headers.cookie! } })
+    const user = await axios.get(`${server}/api/myaccount/pd-personaldata`, { withCredentials: true, headers: { Cookie: req.headers.cookie! } })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err.response);
