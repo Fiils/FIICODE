@@ -36,7 +36,7 @@ const StatusSelect: FC<StatusProps> = ({ status, handleChange }) => {
             onChange={handleChange}
             renderValue={(selected: string[]) => selected.join(', ')}
             label="Status"
-          >
+            >
             <MenuItem value={'Trimis'}>
               <Checkbox checked={status.includes('Trimis')} />
               <ListItemText primary={'Trimis'} />

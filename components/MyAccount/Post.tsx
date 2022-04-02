@@ -29,9 +29,9 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
     return (
             <a href={`/postari/${_id}`} className={styles.mini_post}>
                 <div className={styles.image}>
-                    {media[0] && <div style={{ width: '100%', height: '100%',  }}>
-                        <Image src={media[0]} layout='fill' key={'l' + _id} />
-                        </div> }
+                    {media[0] && 
+                        <Image src={media[0]} layout='fill' key={'l' + _id} priority/>
+                         }
                     {!media[0] && 
                         <div style={{ display: 'flex', flexFlow: 'column wrap', justifyContent: 'center', height: '100%', position: 'relative', alignItems: 'center', border: '1px solid rgb(130, 130, 130)', borderRadius: 2 }}>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647938098/FIICODE/no-image-6663_bwocug.svg' height={40} width={40} />

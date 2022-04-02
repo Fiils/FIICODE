@@ -21,20 +21,25 @@ export function AuthProvider(props: any) {
     async function login() {
         const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true })
                             .then(res => res.data)
-                            .catch(err => console.log(err.response))
+                            .catch(err => err.response)    
         if(response){
             setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active, profilePicture: response.profilePicture })
         }
     }
     useEffect(() => {
+        const source = axios.CancelToken.source()
+        
         login()
+
+        return () => {
+            source.cancel()
+        }
     }, [])
 
     const value: User = {user, setUser}
     return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
 }
 
-// Create useAuth Hook
 export function useAuth(): User {
     return useContext<User>(AuthContext)
 }

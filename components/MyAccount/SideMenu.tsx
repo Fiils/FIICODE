@@ -49,10 +49,10 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
     return (
             <div className={styles.user_list}>
                 <ul>
-                    <ListItem name='Date Personale' url='date-personale' index={1} />
-                    <ListItem name='Postări Apreciate' url='postari-apreciate' index={2} />
-                    <ListItem name='Postările mele' url='postari-personale' index={3} />
-                    <ListItem name='Favorite' url='favorite' index={4} />
+                    <ListItem name='Date Personale' url='/contul-meu/date-personale' index={1} />
+                    <ListItem name='Postări Apreciate' url='/contul-meu/postari-apreciate' index={2} />
+                    <ListItem name='Postările mele' url='/contul-meu/postari-personale' index={3} />
+                    <ListItem name='Favorite' url='/contul-meu/favorite' index={4} />
                     <li className={styles.logout}>
                         <a onClick={() => LogOut()} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', justifyContent: 'center'}}>
                             Deloghează-te

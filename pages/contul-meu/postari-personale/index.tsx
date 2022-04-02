@@ -84,7 +84,7 @@ const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
 
                         {personalPosts.posts.length > 5 &&
                             <div className={styles.forward}>
-                                <Link href='/posts/user/pozitiv'>Vezi mai multe</Link>
+                                <Link href='/user/personal'>Vezi mai multe</Link>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648562603/FIICODE/mail-2573_i6sgdl.svg' width={20} height={20} />
                             </div>
                         }

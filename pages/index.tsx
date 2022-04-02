@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '2vw', marginTop: '7.5vh'}}>
           <div className={styles.bg_img}>
-            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648223698/FIICODE/pexels-thisisengineering-3862365_fzupwt.jpg' layout='fill' />
+            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648223698/FIICODE/pexels-thisisengineering-3862365_fzupwt.jpg' layout='fill' priority/>
           </div>
         </div>
       </div>

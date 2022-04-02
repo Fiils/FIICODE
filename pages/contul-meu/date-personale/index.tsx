@@ -231,9 +231,15 @@ const PersonalData: NextPage<User> = ({ user }) => {
                             <label htmlFor='reset-new-password'>Verificare parola nouă</label>
                             <input type='password' id='reset-new-password' name='reset-new-password' value={resetNewPassword} onChange={e => { setResetNewPassword(e.target.value); setSuccess(false) }} />
                         </div>
-                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', width: '120%' }}>
-                            <button onClick={e => handleResetPassword(e)}>Schimbă parola</button>
-                            <p style={{ color: '#8BBD8B' }}>{success ? 'Parolă schimbată' : ''}</p>
+                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', width: '120%', mixBlendMode: 'multiply' }}>
+                            {!loadingPassword ?
+                                <>
+                                    <button onClick={e => handleResetPassword(e)}>Schimbă parola</button>
+                                    <p style={{ color: '#8BBD8B' }}>{success ? 'Parolă schimbată' : ''}</p>
+                                </>
+                            :
+                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={50} height={50} />
+                            }
                         </div>
                     </div>
                 </div>

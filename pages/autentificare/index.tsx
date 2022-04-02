@@ -101,9 +101,7 @@ const Inregistrare: NextPage = () => {
                         <br/>
                         <span>click.</span>
                     </h3>
-                    <div>
-                        <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647461367/FIICODE/background-2462430_dhiz4x.jpg' layout='fill' priority/>
-                    </div> 
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648907491/FIICODE/background-2462430_1920_1_dtpocx.jpg' layout='fill' priority/>
                 </div>
                 <div>
                         <h2>Intră în cont</h2>

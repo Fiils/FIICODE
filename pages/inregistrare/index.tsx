@@ -17,6 +17,7 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import styles from '../../styles/scss/Authentication/Registration.module.scss';
 import CodeComponent from '../../components/Register/Code'
 import { server } from '../../config/server'
+import GoogleInput from '../../components/Register/GoogleInput'
 
 
 const Inregistrare: NextPage = () => {
@@ -241,12 +242,14 @@ const Inregistrare: NextPage = () => {
                                 <div className={`${styles.input_d} ${error.county ? styles.wrong_input : ''}`}>
                                     <label htmlFor='county'>Județ*</label>
                                     <input type="text" id='county' name='county' autoComplete='county' value={county} onChange={e => { setCounty(e.target.value); setError({ ...error, county: false }); setErrorMessages({ ...errorMessages, county: '' }) }} />
+                                    {/* <GoogleInput name={'county'} county={county} setCounty={setCounty} setError={setError} error={error} setErrorMessages={setErrorMessages} errorMessages={errorMessages} /> */}
                                     {errorMessages.county !== ''  ? <label style={{ color: 'red' }}>{errorMessages.county}</label> : <></> }
                                 </div>
 
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`}>
                                     <label htmlFor='locality'>Localitate*</label>
                                     <input type="text" id='locality' name='locality' autoComplete='city' value={city} onChange={e => { setCity(e.target.value); setError({ ...error, city: false }); setErrorMessages({ ...errorMessages, city: '' }) }} />
+                                    {/* <GoogleInput name={'city'} county={city} setCounty={setCity} setError={setError} error={error} setErrorMessages={setErrorMessages} errorMessages={errorMessages} /> */}
                                     {errorMessages.city !== ''  ? <label style={{ color: 'red' }}>{errorMessages.city}</label> : <></> }
                                 </div>
 

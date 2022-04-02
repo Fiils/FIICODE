@@ -1,18 +1,20 @@
 import { FC } from 'react';
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import styles from '../../styles/scss/Layout/Header.module.scss'
 import { useAuth } from '../../utils/useAuth'
 
 const Header: FC = () => {
+    const router = useRouter()
 
     const user = useAuth()
 
     return (
         <div className={styles.container}>
             <div className={styles.logo}>
-                <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} />
+                {router.pathname !== '/autentificare' && <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} /> }
                 <span>ROMDIG</span>
             </div>
             <Link href="/">Prima pagină</Link>
