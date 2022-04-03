@@ -64,3 +64,43 @@ a {
   max-height: 400px;
   background: rgb(250, 250, 250);
 }
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('/fonts/LibreBaskervile/LibreBaskervile.woff2') format('woff2'),
+       url('/fonts/LibreBaskerville/LibreBaskerville.woff') format('woff'),
+       url('/fonts/LibreBaskerville/LibreBaskerville.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo Bhai 2';
+  src: url('/fonts/BalooBhai2/BalooBhai2.woff2') format('woff2'),
+       url('/fonts/BalooBhai2/BalooBhai2.woff') format('woff'),
+       url('/fonts/BalooBhai2/BalooBhai2.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo Tamma 2';
+  src: url('/fonts/BalooTamma2/BalooTamma2.woff2') format('woff2'),
+       url('/fonts/BalooTamma2/BalooTamma2.woff') format('woff'),
+       url('/fonts/BalooTamma2/BalooTamma2.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto/Roboto.woff2') format('woff2'),
+       url('/fonts/Roboto/Roboto.woff') format('woff'),
+       url('/fonts/Roboto/Roboto.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
