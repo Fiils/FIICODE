@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import type { FC } from 'react'
+import Head from 'next/head'
 
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
 import { useAuth } from '../../utils/useAuth'
@@ -42,11 +43,58 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
 
         if(result.message === 'User delogat') {
             router.reload()
-            user.setUser({ isLoggedIn: false, active: false, userId: '' })
         }
     }
 
     return (
+        <>
+            <Head>
+          
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+
+            </Head>
             <div className={styles.user_list}>
                 <ul>
                     <ListItem name='Date Personale' url='/contul-meu/date-personale' index={1} />
@@ -61,6 +109,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                     </li>
                 </ul>
             </div>
+        </>
     )
 }
 

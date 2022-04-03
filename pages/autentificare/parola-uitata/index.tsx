@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Head from 'next/head'
 
 import styles from '../../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../../styles/scss/Authentication/ForgotPassword.module.scss'
@@ -62,50 +63,99 @@ const Inregistrare: NextPage = () => {
     }
 
     return (
-        <div className={styles.container}>
-            
-            {!sent ?
-            <form className={overrideStyles.form}>
-                <div>
-                    <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Ai uitat parola?</h2>
-                    <p className={overrideStyles.additional_info}>Dacă ți-ai uitat parola, notează-ți mai jos email-ul si îți vom trimite noi un email prin care ți-o vei putea schimba</p>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20}}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648312754/FIICODE/login-password-11921_qnznau.svg' width={100} height={100} priority/>
-                    </div>
-                    <div className={`${styles.input_d} ${error ? styles.wrong_input : ''}`}>
-                        <label htmlFor='email'>E-mail*</label>
-                        <input type="email" autoComplete='email' id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError(false); setErrorMessage('') }} />
-                        {errorMessage !== ''  ? <label style={{ color: 'red' }}>{errorMessage}</label> : <></> }
-                    </div>
-                    <div className={styles.additional_info}>
-                        <Link href='/inregistrare'>Nu ai un cont?</Link>
-                    </div>
+        <>
+            <Head>
+          
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
 
-                    <div className={overrideStyles.button_sub} style={{ marginTop: 30}}>
-                        {!loading ?
-                        <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
-                        :
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
-                    </div>     
-                </div>           
-            </form>
-            : 
-            <div className={overrideStyles.form}>
-                <div>
-                        <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Email trimis</h2>
-                        <p className={overrideStyles.additional_info}>Dacă emailul este valid, atunci veți primi un mail de la noi; în el veți găsi un link, iar dacă îl accesați vă veți putea schimba parola cu una nouă. Dacă nu-l găsiți în inbox, verificați în secțiunea spam. </p>
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40}}>
-                            <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+                
+            </Head>
+            <div className={styles.container}>
+                
+                {!sent ?
+                <form className={overrideStyles.form}>
+                    <div>
+                        <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Ai uitat parola?</h2>
+                        <p className={overrideStyles.additional_info}>Dacă ți-ai uitat parola, notează-ți mai jos email-ul si îți vom trimite noi un email prin care ți-o vei putea schimba</p>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20}}>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648312754/FIICODE/login-password-11921_qnznau.svg' width={100} height={100} priority/>
                         </div>
-                        <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
-                            <button type="button">
-                                <Link href='/autentificare'>Autentifică-te</Link>
-                            </button>
+                        <div className={`${styles.input_d} ${error ? styles.wrong_input : ''}`}>
+                            <label htmlFor='email'>E-mail*</label>
+                            <input type="email" autoComplete='email' id='email' name='email' value={email} onChange={e => { setEmail(e.target.value); setError(false); setErrorMessage('') }} />
+                            {errorMessage !== ''  ? <label style={{ color: 'red' }}>{errorMessage}</label> : <></> }
+                        </div>
+                        <div className={styles.additional_info}>
+                            <Link href='/inregistrare'>Nu ai un cont?</Link>
+                        </div>
+
+                        <div className={overrideStyles.button_sub} style={{ marginTop: 30}}>
+                            {!loading ?
+                            <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
+                            :
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
                         </div>     
                     </div>           
+                </form>
+                : 
+                <div className={overrideStyles.form}>
+                    <div>
+                            <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Email trimis</h2>
+                            <p className={overrideStyles.additional_info}>Dacă emailul este valid, atunci veți primi un mail de la noi; în el veți găsi un link, iar dacă îl accesați vă veți putea schimba parola cu una nouă. Dacă nu-l găsiți în inbox, verificați în secțiunea spam. </p>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40}}>
+                                <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
+                            </div>
+                            <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
+                                <button type="button">
+                                    <Link href='/autentificare'>Autentifică-te</Link>
+                                </button>
+                            </div>     
+                        </div>           
+                </div>
+            }
             </div>
-        }
-        </div>
+        </>
     )
 }
 

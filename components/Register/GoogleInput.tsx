@@ -15,7 +15,6 @@ interface Props {
         gender: boolean, 
         cnp: boolean, 
         city: boolean, 
-        county: boolean, 
         street: boolean, 
         domiciliu: boolean, 
         buletin: boolean
@@ -29,12 +28,12 @@ interface Props {
         gender: string, 
         cnp: string, 
         city: string, 
-        county: string, 
         street: string, 
         domiciliu: string, 
         buletin: string
     }
     setErrorMessages: any;
+    setFullExactPosition: any;
 }
 
 const loadScript = (url: any, callback: any) => {
@@ -56,43 +55,42 @@ const loadScript = (url: any, callback: any) => {
   document.getElementsByTagName("head")[0].appendChild(script);
 };
 
-function handleScriptLoad(updateQuery: any, autoCompleteRef: any) {
+function handleScriptLoad(updateQuery: any, autoCompleteRef: any, setFullExactPosition: any) {
   autoComplete = new window.google.maps.places.Autocomplete(
     autoCompleteRef.current,
     { types: ["(regions)"], componentRestrictions: { country: "ro" } }
   );
-  autoComplete.setFields(["address_components", "formatted_address"]);
+  autoComplete.setFields(["address_components", "formatted_address", 'name']);
   autoComplete.addListener("place_changed", () =>
-    handlePlaceSelect(updateQuery)
+    handlePlaceSelect(updateQuery, setFullExactPosition)
   );
 }
 
-async function handlePlaceSelect(updateQuery: any) {
+async function handlePlaceSelect(updateQuery: any, setFullExactPosition: any) {
   const addressObject = autoComplete.getPlace();
-  const query = addressObject.formatted_address;
+  const query = addressObject.name;
+  setFullExactPosition(addressObject)
   updateQuery(query);
-  console.log(addressObject);
 }
 
-const SearchLocationInput: FC<Props> = ({ name, county, setCounty, error, setError, errorMessages, setErrorMessages }) => {
-  const [query, setQuery] = useState("");
+const SearchLocationInput: FC<Props> = ({ name, county, setCounty, error, setError, errorMessages, setErrorMessages, setFullExactPosition }) => {
   const autoCompleteRef = useRef(null);
 
   useEffect(() => {
     loadScript(
       `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_KEY}&libraries=places`,
-      () => handleScriptLoad(setQuery, autoCompleteRef)
+      () => handleScriptLoad(setCounty, autoCompleteRef, setFullExactPosition)
     );
   }, []);
-
-  console.log(autoCompleteRef); 
 
   return (
       <input
         ref={autoCompleteRef}
-        onChange={event => setCounty(event.target.value)}
-        placeholder="Enter a City"
+        onChange={e => { setCounty(e.target.value); setError({ ...error, city: false }); setErrorMessages({ ...errorMessages, city: '' }) }}
         value={county}
+        name={name}
+        id={name}
+        placeholder=''
       />
   );
 }

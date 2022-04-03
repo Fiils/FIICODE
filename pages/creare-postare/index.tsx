@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
 import { server } from '../../config/server'
@@ -118,103 +119,153 @@ const CreatePost: NextPage = () => {
       }
 
     return (
-        <div>
-            <div className={styles.heading}>
-                <h1>Creează o nouă postare:</h1>
-            </div>
-            <form className={styles.form}>
-                <div className={styles.background_make}>
-                    <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} style={{ width: '100%' }}>
-                        <label htmlFor='title'>Titlu</label>
-                        <p>Oferă cât mai multe informații, în cât mai puține cuvinte <span style={{ color : '#8BBD8B'}}>(minimum 15 caractere)</span></p>
-                        <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
-                        <p style={{ alignSelf: 'flex-end', marginRight: '30%', marginTop: 0 }}>{title.split('').length}/150</p>
-                    </div>
+        <>
+            <Head>
+          
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+
+            </Head>
+            
+            <div>
+                <div className={styles.heading}>
+                    <h1>Creează o nouă postare:</h1>
                 </div>
-                <div className={styles.background_make_photos}>
-                    <div className={styles.flex_add}>
-                        <div className={`${styles.input}`}>
-                            <label id='#photo' htmlFor='file'>Imagini</label>
-                            <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(o imagine nu trebuie să aibă mai mult de 5mb)</span></p>
-                            <div className={styles.image_container}>
-                                    {mapOut.map((index: number) => {
-                                        return <ImageOverlayed key={index} img={files[index]} i={index} files={files} setFiles={setFiles} />
-                                    })}
+                <form className={styles.form}>
+                    <div className={styles.background_make}>
+                        <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} style={{ width: '100%' }}>
+                            <label htmlFor='title'>Titlu</label>
+                            <p>Oferă cât mai multe informații, în cât mai puține cuvinte <span style={{ color : '#8BBD8B'}}>(minimum 15 caractere)</span></p>
+                            <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
+                            <p style={{ alignSelf: 'flex-end', marginRight: '30%', marginTop: 0 }}>{title.split('').length}/150</p>
+                        </div>
+                    </div>
+                    <div className={styles.background_make_photos}>
+                        <div className={styles.flex_add}>
+                            <div className={`${styles.input}`}>
+                                <label id='#photo' htmlFor='file'>Imagini</label>
+                                <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(o imagine nu trebuie să aibă mai mult de 5mb)</span></p>
+                                <div className={styles.image_container}>
+                                        {mapOut.map((index: number) => {
+                                            return <ImageOverlayed key={index} img={files[index]} i={index} files={files} setFiles={setFiles} />
+                                        })}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className={styles.background_make_video}>
-                        <div style={{ width: '100%' }}>
-                                    <div className={styles.input}>
-                                        <label>Video</label>
-                                        <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(videoul nu trebuie să aibă mai mult de 100mb)</span></p>
-                                        <div className={styles.flex_add}>
-                                            <div className={styles.container_video}>
-                                                {(!video || video === '') ? 
-                                                <label htmlFor='video' className={styles.no_content}>
-                                                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' width={100} height={100} />
-                                                        <p>Niciun video selectat</p>
-                                                        <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept="video/mp4,video/x-m4v,video/*" />
-                                                </label>
-                                                : 
-                                                    <div className={styles.video}>
-                                                        <video
-                                                            className="VideoInput_video"
-                                                            width="100%"
-                                                            height={'100%'}
-                                                            controls
-                                                            src={video}
-                                                        />
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div className={styles.delete_icon}>
-                                                <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={30} height={30} />
+                    <div className={styles.background_make_video}>
+                            <div style={{ width: '100%' }}>
+                                        <div className={styles.input}>
+                                            <label>Video</label>
+                                            <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(videoul nu trebuie să aibă mai mult de 100mb)</span></p>
+                                            <div className={styles.flex_add}>
+                                                <div className={styles.container_video}>
+                                                    {(!video || video === '') ? 
+                                                    <label htmlFor='video' className={styles.no_content}>
+                                                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' width={100} height={100} />
+                                                            <p>Niciun video selectat</p>
+                                                            <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept="video/mp4,video/x-m4v,video/*" />
+                                                    </label>
+                                                    : 
+                                                        <div className={styles.video}>
+                                                            <video
+                                                                className="VideoInput_video"
+                                                                width="100%"
+                                                                height={'100%'}
+                                                                controls
+                                                                src={video}
+                                                            />
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div className={styles.delete_icon}>
+                                                    <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={30} height={30} />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                
-                        </div>
-                </div>
-                <div className={styles.background_make_description}>
-                    <div style={{ width: '100%' }}>
-                        <div className={styles.description}>
-                            <label htmlFor='description'>Descriere</label>
-                            <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
-                            <div style={{ width: '80%' }} className={error.description ? styles.wrong_input : ''}>
-                                <Editor
-                                    wrapperClassName="wrapper-class"
-                                    editorClassName="editor-class"
-                                    toolbarClassName="toolbar-class"
-                                    defaultEditorState={description}
-                                    onEditorStateChange={setDescription}
-                                    onChange={() => setError({ ...error, description: false })}
-                                    toolbar={{
-                                        options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                                        fontSize: {
-                                            options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
-                                        }
-                                    }}
-                                />
+                                    
+                            </div>
+                    </div>
+                    <div className={styles.background_make_description}>
+                        <div style={{ width: '100%' }}>
+                            <div className={styles.description}>
+                                <label htmlFor='description'>Descriere</label>
+                                <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
+                                <div style={{ width: '80%' }} className={error.description ? styles.wrong_input : ''}>
+                                    <Editor
+                                        wrapperClassName="wrapper-class"
+                                        editorClassName="editor-class"
+                                        toolbarClassName="toolbar-class"
+                                        defaultEditorState={description}
+                                        onEditorStateChange={setDescription}
+                                        onChange={() => setError({ ...error, description: false })}
+                                        toolbar={{
+                                            options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                            fontSize: {
+                                                options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
+                                            }
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div className={styles.background_make_button}>
-                    {!loading ?
-                        <>
-                            {fullError && <span style={{ color: 'red', marginRight: 10 }}>Ceva neașteptat s-a întâmplat</span>}
-                            <button type='submit' onClick={handleSubmit}>Postează</button>
-                        </>
-                    :
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
-                    }
-                </div>
+                    
+                    <div className={styles.background_make_button}>
+                        {!loading ?
+                            <>
+                                {fullError && <span style={{ color: 'red', marginRight: 10 }}>Ceva neașteptat s-a întâmplat</span>}
+                                <button type='submit' onClick={handleSubmit}>Postează</button>
+                            </>
+                        :
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
+                        }
+                    </div>
 
-            </form>
-        </div>
+                </form>
+            </div>
+        </>
     )
 }
 

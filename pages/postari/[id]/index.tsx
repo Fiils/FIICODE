@@ -8,6 +8,7 @@ import 'swiper/css/navigation'
 import { Navigation } from 'swiper'
 import { useRouter } from 'next/router'
 import parse from 'html-react-parser'
+import Head from 'next/head'
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
 import { useAuth } from '../../../utils/useAuth'
@@ -184,87 +185,136 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.image_section}>
-                <div className={styles.swiper_limit}>
-                    <h1>{data.title}</h1>
-                    <div className={styles.post_info}>
-                    <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={50} height={50} />
-                        <div>
-                            <span>{data.nameAuthor} {data.firstNameAuthor}</span>
-                            <br />
-                            <span>{formatDate(data.creationDate)}</span>
+        <>
+            <Head>
+          
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+                
+            </Head>
+            <div className={styles.container}>
+                <div className={styles.image_section}>
+                    <div className={styles.swiper_limit}>
+                        <h1>{data.title}</h1>
+                        <div className={styles.post_info}>
+                        <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={50} height={50} />
+                            <div>
+                                <span>{data.nameAuthor} {data.firstNameAuthor}</span>
+                                <br />
+                                <span>{formatDate(data.creationDate)}</span>
+                            </div>
+                            <div className={styles.status}>
+                                <Image src={data.status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (data.status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (data.status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
+                                <p>{data.status}</p>
+                            </div>
                         </div>
-                        <div className={styles.status}>
-                            <Image src={data.status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (data.status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (data.status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
-                            <p>{data.status}</p>
+                        {/*  marginLeft: -55 */}
+                        <div style={{ display: 'flex', gap: '1em', }} className={styles.img_full}>
+                        <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
+                            <div className={`${styles.option}`}>
+                                <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
+                                <span id='#text'>{data.upVoted.count}</span>
+                            </div>
+                            <div className={styles.option}>
+                                <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648630460/FIICODE/broken-heart-2940_1_pfnst7.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={30} height={30} onClick={e => DislikeRequest(e)} />
+                                <span id='#text'>{data.downVoted.count}</span>
+                            </div>
+                            <div className={styles.option}>
+                                <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} width={30} height={30} onClick={e => FavoriteRequest(e)} />
+                                <span id='#text'>{data.favorites.count}</span>
+                            </div>  
                         </div>
-                    </div>
-                    {/*  marginLeft: -55 */}
-                    <div style={{ display: 'flex', gap: '1em', }} className={styles.img_full}>
-                    <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
-                        <div className={`${styles.option}`}>
-                            <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
-                            <span id='#text'>{data.upVoted.count}</span>
-                        </div>
-                        <div className={styles.option}>
-                            <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648630460/FIICODE/broken-heart-2940_1_pfnst7.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={30} height={30} onClick={e => DislikeRequest(e)} />
-                            <span id='#text'>{data.downVoted.count}</span>
-                        </div>
-                        <div className={styles.option}>
-                            <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} width={30} height={30} onClick={e => FavoriteRequest(e)} />
-                            <span id='#text'>{data.favorites.count}</span>
-                        </div>  
-                    </div>
-                    <Swiper
-                    modules={[ Navigation ]}
-                    spaceBetween={50}
-                    slidesPerView={1}
-                    centeredSlides
-                    navigation
-                    >
-                        {(data.video && data.video !== '') &&
-                            <SwiperSlide className={styles.video}>
-                                <video
-                                    width="950px"
-                                    height={'600px'}
-                                    controls
-                                    src={data.video}
-                                    style={{ paddingTop: 0 }}
-                                />
-                            </SwiperSlide>
-                        }
-                        {data.media.length > 0 ?
-                        <>
-                            {data.media.map((img: string, i: number) => {
-                                return <SwiperSlide  key={i}>
-                                            <Image key={i} src={img} width={950} height={600} />
-                                        </SwiperSlide>
-                            })}
-                        </>
-                        : 
-                        <>
-                            {(data.video === '') &&
-                                <>
-                                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 600, border: '2px solid black', borderRadius: 3 }}>
-                                        <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
-                                        <h1 className={styles.no_image}>Nicio imagine</h1>
-                                    </SwiperSlide>
-                                </>
+                        <Swiper
+                        modules={[ Navigation ]}
+                        spaceBetween={50}
+                        slidesPerView={1}
+                        centeredSlides
+                        navigation
+                        >
+                            {(data.video && data.video !== '') &&
+                                <SwiperSlide className={styles.video}>
+                                    <video
+                                        width="950px"
+                                        height={'600px'}
+                                        controls
+                                        src={data.video}
+                                        style={{ paddingTop: 0 }}
+                                    />
+                                </SwiperSlide>
                             }
-                        </>
-                        }
-                       
-                    </Swiper>
+                            {data.media.length > 0 ?
+                            <>
+                                {data.media.map((img: string, i: number) => {
+                                    return <SwiperSlide  key={i}>
+                                                <Image key={i} src={img} width={950} height={600} />
+                                            </SwiperSlide>
+                                })}
+                            </>
+                            : 
+                            <>
+                                {(data.video === '') &&
+                                    <>
+                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 600, border: '2px solid black', borderRadius: 3 }}>
+                                            <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
+                                            <h1 className={styles.no_image}>Nicio imagine</h1>
+                                        </SwiperSlide>
+                                    </>
+                                }
+                            </>
+                            }
+                        
+                        </Swiper>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={styles.description}>
-                {parse(data.description)}
-            </div>
+                <div className={styles.description}>
+                    {parse(data.description)}
+                </div>
 
-            <CommentSection key={router.query.id?.toString()} comments={comments} />
-        </div>
+                <CommentSection key={router.query.id?.toString()} comments={comments} />
+            </div>
+        </>
     )
 }
 
