@@ -87,28 +87,6 @@ const Inregistrare: NextPage = () => {
     return (
         <>
             <Head>
-          
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
 
                 <link
                     rel="preload"

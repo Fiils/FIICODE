@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:9999",
+  "proxy": "https://romdig.herokuapp.com",
   "private": true,
   "scripts": {
     "dev": "next dev",
