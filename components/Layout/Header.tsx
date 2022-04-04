@@ -12,6 +12,7 @@ const Header: FC = () => {
 
     const user = useAuth()
 
+    console.log(user)
     return (
         <>
         <Head>
