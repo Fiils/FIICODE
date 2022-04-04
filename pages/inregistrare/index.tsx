@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import Cookies from 'js-cookie'
 
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'; 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -86,7 +87,32 @@ const Inregistrare: NextPage = () => {
             return;
         }
 
-        const person = { name, firstName, email, password, gender, cnp, city, county, street, domiciliu, buletin }
+        let comuna: any = [], ok = 0;
+        if(fullExactPosition && fullExactPosition.address_components) {
+            for(let i = 0; i < fullExactPosition.address_components.length; i++) {
+                if(fullExactPosition.address_components[i].types.includes('administrative_area_level_2')) {
+                    ok = 1;
+                    for(let j = 0; j < fullExactPosition.address_components[i].long_name.split(' ').length; j++){
+                        comuna = [ ...comuna, fullExactPosition.address_components[i].long_name.split(' ')[j] ]
+                    }
+                    comuna = comuna.join(" ")
+                    break;
+                }
+            }
+        }
+
+        if(Array.isArray(comuna)) {
+            comuna = ''
+        }
+        
+        if(ok === 1 && !comuna){
+            setError({ ...error, city: true })
+            setErrorMessages({ ...errorMessages, city: 'Localitate invalidă' })
+            setLoading(false)
+            return;
+        }
+
+        const person = { name, firstName, email, password, comuna, gender, cnp, city, county, street, domiciliu, buletin }
 
         const regex = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i
         const cnpRegex = /^\d+$/
@@ -137,6 +163,7 @@ const Inregistrare: NextPage = () => {
                         })
         
         if(result && result.message === 'Cerere acceptată'){
+            Cookies.set('data-id', result.token, { expires: (1 * 1440) * 15 })
             setCodePage(true)
             setLoading(false)
         } else {
@@ -317,7 +344,7 @@ const Inregistrare: NextPage = () => {
                                     {errorMessages.cnp !== ''  ? <label style={{ color: 'red' }}>{errorMessages.cnp}</label> : <></> }
                                 </div>
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`} >
-                                        <label htmlFor='city'>Localitate* (exactă)</label>
+                                        <label htmlFor='city'>Localitate* (exactă, nu județ)</label>
                                         <GoogleInput name={'city'} setFullExactPosition={setFullExactPosition} county={city} setCounty={setCity} setError={setError} error={error} setErrorMessages={setErrorMessages} errorMessages={errorMessages} />
                                         {errorMessages.city !== ''  ? <label style={{ color: 'red' }}>{errorMessages.city}</label> : <></> }
                                 </div>

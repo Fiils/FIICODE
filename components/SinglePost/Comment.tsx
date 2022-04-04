@@ -44,8 +44,12 @@ interface Comment {
 
 const Comment: FC<Comment> = ({ comment }) => {
     const router = useRouter()
+
     const [ data, setData ] = useState(comment)
+    const user = useAuth()
+
     const [ showMore, setShowMore ] = useState(false)
+
     const [ moreComments, setMoreComments ] = useState([{
         _id: '',
         repliedToCommentId: '',
@@ -91,7 +95,6 @@ const Comment: FC<Comment> = ({ comment }) => {
         }
     }, [])
 
-    const user = useAuth()
 
     const [ like, setLike ] = useState(false)
     const [ dislike, setDislike ] = useState(false)
@@ -112,7 +115,7 @@ const Comment: FC<Comment> = ({ comment }) => {
 
     const LikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!like || dislike) {
                 setLike(!like); 
@@ -135,7 +138,7 @@ const Comment: FC<Comment> = ({ comment }) => {
 
     const DislikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!dislike || like) {
                 setDislike(!dislike); 
@@ -164,31 +167,33 @@ const Comment: FC<Comment> = ({ comment }) => {
     const [ loading, setLoading ] = useState(false)
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault()
-        setLoading(true)
-        setError(false)
+        if(user.user.active) {
+            e.preventDefault()
+            setLoading(true)
+            setError(false)
 
-        if(textComment === '') {
-            setError(true)
-            setLoading(false)
-            return;
-        }
-        const text = textComment
-        const result = await axios.post(`${server}/api/comment/commentoncomment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
-                                .then(res => res.data)
-                                .catch(err => {
-                                    console.log(err)
-                                    setError(true)
-                                    setLoading(false)
-                                })
+            if(textComment === '') {
+                setError(true)
+                setLoading(false)
+                return;
+            }
+            const text = textComment
+            const result = await axios.post(`${server}/api/comment/commentoncomment/${data.originalPostId}/${data._id}`, { text }, { withCredentials: true })
+                                    .then(res => res.data)
+                                    .catch(err => {
+                                        console.log(err)
+                                        setError(true)
+                                        setLoading(false)
+                                    })
 
-        if(result && result.message === 'Comentariu postat') {
-            setLoading(false)
-            setCreateComment(false)
-            setTextComment('')
-            router.reload()
-        } else {
-            setLoading(false)
+            if(result && result.message === 'Comentariu postat') {
+                setLoading(false)
+                setCreateComment(false)
+                setTextComment('')
+                router.reload()
+            } else {
+                setLoading(false)
+            }
         }
     }
 
@@ -201,33 +206,35 @@ const Comment: FC<Comment> = ({ comment }) => {
     const [ loadingReport, setLoadingReport ] = useState(false)
 
     const handleSubmitReport = async (e: any) => {
-        e.preventDefault()
-        setLoadingReport(true)
-        setErrorReport(false)
+        if(user.user.active) {
+            e.preventDefault()
+            setLoadingReport(true)
+            setErrorReport(false)
 
-        if(textReport === '') {
-            setErrorReport(true)
-            setLoadingReport(false)
-            return;
-        }
+            if(textReport === '') {
+                setErrorReport(true)
+                setLoadingReport(false)
+                return;
+            }
 
-        const reason = textReport
-        const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
-                                .then(res => res.data)
-                                .catch(err => {
-                                    console.log(err)
-                                    setErrorReport(true)
-                                    setLoadingReport(false)
-                                })
-        
-        if(result && result.message === 'Comentariu raportat') {
-            console.log('res')
-            setLoadingReport(false)
-            setCreateReport(false)
-            setTextReport('')
-            router.reload()
-        } else {
-            setLoadingReport(false)
+            const reason = textReport
+            const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
+                                    .then(res => res.data)
+                                    .catch(err => {
+                                        console.log(err)
+                                        setErrorReport(true)
+                                        setLoadingReport(false)
+                                    })
+            
+            if(result && result.message === 'Comentariu raportat') {
+                console.log('res')
+                setLoadingReport(false)
+                setCreateReport(false)
+                setTextReport('')
+                router.reload()
+            } else {
+                setLoadingReport(false)
+            }
         }
     }
 
@@ -274,7 +281,10 @@ const Comment: FC<Comment> = ({ comment }) => {
                             <textarea placeholder='Semnalează...' value={textReport} onChange={e => { setTextReport(e.target.value); setErrorReport(false) } } />
                         </div>  
                         {!loadingReport ?
-                            <button type="submit" onClick={e => handleSubmitReport(e)}>Trimite</button>
+                            <div style={{ alignSelf: 'flex-end' }}>
+                                {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: '1rem'}}>Contul nu a fost încă activat</span> }
+                                <button type="submit" onClick={e => handleSubmitReport(e)}>Trimite</button>
+                            </div>
                         :
                             <div className={styles.loading}>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />
@@ -288,7 +298,10 @@ const Comment: FC<Comment> = ({ comment }) => {
                                     <textarea placeholder='Adaugă un comentariu...' value={textComment} onChange={e => { setTextComment(e.target.value); setError(false) } } />
                                 </div>  
                                 {!loading ?
-                                    <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
+                                    <div style={{ alignSelf: 'flex-end'}}>
+                                        {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: '1rem'}}>Contul nu a fost încă activat</span> }
+                                        <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
+                                    </div>
                                 :
                                     <div className={styles.loading}>
                                         <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />

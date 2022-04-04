@@ -5,13 +5,13 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Head from 'next/head'
 
-import styles from '../../../../../styles/scss/Posts/SideMenu.module.scss'
-import gridStyles from '../../../../../styles/scss/Posts/Grid.module.scss'
-import PostGrid from '../../../../../components/Posts/PostGrid'
-import Pagination from '../../../../../components/Posts/Pagination'
-import StatusSelect from '../../../../../components/Posts/StatusSelect'
-import { server } from '../../../../../config/server'
-import { useAuth } from '../../../../../utils/useAuth'
+import styles from '../../../../../../styles/scss/Posts/SideMenu.module.scss'
+import gridStyles from '../../../../../../styles/scss/Posts/Grid.module.scss'
+import PostGrid from '../../../../../../components/Posts/PostGrid'
+import Pagination from '../../../../../../components/Posts/Pagination'
+import StatusSelect from '../../../../../../components/Posts/StatusSelect'
+import { server } from '../../../../../../config/server'
+import { useAuth } from '../../../../../../utils/useAuth'
 
 
 interface ListItems {
@@ -115,7 +115,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
-        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=${parseInt(number) - 1}&village=comuna&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -155,7 +155,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
         if(status.length > 0) {
             setStatus([])
         }
-        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=0&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(category)}?page=0&village=comuna&age=${category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -203,7 +203,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 }
         })
 
-        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&village=comuna&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
@@ -314,8 +314,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
             <div className={gridStyles.grid_posts}>
             {(auth.user.comuna && auth.user.comuna !== '') && 
                 <div className={gridStyles.special_categories}>
-                    <span>Toate</span>
-                    <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/comuna`)} className={gridStyles.inactive_cat}>Comuna</span>
+                    <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1`)} className={gridStyles.inactive_cat}>Toate</span>
+                    <span>Comuna</span>
                     <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/sat`)} className={gridStyles.inactive_cat}>Sat</span>
                 </div>
             }

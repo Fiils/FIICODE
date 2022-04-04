@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import Cookies from 'js-cookie'
 
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'; 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -75,6 +76,7 @@ const Inregistrare: NextPage = () => {
                         })
 
         if(result && result.message === 'User logat') {
+            Cookies.set('x-access-token', result.token, { expires: 30 })
             router.reload()
             setLoading(false)
         } else {
@@ -192,7 +194,6 @@ export default Inregistrare;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const token = req.cookies['x-access-token']
-    let redirect = false
 
     if(!token) {
         return { props: {} }

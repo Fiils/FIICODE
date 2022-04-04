@@ -65,7 +65,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
 
     const LikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!like || dislike) {
                 setLike(!like); 
@@ -88,7 +88,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
 
     const DislikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!dislike || like) {
                 setDislike(!dislike); 
@@ -117,30 +117,32 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
 
     const handleSubmitReport = async (e: any) => {
         e.preventDefault()
-        setLoadingReport(true)
-        setErrorReport(false)
+        if(user.user.active) {
+            setLoadingReport(true)
+            setErrorReport(false)
 
-        if(textReport === '') {
-            setErrorReport(true)
-            setLoadingReport(false)
-            return;
-        }
-        const reason = textReport
-        const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
-                                .then(res => res.data)
-                                .catch(err => {
-                                    console.log(err)
-                                    setErrorReport(true)
-                                    setLoadingReport(false)
-                                })
+            if(textReport === '') {
+                setErrorReport(true)
+                setLoadingReport(false)
+                return;
+            }
+            const reason = textReport
+            const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
+                                    .then(res => res.data)
+                                    .catch(err => {
+                                        console.log(err)
+                                        setErrorReport(true)
+                                        setLoadingReport(false)
+                                    })
 
-        if(result && result.message === 'Comentariu raportat') {
-            setLoadingReport(false)
-            setCreateReport(false)
-            setTextReport('')
-            router.reload()
-        } else {
-            setLoadingReport(false)
+            if(result && result.message === 'Comentariu raportat') {
+                setLoadingReport(false)
+                setCreateReport(false)
+                setTextReport('')
+                router.reload()
+            } else {
+                setLoadingReport(false)
+            }
         }
     }
 
@@ -173,7 +175,10 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                         <textarea placeholder='Semnalează...' value={textReport} onChange={e => { setTextReport(e.target.value); setErrorReport(false) } } />
                     </div>  
                     {!loadingReport ?
-                        <button type="submit" onClick={e => handleSubmitReport(e)}>Trimite</button>
+                        <div style={{ alignSelf: 'flex-end'}}>
+                            {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: '1rem'}}>Contul nu a fost încă activat</span> }
+                            <button type="submit" onClick={e => handleSubmitReport(e)}>Trimite</button>
+                        </div>
                     :
                         <div className={styles.loading}>
                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />

@@ -1,4 +1,5 @@
 .grid_posts {
+  position: relative;
     display: grid;
     grid-template-columns: 1fr;
     gap: 5em;
@@ -21,4 +22,26 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .special_categories {
+    position: absolute;
+    left: 20%;
+    top: 6vh;
+    width: 60%;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 2.5em;
+    font-family: 'Baloo Tamma 2';
+    cursor: default;
+    border-bottom: 1.5px solid #808080;
+  }
+
+  .inactive_cat {
+    color: rgb(200, 200, 200);
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(170, 170, 170);
+    }
   }

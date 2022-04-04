@@ -94,4 +94,16 @@ $hover-color: #8BBD8B;
         color: #575A5E !important;
         text-decoration: underline;
     }
+
+    .inactive {
+        content: '';
+        background: red;
+        opacity: .5;
+        position: absolute;
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        top: 0;
+        right: -5px;
+    }
 }

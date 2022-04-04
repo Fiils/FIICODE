@@ -16,7 +16,6 @@
 
     button {
         width: max-content;
-        align-self: flex-end;
         padding: .4em 1em;
         font-family: 'Baloo Tamma 2';
         font-size: 1rem;
@@ -35,6 +34,7 @@
 
     .loading {
         align-self: flex-end;
+        mix-blend-mode: multiply;
     }
 }
 

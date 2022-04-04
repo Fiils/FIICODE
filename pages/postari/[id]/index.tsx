@@ -97,6 +97,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     const user = useAuth()
 
+    const [ notActivatedNotif, setNotActivatedNotif ] = useState(false)
     const [ like, setLike ] = useState(false)
     const [ dislike, setDislike ] = useState(false)
     const [ favorite, setFavorite ] = useState(false)
@@ -116,7 +117,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     const LikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!like || dislike) {
                 setLike(!like); 
@@ -139,7 +140,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     const DislikeRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(!dislike || like) {
                 setDislike(!dislike); 
@@ -162,7 +163,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     const FavoriteRequest = async (e: any) => {
         e.preventDefault()
-        if(press) {
+        if(press && user.user.active) {
             setPress(false)
             if(favorite) {
                 setFavorite(!favorite)
@@ -179,7 +180,9 @@ const Page: NextPage<Post> = ({ post, comments }) => {
         }
     }
 
-    const ReportRequest = async () => {
+    const ReportRequest = async (e: any) => {
+        e.preventDefault()
+
         const result = await axios.patch(`${server}/api/post/report/${data._id}`, {}, { withCredentials: true })
                                     .catch(err => console.log(err))
     }
@@ -326,7 +329,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     let redirect = false
     
     if(!token) {
-        return { props: {} }
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/autentificare'
+            },
+            props: {} }
     }
 
     const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })

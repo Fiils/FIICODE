@@ -54,31 +54,33 @@ const CommentSection: FC<Comments> = ({ comments }) => {
     const [ loading, setLoading ] = useState(false)
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault()
-        setLoading(true)
-        setError(false)
+        if(user.user.active) {
+            e.preventDefault()
+            setLoading(true)
+            setError(false)
 
-        if(comment === '') {
-            setError(true)
-            setLoading(false)
-            return;
-        }
+            if(comment === '') {
+                setError(true)
+                setLoading(false)
+                return;
+            }
 
-        const text = comment
-        const result = await axios.post(`${server}/api/comment/commentonpost/${router.query.id}`, { text }, { withCredentials: true })
-                                .then(res => res.data)
-                                .catch(err => {
-                                    console.log(err)
-                                    setError(true)
-                                    setLoading(false)
-                                })
+            const text = comment
+            const result = await axios.post(`${server}/api/comment/commentonpost/${router.query.id}`, { text }, { withCredentials: true })
+                                    .then(res => res.data)
+                                    .catch(err => {
+                                        console.log(err)
+                                        setError(true)
+                                        setLoading(false)
+                                    })
 
-        if(result && result.message === 'Comentariu postat') {
-            setLoading(false)
-            setComment('')
-            router.reload()
-        } else {
-            setLoading(false)
+            if(result && result.message === 'Comentariu postat') {
+                setLoading(false)
+                setComment('')
+                router.reload()
+            } else {
+                setLoading(false)
+            }
         }
     }
 
@@ -92,7 +94,10 @@ const CommentSection: FC<Comments> = ({ comments }) => {
                     <textarea placeholder='Adaugă un comentariu...' value={comment} onChange={e => { setComment(e.target.value); setError(false) } } />
                 </div>  
                 {!loading ?
-                    <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
+                    <div style={{ alignSelf: 'flex-end'}}>
+                        {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: '1rem'}}>Contul nu a fost încă activat</span> }
+                        <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
+                    </div>
                 :
                 <div className={styles.loading}>
                     <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={70} height={70} />

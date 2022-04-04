@@ -8,6 +8,12 @@ import Head from 'next/head'
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
 import { server } from '../../config/server'
 import ImageOverlayed from '../../components/CreatePost/ImageOverlayed'
+import { useAuth } from '../../utils/useAuth'
+
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -26,10 +32,22 @@ const Editor = dynamic<EditorProps>(
 const CreatePost: NextPage = () => {
     const router = useRouter()
 
+    const user = useAuth()
+
+    const greenTheme = createTheme({
+        palette: {
+            primary: {
+                main: '#94C294'
+            }
+        },
+    });
+
     const [ title, setTitle ] = useState('')
     const [ files, setFiles ] = useState<Array<string>>([])
     const [ video, setVideo ] = useState('')
     const [ description, setDescription ] = useState(EditorState.createEmpty())
+    const [ village, setVillage ] = useState('false')
+
 
     const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 
@@ -62,54 +80,56 @@ const CreatePost: NextPage = () => {
    const [ fullError, setFullError ] = useState(false)
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault()
+        if(user.user.active) {
+            e.preventDefault()
 
-        const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
-        setFullError(false)
-        setLoading(true)
-        
-        let numberOfChars = 0;
-        for(const letter in convertToRaw(description.getCurrentContent()).blocks){
-            for(let i = 0; i < convertToRaw(description.getCurrentContent()).blocks[letter].text.split('').length; i++){
-                if(convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== '' && convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== ' '){
-                    numberOfChars++;
+            const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
+            setFullError(false)
+            setLoading(true)
+            
+            let numberOfChars = 0;
+            for(const letter in convertToRaw(description.getCurrentContent()).blocks){
+                for(let i = 0; i < convertToRaw(description.getCurrentContent()).blocks[letter].text.split('').length; i++){
+                    if(convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== '' && convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== ' '){
+                        numberOfChars++;
+                    }
                 }
             }
-        }
 
-        setError({
-            title: title.split('').length < 15 ? true : false,
-            description: numberOfChars < 50 ? true : false
-        })
+            setError({
+                title: title.split('').length < 15 ? true : false,
+                description: numberOfChars < 50 ? true : false
+            })
 
-        setErrorMessages({
-            title: title.split('').length < 15 ? 'Titlu prea scurt' : '',
-            description: numberOfChars < 50 ? 'Descriere prea scurtă' : ''
-        })
+            setErrorMessages({
+                title: title.split('').length < 15 ? 'Titlu prea scurt' : '',
+                description: numberOfChars < 50 ? 'Descriere prea scurtă' : ''
+            })
 
-        if(title.split('').length < 15 || numberOfChars < 50) {
-            setLoading(false)
-            return;
-        }
+            if(title.split('').length < 15 || numberOfChars < 50) {
+                setLoading(false)
+                return;
+            }
 
-        const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video }, { withCredentials: true })
-                                    .then(res => res.data)
-                                    .catch(err => {
-                                        setFullError(true)
-                                        setLoading(false)
-                                        console.log(err)
-                                    })        
+            const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video, village }, { withCredentials: true })
+                                        .then(res => res.data)
+                                        .catch(err => {
+                                            setFullError(true)
+                                            setLoading(false)
+                                            console.log(err)
+                                        })        
 
-        if(result && result.message === 'Postare afișată'){
-            setLoading(false)
-            setTitle('')
-            setFiles([])
-            setVideo('')
-            setDescription(EditorState.createEmpty())
+            if(result && result.message === 'Postare afișată'){
+                setLoading(false)
+                setTitle('')
+                setFiles([])
+                setVideo('')
+                setVillage('false')
+                setDescription(EditorState.createEmpty())
 
-            router.push(`/postari/${result._id}`)
-        }
-                                    
+                router.push(`/postari/${result._id}`)
+            }
+        }                        
     }
 
     function wrongInput() {
@@ -173,13 +193,34 @@ const CreatePost: NextPage = () => {
                     <h1>Creează o nouă postare:</h1>
                 </div>
                 <form className={styles.form}>
-                    <div className={styles.background_make}>
+                    <div className={styles.background_make} style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'flex-start'}}>
                         <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} style={{ width: '100%' }}>
                             <label htmlFor='title'>Titlu</label>
                             <p>Oferă cât mai multe informații, în cât mai puține cuvinte <span style={{ color : '#8BBD8B'}}>(minimum 15 caractere)</span></p>
                             <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
                             <p style={{ alignSelf: 'flex-end', marginRight: '30%', marginTop: 0 }}>{title.split('').length}/150</p>
                         </div>
+                        {(user.user.comuna && user.user.comuna !== '') &&
+                            <div className={styles.input} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: '2em'}}>
+                                <label>Nivel: </label>
+                                <div>
+                                    <ThemeProvider theme={greenTheme}>
+                                        <FormControl variant='standard' sx={{ minWidth: 120}}>
+                                            <Select
+                                                labelId="demo-simple-select-standard-label"
+                                                id="demo-simple-select-standard"
+                                                value={village}
+                                                onChange={e => setVillage(e.target.value)}
+                                                label="Tip"
+                                            >
+                                            <MenuItem value={'false'}>Comunal</MenuItem>
+                                            <MenuItem value={'true'}>Sătesc</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </ThemeProvider>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <div className={styles.background_make_photos}>
                         <div className={styles.flex_add}>
@@ -256,7 +297,8 @@ const CreatePost: NextPage = () => {
                         {!loading ?
                             <>
                                 {fullError && <span style={{ color: 'red', marginRight: 10 }}>Ceva neașteptat s-a întâmplat</span>}
-                                <button type='submit' onClick={handleSubmit}>Postează</button>
+                                {!user.user.active && <span style={{ color: 'red', marginRight: 10 }}>Contul nu a fost încă activat</span>}
+                                <button type='submit' onClick={handleSubmit} disabled={!user.user.active}>Postează</button>
                             </>
                         :
                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 

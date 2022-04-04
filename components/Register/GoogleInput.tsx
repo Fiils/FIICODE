@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import type { Dispatch, SetStateAction, FC } from 'react'
+import React, { useEffect, useRef } from "react";
+import type { FC } from 'react'
 
 let autoComplete: any;
 
@@ -78,7 +78,7 @@ const SearchLocationInput: FC<Props> = ({ name, county, setCounty, error, setErr
 
   useEffect(() => {
     loadScript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_KEY}&libraries=places`,
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&libraries=places`,
       () => handleScriptLoad(setCounty, autoCompleteRef, setFullExactPosition)
     );
   }, []);

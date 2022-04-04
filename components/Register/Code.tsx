@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Cookies from 'js-cookie'
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/ForgotPassword.module.scss'
@@ -36,6 +37,8 @@ const Code: FC = () => {
                         })
         
         if(result && result.message === 'Utilizator creat') {
+            Cookies.remove('data-id')
+            Cookies.set('x-access-token', result.token, { expires: 30 })
             router.reload()
             setLoading(false)
         } else {

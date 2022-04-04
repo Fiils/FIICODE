@@ -114,7 +114,6 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                                     console.log(err)
                                 })
 
-        console.log(result)
         if(result && result.message === 'Parolă schimbată cu succes'){
             setSent(true)
             router.push('/autentificare')

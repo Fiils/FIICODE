@@ -59,11 +59,11 @@
         cursor: pointer;
 
         &:hover {
-            opacity: .9;
+            opacity: .9 !important;
         }
 
         &:active {
-            opacity: .8
+            opacity: .8 !important;
         }
     }
 }
