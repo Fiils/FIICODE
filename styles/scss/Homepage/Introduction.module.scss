@@ -42,7 +42,6 @@
 
 .container_p2_bg {
     width: 85%;
-    height: 65vh;
     margin-top: 13%;
 
     margin: 20vh auto 20vh auto;;
@@ -60,13 +59,18 @@
     position: relative;
     margin-left: 20%;
     color: rgba(70, 70, 70);
-    height: 90%;
+    height: 100%;
     margin-top: auto;
     margin-bottom: auto;
+    display: flex;
+    flex-flow: column wrap;
+    padding-bottom: 20px;
+
 
     .icon_inf {
         text-align: center;
         margin-right: 40px;
+        margin-top: auto;
     }
     
     &:not(:last-child) {
@@ -97,4 +101,36 @@
     font-family: sans-serif;
     color: white;
     line-height: 1.6;
+}
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media screen and (min-width: 1224px) {
+  
+}
+
+@media screen and (min-width: 1500px) {
+
+}
+
+@media screen and (min-width: 1780px) {
+
+}
+
+@media screen and (min-width: 2000px) {
+
+}
+
+@media screen and (min-width: 2415px) {
+
 }

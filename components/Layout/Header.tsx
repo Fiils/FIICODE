@@ -1,18 +1,22 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { useState } from 'react'
 
 import styles from '../../styles/scss/Layout/Header.module.scss'
 import { useAuth } from '../../utils/useAuth'
+import useWindowSize from '../../utils/useWindowSize'
 
 const Header: FC = () => {
     const router = useRouter()
 
+    const [ width, height ] = useWindowSize()
     const user = useAuth()
 
-    console.log(user)
+    const [ clickMenu, setClickMenu ] = useState(false)
+
     return (
         <>
         <Head>
@@ -40,29 +44,64 @@ const Header: FC = () => {
           />
           
         </Head>
-            <div className={styles.container}>
-                <div className={styles.logo}>
-                    {router.pathname !== '/autentificare' && <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} /> }
-                    <span>ROMDIG</span>
-                </div>
-                <Link href="/">Prima pagină</Link>
-                <Link href="/postari/cx/popular/p1">Postări</Link>
-                <Link href="/creare-postare">Creează o postare</Link>
-                {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
-                    <div className={styles.links}>
-                        <Link href="/autentificare">Autentifică-te</Link>
-                        <button><Link href="/inregistrare">Înregistrează-te</Link></button>
-                    </div>
-                :
-                    <div className={styles.profile_account}>
-                        <div style={{ position: 'relative'}}>
-                            <Link href="/contul-meu/date-personale">Contul meu</Link>
-                            {!user.user.active && <div className={styles.inactive}></div>}
+       
+                {width > 800 ?
+                    <>
+                        <div className={styles.container}>
+                        <div className={styles.logo}>
+                            {router.pathname !== '/autentificare' && <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 481  ? 60 : 50} height={width > 481  ? 60 : 50} /> }
+                            <span>ROMDIG</span>
                         </div>
-                        <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648476786/FIICODE/user-4250_psd62d.svg' : user.user.profilePicture } width={40} height={40} />
-                    </div>
+                        <Link href="/">Prima pagină</Link>
+                        <Link href="/postari/cx/popular/p1">Postări</Link>
+                        <Link href="/creare-postare">Creează o postare</Link>
+                        {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
+                            <div className={styles.links}>
+                                <Link href="/autentificare">Autentifică-te</Link>
+                                <button><Link href="/inregistrare">Înregistrează-te</Link></button>
+                            </div>
+                        :
+                            <div className={styles.profile_account}>
+                                <div style={{ position: 'relative'}}>
+                                    <Link href="/contul-meu/date-personale">Contul meu</Link>
+                                    {!user.user.active && <div className={styles.inactive}></div>}
+                                </div>
+                                <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648476786/FIICODE/user-4250_psd62d.svg' : user.user.profilePicture } width={40} height={40} />
+                            </div>
+                        }
+                         </div>
+                    </>
+                :
+                    <>
+                        <div className={styles.container}>
+                            <div className={styles.logo}>
+                                {router.pathname !== '/autentificare' && <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 481  ? 60 : 50} height={width > 481  ? 60 : 50} /> }
+                                <span>ROMDIG</span>
+                            </div>
+                            <div className={`${styles.menu_open} ${clickMenu ? styles.open_menu_transition : styles.close_menu_transition }`}>
+                                <Image onClick={() => setClickMenu(!clickMenu)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649142515/FIICODE/open-menu-6208_dhao2h.svg' width={40} height={40} />
+                            </div>
+                        </div>
+                        <div className={`${styles.menu_container} ${clickMenu ? styles.opened_container : styles.closed_container}`}>
+                            <ul className={styles.menu_list}>
+                                <li><Link href='/'>Prima Pagină</Link></li>
+                                <li><Link href='/postari/cx/popular/p1'>Postări</Link></li>
+                                <li><Link href='/creare-postare'>Creează o postare</Link></li>
+                                {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
+                                    <li className={styles.authentication_links}>
+                                        <Link href="/autentificare"><a id='#login'>Autentifică-te</a></Link>
+                                        <button><Link href="/inregistrare">Înregistrează-te</Link></button>
+                                    </li>
+                                    :
+                                    <li className={styles.authentication_links}>
+                                        <button><Link href='/contul-meu'>Contul meu</Link></button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </>
                 }
-            </div>
+           
         </>
     )
 }

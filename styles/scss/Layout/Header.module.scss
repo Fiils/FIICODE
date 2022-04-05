@@ -5,6 +5,7 @@ $hover-color: #8BBD8B;
 .container {
     width: 100%;
     height: 11vh;
+    max-height: 100px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
@@ -107,3 +108,139 @@ $hover-color: #8BBD8B;
         right: -5px;
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .container {
+        padding-left: 10px;
+
+        .logo {
+            font-size: .8rem;
+            span {
+                font-size: 1.2rem;
+                letter-spacing: .1em;
+            }
+        }
+    }
+
+    .menu_open {
+        font-family: 'Libre Baskerville';
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1em;
+        margin: 0 20px 0 auto;
+    }
+
+    .open_menu_transition {
+        transform: rotate(90deg);
+        transition: transform .2s ease-out;
+    }
+
+    .close_menu_transition {
+        transition: rotate(0);
+        transition: transform .2s ease-out;
+    }
+
+    .menu_container {
+        width: 100vw;
+        height: 280px;
+        overflow: hidden;
+        background: rgb(253, 253, 253);
+        font-family: 'Libre Baskerville', sans-serif;
+
+        ul {
+            color: $normal-color;
+            list-style-type: none;
+            line-height: 3;
+            padding-left: 0;
+            text-align: center;
+        }
+    }
+
+    .opened_container {
+        opacity: 1;
+        height: 280px;
+        transition: all .2s;
+    }
+
+    .closed_container {
+        visibility: hidden;
+        opacity: .4;
+        height: 0;
+        transition: all .2s;
+    }
+
+    .authentication_links {
+        width: 100%;
+        margin-top: 40px;
+
+        a {
+            color: $normal-color;
+
+            &:first-child[id='#login'] {
+                margin-right: 20px;
+            }
+        }
+        
+        button {
+            background: none;
+            border-radius: 20px;
+            padding: 1em;
+            text-align: justify;
+            text-justify: inter-character;
+            border: 1px solid $hover-color;
+
+            a {
+                color: $hover-color !important;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .container .logo {
+        span {
+            font-size: 1.6rem;
+        }
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 800px) {
+    .container .logo {
+        span {
+            font-size: 1.8rem;
+        }
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1224px) {
+    .container {
+        gap: 1em;
+        a {
+            font-size: .9rem;
+        }
+    }
+}
+
+// @media screen and (min-width: 1224px) {
+  
+// }
+
+// @media screen and (min-width: 1500px) {
+
+// }
+
+// @media screen and (min-width: 1780px) {
+
+// }
+
+// @media screen and (min-width: 2000px) {
+
+// }
+
+// @media screen and (min-width: 2415px) {
+
+// }
