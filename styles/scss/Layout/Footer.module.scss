@@ -75,6 +75,8 @@
 
 @media screen and (min-width: 0px) and (max-width: 700px) {
     .container_footer {
+        margin-top: 150px;
+
         &::before {
             height: 50px;
             top: -50px;

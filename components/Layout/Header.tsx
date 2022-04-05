@@ -9,6 +9,7 @@ import styles from '../../styles/scss/Layout/Header.module.scss'
 import { useAuth } from '../../utils/useAuth'
 import useWindowSize from '../../utils/useWindowSize'
 
+
 const Header: FC = () => {
     const router = useRouter()
 
@@ -84,17 +85,17 @@ const Header: FC = () => {
                         </div>
                         <div className={`${styles.menu_container} ${clickMenu ? styles.opened_container : styles.closed_container}`}>
                             <ul className={styles.menu_list}>
-                                <li><Link href='/'>Prima Pagină</Link></li>
-                                <li><Link href='/postari/cx/popular/p1'>Postări</Link></li>
-                                <li><Link href='/creare-postare'>Creează o postare</Link></li>
+                                <li><Link href='/'><a onClick={() => setClickMenu(false)}>Prima Pagină</a></Link></li>
+                                <li><Link href='/postari/cx/popular/p1'><a onClick={() => setClickMenu(false)}>Postări</a></Link></li>
+                                <li><Link href='/creare-postare'><a onClick={() => setClickMenu(false)}>Creează o postare</a></Link></li>
                                 {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                                     <li className={styles.authentication_links}>
-                                        <Link href="/autentificare"><a id='#login'>Autentifică-te</a></Link>
-                                        <button><Link href="/inregistrare">Înregistrează-te</Link></button>
+                                        <Link href="/autentificare"><a id='#login' onClick={() => setClickMenu(false)}>Autentifică-te</a></Link>
+                                        <button><Link href="/inregistrare"><a onClick={() => setClickMenu(false)}>Înregistrează-te</a></Link></button>
                                     </li>
                                     :
                                     <li className={styles.authentication_links}>
-                                        <button><Link href='/contul-meu'>Contul meu</Link></button>
+                                        <button><Link href='/contul-meu/date-personale'><a onClick={() => setClickMenu(false)}>Contul meu</a></Link></button>
                                     </li>
                                 }
                             </ul>

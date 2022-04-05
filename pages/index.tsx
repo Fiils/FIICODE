@@ -41,22 +41,20 @@ const Home: NextPage = () => {
       </Head>
       
       <div>
-        <div style={{ display: 'flex' }}>
-          <div style={{ marginLeft: '4vw', marginTop: '20vh' }}>
+        <div className={styles.fsection}>
+          <div className={styles.container_tpi}>
             <h1 className={styles.title_1}>Ajută la îmbunătățirea orașului tău printr-o singură postare</h1>
             <p className={styles.desc_1}>Cu ajutorul site-ului ROMDIG vă puteți face vocea auzită în propria comunitate. Scrie o postare, afișeaz-o, iar apoi așteaptă să fie votată de cei apropiați
               de tine, ca mai apoi, să fie și implementată. Apasă pe butonul de mai jos și începe modernizarea localității tale.
             </p>
             <button onClick={buttonClick} className={styles.create_post}>Publică o postare</button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '2vw', marginTop: '7.5vh'}}>
-            {/* <div className={styles.bg_img}>
+            <div className={styles.bg_img}>
               <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648223698/FIICODE/pexels-thisisengineering-3862365_fzupwt.jpg' layout='fill' priority/>
-            </div> */}
-          </div>
+            </div>
         </div>
 
-        {/* <div className={styles.container_p2_bg}>
+        <div className={styles.container_p2_bg}>
             <div className={styles.i_icon}>
               <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648228664/FIICODE/information-6255_2_ibnur9.svg' width={30} height={30} />
             </div>
@@ -94,9 +92,6 @@ const Home: NextPage = () => {
         <div className={styles.info_back}>
           <p>Primul program ce constă în implementarea ideilor cetățenilor legate de îmbunătățirea propriei localități, evitând cozi sufocante și zile de așteptare</p>
         </div>
-        <div className={styles.info_followup}>
-
-        </div> */}
 
       </div>
     </>
