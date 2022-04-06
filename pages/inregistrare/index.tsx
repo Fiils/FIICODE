@@ -20,6 +20,7 @@ import styles from '../../styles/scss/Authentication/Registration.module.scss';
 import CodeComponent from '../../components/Register/Code'
 import { server } from '../../config/server'
 import GoogleInput from '../../components/Register/GoogleInput'
+import useWindowSize from '../../utils/useWindowSize'
 
 
 const Inregistrare: NextPage = () => {
@@ -41,6 +42,8 @@ const Inregistrare: NextPage = () => {
     const [ hideFirstPage, setHideFirstPage ] = useState(false)
     const [ showNextPage, setShowNextPage ] = useState(false)
     const [ showPrevPageAnim, setShowPrevPageAnim ] = useState(false)
+
+    const [ width, height ] = useWindowSize()
 
     const [ loading, setLoading ] = useState(false)
 
@@ -280,7 +283,7 @@ const Inregistrare: NextPage = () => {
                     <KeyboardReturnRoundedIcon />
                 </div>
                 <div className={styles.logo}>
-                    <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} />
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} />
                     <span>ROMDIG</span>
                 </div>
                 {!codePage ? 
@@ -294,12 +297,12 @@ const Inregistrare: NextPage = () => {
                                 <div className={`${styles.input_d} ${error.name ? styles.wrong_input : ''}`}>
                                     <label htmlFor='name'>Nume*</label>
                                     <input type="text" autoComplete='name' id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }); setErrorMessages({ ...errorMessages, name: '' }) }} />
-                                    {errorMessages.name !== '' ? <label style={{ color: 'red' }}>{errorMessages.name}</label> : <></> }
+                                    {errorMessages.name !== '' ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.name}</label> : <></> }
                                 </div>
                                 <div className={`${styles.input_d} ${error.firstName ? styles.wrong_input : ''}`}>
                                     <label htmlFor='firstName'>Prenume*</label>
                                     <input type="text" id='firstName' autoComplete='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }); setErrorMessages({ ...errorMessages, firstName: '' }) }} />
-                                    {errorMessages.firstName !== ''  ? <label style={{ color: 'red' }}>{errorMessages.firstName}</label> : <></> }
+                                    {errorMessages.firstName !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.firstName}</label> : <></> }
                                 </div>
                             </div>
                             <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
@@ -308,7 +311,7 @@ const Inregistrare: NextPage = () => {
                                 <div className={styles.svg_container}>
                                     <EmailIcon />
                                 </div>
-                                {errorMessages.email !== ''  ? <label style={{ color: 'red' }}>{errorMessages.email}</label> : <></> }
+                                {errorMessages.email !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.email}</label> : <></> }
                             </div>
                             <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                                 <label htmlFor='password'>Parolă*</label>
@@ -316,7 +319,7 @@ const Inregistrare: NextPage = () => {
                                 <div className={styles.svg_container}>
                                     {!showPassword ? <LockOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> : <LockOpenOutlinedIcon id='pass' onClick={() => setShowPassword(!showPassword)}/> }
                                 </div>
-                                {errorMessages.password !== ''  ? <label style={{ color: 'red' }}>{errorMessages.password}</label> : <></> }
+                                {errorMessages.password !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.password}</label> : <></> }
                             </div>
                             <div className={`${styles.buttons_gender} ${error.gender ? styles.wrong_input : ''}`}>
                                 <button className={gender === 'Bărbat' ? styles.selected : ''} type="button" onClick={() => { setGender('Bărbat'); setError({ ...error, gender: false }) }}><ManIcon /></button>
@@ -341,12 +344,12 @@ const Inregistrare: NextPage = () => {
                                     <div className={styles.svg_container}>
                                         <BadgeIcon />
                                     </div>
-                                    {errorMessages.cnp !== ''  ? <label style={{ color: 'red' }}>{errorMessages.cnp}</label> : <></> }
+                                    {errorMessages.cnp !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.cnp}</label> : <></> }
                                 </div>
                                 <div className={`${styles.input_d} ${error.city ? styles.wrong_input : ''}`} >
                                         <label htmlFor='city'>Localitate* (exactă, nu județ)</label>
                                         <GoogleInput name={'city'} setFullExactPosition={setFullExactPosition} county={city} setCounty={setCity} setError={setError} error={error} setErrorMessages={setErrorMessages} errorMessages={errorMessages} />
-                                        {errorMessages.city !== ''  ? <label style={{ color: 'red' }}>{errorMessages.city}</label> : <></> }
+                                        {errorMessages.city !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.city}</label> : <></> }
                                 </div>
                                 <div className={`${styles.input_d} ${error.street ? styles.wrong_input : ''}`}>
                                     <label htmlFor='street'>Strada* (buletin)</label>
@@ -354,7 +357,7 @@ const Inregistrare: NextPage = () => {
                                     <div className={styles.svg_container}>
                                         <AddRoadTwoToneIcon />
                                     </div>
-                                    {errorMessages.street !== ''  ? <label style={{ color: 'red' }}>{errorMessages.street}</label> : <></> }
+                                    {errorMessages.street !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.street}</label> : <></> }
                                 </div>
                                 <div className={styles.file_upload_container}>
                                     <div className={styles.input_upload} id='file-upload'>

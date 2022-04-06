@@ -15,6 +15,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/Authentication.module.scss'
 import { server } from '../../config/server'
+import useWindowSize from '../../utils/useWindowSize'
 
 
 const Inregistrare: NextPage = () => {
@@ -24,6 +25,7 @@ const Inregistrare: NextPage = () => {
     const [ password, setPassword ] = useState('')
 
     const [ loading, setLoading ] = useState(false)
+    const [ width, height ] = useWindowSize()
 
     const [ showPassword, setShowPassword ] = useState(false)
     const [ error, setError ] = useState({ email: false, password: false })
@@ -116,22 +118,19 @@ const Inregistrare: NextPage = () => {
                     <span><Link href='/'>Înapoi</Link></span>
                     <KeyboardReturnRoundedIcon />
                 </div>
+
                 <div className={styles.logo}>
-                    <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={60} height={60} priority/>
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} priority/>
                     <span>ROMDIG</span>
                 </div>
 
                 <form className={overrideStyles.form}>
-                    <div className={styles.design}>
-                        <h3>
-                            <span>Schimbă viitorul</span>
-                            <br />
-                            <span>cu un simplu</span>
-                            <br/>
-                            <span>click.</span>
-                        </h3>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648907491/FIICODE/background-2462430_1920_1_dtpocx.jpg' layout='fill' priority/>
-                    </div>
+                    {width > 1100 && 
+                        <div className={styles.design}>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649256461/FIICODE/Background_Login_img_green_lw9i3n.png' layout='fill' priority/>
+                        </div>
+                    }
+
                     <div>
                             <h2>Intră în cont</h2>
                             <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>

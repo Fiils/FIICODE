@@ -9,11 +9,14 @@ import Head from 'next/head'
 import styles from '../../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../../styles/scss/Authentication/ForgotPassword.module.scss'
 import { server } from '../../../config/server'
+import useWindowSize from '../../../utils/useWindowSize'
 
 
 const Inregistrare: NextPage = () => {
 
     const router = useRouter()
+
+    const [ width, height ] = useWindowSize()
 
     const [ email, setEmail ] = useState('')
 
@@ -119,7 +122,7 @@ const Inregistrare: NextPage = () => {
                         <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Ai uitat parola?</h2>
                         <p className={overrideStyles.additional_info}>Dacă ți-ai uitat parola, notează-ți mai jos email-ul si îți vom trimite noi un email prin care ți-o vei putea schimba</p>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20}}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648312754/FIICODE/login-password-11921_qnznau.svg' width={100} height={100} priority/>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648312754/FIICODE/login-password-11921_qnznau.svg' width={width > 900 ? 100 : 80} height={width > 900 ? 100 : 80} priority/>
                         </div>
                         <div className={`${styles.input_d} ${error ? styles.wrong_input : ''}`}>
                             <label htmlFor='email'>E-mail*</label>
@@ -144,7 +147,7 @@ const Inregistrare: NextPage = () => {
                             <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Email trimis</h2>
                             <p className={overrideStyles.additional_info}>Dacă emailul este valid, atunci veți primi un mail de la noi; în el veți găsi un link, iar dacă îl accesați vă veți putea schimba parola cu una nouă. Dacă nu-l găsiți în inbox, verificați în secțiunea spam. </p>
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40}}>
-                                <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647536857/FIICODE/mail-1182_hk1jkc.png' width={140} height={140} />
                             </div>
                             <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
                                 <button type="button">

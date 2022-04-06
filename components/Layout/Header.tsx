@@ -46,7 +46,7 @@ const Header: FC = () => {
           
         </Head>
        
-                {width > 800 ?
+                {width > 850 ?
                     <>
                         <div className={styles.container}>
                         <div className={styles.logo}>
