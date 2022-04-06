@@ -12,6 +12,8 @@ import Pagination from '../../../../../../components/Posts/Pagination'
 import StatusSelect from '../../../../../../components/Posts/StatusSelect'
 import { server } from '../../../../../../config/server'
 import { useAuth } from '../../../../../../utils/useAuth'
+import MobilePagination from '../../../../../../components/Posts/MobilePagination'
+import useWindowSize from '../../../../../../utils/useWindowSize'
 
 
 interface ListItems {
@@ -68,6 +70,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const router = useRouter()
 
     const auth = useAuth()
+
+    const [ width, height ] = useWindowSize()
      
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
@@ -248,105 +252,117 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
     return (
         <>
-        <Head>
-          
-            <link
-                rel="preload"
-                href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                as="font"
-                type="font/woff2"
-                crossOrigin="anonymous"
-            />
-            <link
-                rel="preload"
-                href="/fonts/BalooTamma2/BalooTamma2.woff"
-                as="font"
-                type="font/woff"
-                crossOrigin="anonymous"
-            />
+            <Head>
+                
                 <link
-                rel="preload"
-                href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                as="font"
-                type="font/ttf"
-                crossOrigin="anonymous" 
-            />
-
-            <link
-                rel="preload"
-                href="/fonts/BalooBhai2/BalooBhai2.woff2"
-                as="font"
-                type="font/woff2"
-                crossOrigin="anonymous"
-            />
-            <link
-                rel="preload"
-                href="/fonts/BalooBhai2/BalooBhai2.woff"
-                as="font"
-                type="font/woff"
-                crossOrigin="anonymous"
-            />
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
                 <link
-                rel="preload"
-                href="/fonts/BalooBhai2/BalooBhai2.ttf"
-                as="font"
-                type="font/ttf"
-                crossOrigin="anonymous" 
-            />
-            
-        </Head>
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
 
-        <StatusSelect status={status} handleChange={handleChange} />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.woff"
+                    as="font"
+                    type="font/woff"
+                    crossOrigin="anonymous"
+                />
+                    <link
+                    rel="preload"
+                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                    as="font"
+                    type="font/ttf"
+                    crossOrigin="anonymous" 
+                />
+                
+            </Head>
 
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', marginTop: 0}}>
-            <div className={`${styles.container_sm}`}>
-                <div className={styles.list_cat}>
-                    <ul>
-                        <ListItem text='Populare' category='popular' index={1} />
-                        <ListItem text='Cele mai apreciate' category='apreciate' index={2} />
-                        <ListItem text='Cele mai vizionate' category='vizionate' index={3} />
-                        <ListItem text='Cele mai multe comentarii' category='comentarii' index={4} />
-                        <ListItem text='Cele mai noi' category='noi' index={5} />
-                        <ListItem text='Cele mai vechi' category='vechi' index={6} />
-                    </ul>
-                </div>
-            </div>
-            <div className={gridStyles.grid_posts}>
-            {(auth.user.comuna && auth.user.comuna !== '') && 
-                <div className={gridStyles.special_categories}>
-                    <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1`)} className={gridStyles.inactive_cat}>Toate</span>
-                    <span>Comuna</span>
-                    <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/sat`)} className={gridStyles.inactive_cat}>Sat</span>
-                </div>
-            }
-                    {posts.numberOfPages !== 0 ?
-                        posts.posts.map((value: any, key: number) => {
-                            return (
-                                <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
-                                        description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
-                                        media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} creationDate={value.creationDate} 
-                                        nameAuthor={value.nameAuthor} authorProfilePicture={value.authorProfilePicture} comments={value.comments} />
-                            )
-                    })
-                        : 
-                        <> {!loading &&
-                            <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center', mixBlendMode: 'multiply'}}>
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' width={200} height={200} />
-                                <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
-                            </div>
-                            }
-                        </>
-                    }
-                   {loading && <div className={gridStyles.loader}></div> }
-                   <div>
-                        {posts.numberOfPages !== 0 &&
-                            <Pagination numberOfPages={posts.numberOfPages} />
-                        }
+            {/* <StatusSelect status={status} handleChange={handleChange} /> */}
+
+            <div style={{ display: 'flex', flexFlow: 'row nowrap', marginTop: 0}}>
+            {width > 1250 ?
+                <div className={`${styles.container_sm}`}>
+                    <div className={styles.list_cat}>
+                        <ul>
+                            <ListItem text='Populare' category='popular' index={1} />
+                            <ListItem text='Cele mai apreciate' category='apreciate' index={2} />
+                            <ListItem text='Cele mai vizionate' category='vizionate' index={3} />
+                            <ListItem text='Cele mai multe comentarii' category='comentarii' index={4} />
+                            <ListItem text='Cele mai noi' category='noi' index={5} />
+                            <ListItem text='Cele mai vechi' category='vechi' index={6} />
+                        </ul>
                     </div>
-            </div>
+                </div>
+                :
+                <>
+                    <button>Categorii</button>
+                </>
+            }
+                <div className={gridStyles.grid_posts}>
+                {(auth.user.comuna && auth.user.comuna !== '') && 
+                    <div className={gridStyles.special_categories}>
+                        <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1`)} className={gridStyles.inactive_cat}>Toate</span>
+                        <span>Comuna</span>
+                        <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/sat`)} className={gridStyles.inactive_cat}>Sat</span>
+                    </div>
+                }
+                        {posts.numberOfPages !== 0 ?
+                            posts.posts.map((value: any, key: number) => {
+                                return (
+                                    <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
+                                            description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
+                                            media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} creationDate={value.creationDate} 
+                                            nameAuthor={value.nameAuthor} authorProfilePicture={value.authorProfilePicture} comments={value.comments} />
+                                )
+                        })
+                            : 
+                            <> {!loading &&
+                                <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center', mixBlendMode: 'multiply'}}>
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' width={200} height={200} />
+                                    <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
+                                </div>
+                                }
+                            </>
+                        }
+                        {loading && <div className={gridStyles.loader}></div> }
+                        <div>
+                            {width >= 480 ?
+                                <>
+                                    {posts.numberOfPages !== 0 &&
+                                        <Pagination numberOfPages={posts.numberOfPages} />
+                                    }
+                                </>
+                            :
+                                <MobilePagination numberOfPages={posts.numberOfPages} />
+                        }
+                        </div>
+                </div>
 
-            
-        </div>
+                
+            </div>
         </>
     )
 }

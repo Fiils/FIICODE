@@ -134,3 +134,111 @@
         background-color: rgb(230, 230, 230)
     }
 }
+
+
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+  .post {
+      width: 80%;
+      max-width: 600px;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+    .post {
+        height: 550px;
+    }
+    .title {
+        font-size: 1rem;
+        margin-left: 10px;
+    }
+
+    .post_info {
+        overflow: hidden;
+
+        img {
+            border-radius: 0;
+        }
+
+        span {
+            margin-right: 5px !important;
+        }
+
+    }
+
+    .status {
+        top: -41px;
+    }
+
+    .manip_section {
+        position: relative;
+        gap: .5em;
+        height: 8%;
+        width: 100%;
+        bottom: 0;
+        border-radius: 4px;
+        display: flex;
+        flex-flow: row nowrap;
+        gap: .5em;
+    
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            // height: 100%;
+            width: 4px;
+            border-radius: 1px;
+            background-color: rgb(220, 220, 220);
+        }
+    }
+    
+    .manip_item {
+        display: flex;
+        align-items: center;
+        gap: .5em;
+        font-family: 'Baloo Bhai 2';
+        font-weight: 400;
+        border-radius: 5px;
+        padding: .5em .8em;
+        transition: all .2s ease-out;
+        background-color: rgb(245, 245, 245);
+
+        &:first-child {
+            margin-left: .7em;
+        }
+    
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+   
+}
+
+@media screen and (min-width: 768px) and (max-width: 800px) {
+
+}
+
+@media screen and (min-width: 800px) and (max-width: 1224px) {
+
+}
+
+// @media screen and (min-width: 1224px) {
+  
+// }
+
+// @media screen and (min-width: 1500px) {
+
+// }
+
+// @media screen and (min-width: 1780px) {
+
+// }
+
+// @media screen and (min-width: 2000px) {
+
+// }
+
+// @media screen and (min-width: 2415px) {
+
+// }

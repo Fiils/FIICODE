@@ -12,6 +12,8 @@ import Pagination from '../../../../../../components/Posts/Pagination'
 import StatusSelect from '../../../../../../components/Posts/StatusSelect'
 import { server } from '../../../../../../config/server'
 import { useAuth } from '../../../../../../utils/useAuth'
+import useWindowSize from '../../../../../../utils/useWindowSize'
+import MobilePagination from '../../../../../../components/Posts/MobilePagination'
 
 
 interface ListItems {
@@ -72,6 +74,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
     const [ status, setStatus ] = useState<string[]>([])
     const categoriesAllowed = [ 'apreciate', 'popular', 'vizionate', 'comentarii', 'noi', 'vechi' ]
+
+    const [ width, height ] = useWindowSize()
 
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
         switch(categ) {
@@ -247,7 +251,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }, [status])
 
     return (
-        <>
+    <>
         <Head>
           
             <link
@@ -296,9 +300,10 @@ const Postari: NextPage<InitialFetchProps> = () => {
             
         </Head>
 
-        <StatusSelect status={status} handleChange={handleChange} />
+        {/* <StatusSelect status={status} handleChange={handleChange} /> */}
 
         <div style={{ display: 'flex', flexFlow: 'row nowrap', marginTop: 0}}>
+        {width > 1250 ?
             <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
@@ -311,6 +316,11 @@ const Postari: NextPage<InitialFetchProps> = () => {
                     </ul>
                 </div>
             </div>
+            :
+            <div>
+
+            </div>
+        }
             <div className={gridStyles.grid_posts}>
             {(auth.user.comuna && auth.user.comuna !== '') && 
                 <div className={gridStyles.special_categories}>
@@ -339,9 +349,15 @@ const Postari: NextPage<InitialFetchProps> = () => {
                     }
                    {loading && <div className={gridStyles.loader}></div> }
                    <div>
-                        {posts.numberOfPages !== 0 &&
-                            <Pagination numberOfPages={posts.numberOfPages} />
-                        }
+                       {width >= 480 ?
+                            <>
+                                {posts.numberOfPages !== 0 &&
+                                    <Pagination numberOfPages={posts.numberOfPages} />
+                                }
+                            </>
+                        :
+                            <MobilePagination numberOfPages={posts.numberOfPages} />
+                    }
                     </div>
             </div>
 

@@ -38,3 +38,26 @@
     background: #393D3F !important;
     color: white;
 }
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+    .container_flex {
+        align-self: center;
+        margin-right: -8px;
+
+        button {
+            border-color: rgb(180, 180, 180);
+
+            &:hover {
+                background-color: inherit;
+            }
+
+            &:nth-child(2) {
+                background: rgb(240, 240, 240);
+            }
+        }
+
+        .current {
+            border: 1px solid rgb(200, 200, 200);
+        }
+    }
+}
