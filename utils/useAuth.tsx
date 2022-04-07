@@ -20,21 +20,21 @@ export function AuthProvider(props: any) {
     const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '/', comuna: '' })
 
     async function login() {
-        const response = await fetch(`${server}/api/functionalities/cookie-ax`, { credentials: 'include', method: 'GET' })
-                            .then(res => res.json())
+        const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true })
+                            .then(res => res.data)
                             .catch(err => err.response)    
         if(response){
             setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active, profilePicture: response.profilePicture, comuna: response.comuna })
         }
     }
     useEffect(() => {
-        const source = axios.CancelToken.source()
+        // const source = axios.CancelToken.source()
         
         login()
 
-        return () => {
-            source.cancel()
-        }
+        // return () => {
+        //     source.cancel()
+        // }
     }, [])
 
     const value: User = {user, setUser}
