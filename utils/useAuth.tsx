@@ -20,8 +20,8 @@ export function AuthProvider(props: any) {
     const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '/', comuna: '' })
 
     async function login() {
-        const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' } })
-                            .then(res => res.data)
+        const response = await fetch(`${server}/api/functionalities/cookie-ax`, { credentials: 'include', method: 'GET' })
+                            .then(res => res.json())
                             .catch(err => err.response)    
         if(response){
             setUser({ isLoggedIn: response.isLoggedIn, userId: response.userId, active: response.active, profilePicture: response.profilePicture, comuna: response.comuna })
