@@ -4,7 +4,7 @@
     grid-template-columns: 1fr;
     gap: 5em;
     justify-items: center;
-    width: 65%;
+    width: 70%;
     padding-top: 5%;
     margin-left: 0;
 }
@@ -26,9 +26,11 @@
 
   .special_categories {
     position: absolute;
-    left: 20%;
-    top: 6vh;
-    width: 60%;
+    max-width: 600px;
+    width: 65%;
+    margin-right: auto;
+    margin-left: auto;
+    top: .5%;
     display: flex;
     flex-flow: row nowrap;
     gap: 2.5em;
@@ -54,61 +56,173 @@
 
   .special_categories {
     position: relative;
+    top: 60px;
     width: 70%;
     left: -1% !important;
-
   }
 }
 
 @media screen and (min-width: 290px) and (max-width: 300px) {
   .grid_posts {
     justify-items: center;
-    // left: 10% !important;
   }
 
   .special_categories {
     position: relative;
     left: 0;
+    top: 60px;
     width: 70%;
   }
 }
 
-@media screen and (min-width: 300px) and (max-width: 1000px) {
+@media screen and (min-width: 300px) and (max-width: 1400px) {
   .grid_posts {
     width: 100vw;
+    padding-top: 0%;
   }
 
   .special_categories {
     position: relative;
     left: 0px;
+    top: 60px;
     width: 70%;
     max-width: 480px;
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 1000px) {
+@media screen and (min-width: 0px) and (max-width: 1400px) {
   .menu_options_butttons {
     position: relative;
     justify-self: start;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
     margin-bottom: -100px;
     bottom: -20px;
 
     button {
-      padding: 1em 3em;
+      padding: .8em 1.5em;
       border-radius: 4px;
-      border: 1px solid rgb(180, 180, 180);
+      margin-left: 6px;
+      border: 1px solid #89BE91;
       background: white;
+      font-family: 'Baloo Bhai 2';
+      font-size: .8rem;
+      color: #89BE91;
+      transition: all .25s;
+
+      &:active {
+        background: rgb(250, 250, 250);
+      }
     }
-    left: 12%;
+  }
+
+  .overlay {
+    position: fixed;
+    z-index: 99998;
+    background: rgba(255, 255, 255, .7);
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .close_icon {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  } 
+
+  // @keyframes menu_close {
+  //   0% { transform: scale(1); opacity: 1 }
+  //   100% { transform: scale(0); opacity: 0 }
+  // }
+
+  .close_menu {
+    // animation: menu_close .25s;
+    // transform: scale(0);
+    visibility: hidden;
+  }
+
+  @keyframes menu_open {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .open_menu {
+    animation: menu_open .25s;
+  }
+
+  .menu {
+    visibility: none;
+    position: fixed;
+    width: 90%;
+    height: 80vh;
+    background: rgb(230, 230, 230);
+    z-index: 99999;
+    left: 5%;
+    padding-bottom: 50px;
+    top: 10vh;
+    bottom: 10vh;
+    overflow: scroll;
+    border-radius: 2px;
+
+    h2 {
+      display: flex;
+      gap: .3em;
+      margin: 10px 0 0 10px;
+      font-family: 'Baloo Tamma 2';
+      font-size: 1.8rem;
+
+      img {
+        margin-top: -3px !important;
+      }
+    }
+  }
+
+  .menu_list {
+    position: relative;
+    top: 10px;
+    text-align: center;
+    list-style-type: none;
+    padding-left: 0;
+    line-height: 2;
+    font-family: 'Baloo Bhai 2';
+
+    li:not(:last-child) {
+      border-bottom: 1px solid rgb(130, 130, 130);;
+    }
+  }
+
+  .active {
+    position: relative;
+    border-bottom-color: #60BF60;
+      p {
+          color: #60BF60 !important;
+      }
+  }
+
+  li:not(:last-child).active {
+    border-bottom-color: #60BF60;
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px) {
-   
+@media screen and (min-width: 500px) and (max-width: 1400px) {
+   .menu {
+     max-width: 400px;
+     left: calc((100% - 400px) / 2)
+   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 800px) {
+@media screen and (min-width: 1401px) and (max-width: 1550px) {
+  .grid_posts {
+    width: 55%;
+  }
 
+  .special_categories {
+    top: .5%;
+  }
 }
 
 @media screen and (min-width: 800px) and (max-width: 1224px) {

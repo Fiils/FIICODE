@@ -1,5 +1,7 @@
 .container_sm {
     width: 30%;
+    max-width: 500px;
+    width: 40%;
     position: relative;
     left: 0;
     margin-top: 0 !important;
@@ -69,5 +71,12 @@
     &::after {
         background: #60BF60 !important;
         z-index: 2000;
+    }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1250px) {
+    .container_sm {
+        width: 40%;
+        max-width: 400px;
     }
 }

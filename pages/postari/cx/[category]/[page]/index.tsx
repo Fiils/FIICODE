@@ -14,6 +14,7 @@ import { server } from '../../../../../config/server'
 import { useAuth } from '../../../../../utils/useAuth'
 import useWindowSize from '../../../../../utils/useWindowSize'
 import MobilePagination from '../../../../../components/Posts/MobilePagination'
+import MobileCategories from '../../../../../components/Posts/MobileCategories'
 
 
 interface ListItems {
@@ -300,10 +301,10 @@ const Postari: NextPage<InitialFetchProps> = () => {
             
         </Head>
 
-        {/* <StatusSelect status={status} handleChange={handleChange} /> */}
+        {width >= 1400 && <StatusSelect status={status} handleChange={handleChange} /> }
 
         <div style={{ display: 'flex', flexFlow: 'row nowrap', marginTop: 0}}>
-        {width > 1250 &&
+        {width >= 1400 &&
             <div className={`${styles.container_sm}`}>
                 <div className={styles.list_cat}>
                     <ul>
@@ -325,10 +326,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
                             <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/sat`)} className={gridStyles.inactive_cat}>Sat</span>
                         </div>
                     }
-                    {width < 1250 &&
-                        <div className={gridStyles.menu_options_butttons}>
-                            <button>Categorii</button>
-                        </div>
+                    {width < 1400 &&
+                        <MobileCategories changeCategory={changeCategory} status={status} handleChange={handleChange} />
                     }
                     {posts.numberOfPages !== 0 ?
                         posts.posts.map((value: any, key: number) => {
@@ -357,7 +356,11 @@ const Postari: NextPage<InitialFetchProps> = () => {
                                 }
                             </>
                         :
-                            <MobilePagination numberOfPages={posts.numberOfPages} />
+                            <>
+                                {posts.numberOfPages !== 0 &&
+                                    <MobilePagination numberOfPages={posts.numberOfPages} />
+                                }
+                            </>
                     }
                     </div>
             </div>

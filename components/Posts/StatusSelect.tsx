@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 interface StatusProps { 
@@ -15,6 +16,9 @@ interface StatusProps {
 }
 
 const StatusSelect: FC<StatusProps> = ({ status, handleChange }) => {
+  const matches = useMediaQuery('(max-width:1399px)')
+  const matches_500 = useMediaQuery('(min-width:500px)')
+
 
     const customSelect = createTheme({
         palette: {
@@ -26,7 +30,7 @@ const StatusSelect: FC<StatusProps> = ({ status, handleChange }) => {
 
     return (
         <ThemeProvider theme={customSelect}>
-        <FormControl variant="standard" sx={{ m: 1, width: 200, position: 'absolute', right: 0, mr: 2, zIndex: 99999 }}>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: matches_500 ? 180 : 100, width: '40%', maxWidth: 180, position: 'absolute', right: 0, mr: 1.5, bottom: matches ? 50 : 'inherit' }}>
           <InputLabel id="sort-by-status">Sortează după statut</InputLabel>
           <Select
             MenuProps={{ disableScrollLock: true }}
