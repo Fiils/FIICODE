@@ -28,13 +28,13 @@ export function AuthProvider(props: any) {
         }
     }
     useEffect(() => {
-        // const source = axios.CancelToken.source()
+        const source = axios.CancelToken.source()
         
         login()
 
-        // return () => {
-        //     source.cancel()
-        // }
+        return () => {
+            source.cancel()
+        }
     }, [])
 
     const value: User = {user, setUser}
