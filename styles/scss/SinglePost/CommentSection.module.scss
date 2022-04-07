@@ -67,3 +67,49 @@
         outline-color: red !important;
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+    .container {
+        width: 90vw;
+        max-width: 350px;
+        font-size: 1rem;
+        margin: 50px auto 200px auto;
+    }
+
+    .form_comment {
+        button {
+            font-size: .7rem;
+        }
+    }
+
+    .add_comment {
+        textarea {
+            height: 9em;
+        }
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 1000px) {
+    .container {
+        width: 90vw;
+        max-width: 600px;
+        font-size: 1rem;
+        margin: 50px auto 200px auto;
+    }
+
+    .form_comment {
+        button {
+            font-size: .7rem;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .add_comment {
+        textarea {
+            height: 9em;
+        }
+    }
+}

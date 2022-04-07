@@ -15,6 +15,7 @@ import { useAuth } from '../../../utils/useAuth'
 import formatDate from '../../../utils/formatDate'
 import CommentSection from '../../../components/SinglePost/CommentSection'
 import { server } from '../../../config/server'
+import useWindowSize from '../../../utils/useWindowSize'
 
 
 interface Post {
@@ -94,6 +95,8 @@ interface Post {
 const Page: NextPage<Post> = ({ post, comments }) => {
     const [ data, setData ] = useState(post.post)
     const router = useRouter()
+
+    const [ width, height ] = useWindowSize()
 
     const user = useAuth()
 
@@ -241,33 +244,54 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     <div className={styles.swiper_limit}>
                         <h1>{data.title}</h1>
                         <div className={styles.post_info}>
-                        <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={50} height={50} />
-                            <div>
-                                <span>{data.nameAuthor} {data.firstNameAuthor}</span>
-                                <br />
-                                <span>{formatDate(data.creationDate)}</span>
-                            </div>
+                            {width >= 1200 ? 
+                                <>
+                                    <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={50} height={50} />
+                                    <div>
+                                        <span>{data.nameAuthor} {data.firstNameAuthor}</span>
+                                        <br />
+                                        <span>{formatDate(data.creationDate)}</span>
+                                    </div>
+                                </>
+                                :
+                                <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
+                                    <div className={`${styles.option}`}>
+                                        <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={width > 500 ? 20 : 15} height={width > 500 ? 20 : 15} onClick={e => LikeRequest(e)} />
+                                        <span id='#text'>{data.upVoted.count}</span>
+                                    </div>
+                                    <div className={styles.option}>
+                                        <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648630460/FIICODE/broken-heart-2940_1_pfnst7.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={width > 500 ? 20 : 15} height={width > 500 ? 20 : 15} onClick={e => DislikeRequest(e)} />
+                                        <span id='#text'>{data.downVoted.count}</span>
+                                    </div>
+                                    <div className={styles.option}>
+                                        <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} width={width > 500 ? 20 : 15} height={width > 500 ? 20 : 15} onClick={e => FavoriteRequest(e)} />
+                                        <span id='#text'>{data.favorites.count}</span>
+                                    </div>  
+                                </div>
+                            }
                             <div className={styles.status}>
-                                <Image src={data.status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (data.status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (data.status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
+                                <Image src={data.status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (data.status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (data.status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={width < 500 ? 15 : 30} />
                                 <p>{data.status}</p>
                             </div>
                         </div>
-                        {/*  marginLeft: -55 */}
+
                         <div style={{ display: 'flex', gap: '1em', }} className={styles.img_full}>
-                        <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
-                            <div className={`${styles.option}`}>
-                                <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
-                                <span id='#text'>{data.upVoted.count}</span>
+                        {width >= 1200 && 
+                            <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
+                                <div className={`${styles.option}`}>
+                                    <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
+                                    <span id='#text'>{data.upVoted.count}</span>
+                                </div>
+                                <div className={styles.option}>
+                                    <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648630460/FIICODE/broken-heart-2940_1_pfnst7.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={30} height={30} onClick={e => DislikeRequest(e)} />
+                                    <span id='#text'>{data.downVoted.count}</span>
+                                </div>
+                                <div className={styles.option}>
+                                    <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} width={30} height={30} onClick={e => FavoriteRequest(e)} />
+                                    <span id='#text'>{data.favorites.count}</span>
+                                </div>  
                             </div>
-                            <div className={styles.option}>
-                                <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648630460/FIICODE/broken-heart-2940_1_pfnst7.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={30} height={30} onClick={e => DislikeRequest(e)} />
-                                <span id='#text'>{data.downVoted.count}</span>
-                            </div>
-                            <div className={styles.option}>
-                                <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} width={30} height={30} onClick={e => FavoriteRequest(e)} />
-                                <span id='#text'>{data.favorites.count}</span>
-                            </div>  
-                        </div>
+                            }
                         <Swiper
                         modules={[ Navigation ]}
                         spaceBetween={50}
@@ -278,10 +302,10 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             {(data.video && data.video !== '') &&
                                 <SwiperSlide className={styles.video}>
                                     <video
-                                        width="950px"
-                                        height={'600px'}
+                                        width={width < 500 ? 200 : 950}
+                                        height={width < 500 ? 200 : 650}
                                         controls
-                                        src={data.video}
+                                        src={data.video}    
                                         style={{ paddingTop: 0 }}
                                     />
                                 </SwiperSlide>
@@ -289,8 +313,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             {data.media.length > 0 ?
                             <>
                                 {data.media.map((img: string, i: number) => {
-                                    return <SwiperSlide  key={i}>
-                                                <Image key={i} src={img} width={950} height={600} />
+                                    return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
+                                                <Image key={i} src={'https://res.cloudinary.com/multimediarog/image/upload/v1649163472/fiicode_photos/public_posts/624c3c6277fe4bc5e7068e2c/image_0_624c3c6277fe4bc5e7068e2c.png'} width={width < 500 ? 200 : 950} height={width < 500 ? 200 : 650} />
                                             </SwiperSlide>
                                 })}
                             </>
@@ -298,8 +322,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             <>
                                 {(data.video === '') &&
                                     <>
-                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: 950, height: 600, border: '2px solid black', borderRadius: 3 }}>
-                                            <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={250} height={300} />
+                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: width < 500 ? 200 : 950, height: width < 500 ? 200 : 650, border: '2px solid black', borderRadius: 3 }}>
+                                            <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} width={width < 500 ? 100 : 250} height={width < 500 ? 50 : 300} />
                                             <h1 className={styles.no_image}>Nicio imagine</h1>
                                         </SwiperSlide>
                                     </>
@@ -309,12 +333,22 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         
                         </Swiper>
                         </div>
+                        {width < 1200 &&
+                            <div className={styles.under_ph}>
+                                <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={width < 500 ? 35 : 50} height={25} />
+                                <div>
+                                    <span>{data.nameAuthor} {data.firstNameAuthor}</span>
+                                    <br />
+                                    <span>{formatDate(data.creationDate)}</span>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={styles.description}>
                     {parse(data.description)}
                 </div>
-
+                
                 <CommentSection key={router.query.id?.toString()} comments={comments} />
             </div>
         </>

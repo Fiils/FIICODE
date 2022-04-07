@@ -94,3 +94,25 @@ a {
   font-weight: 400;
   font-display: swap;
 }
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+  .swiper-button-next {
+    width: 20px !important;
+    height: 35px !important;
+    opacity: .6;
+
+    &:hover {
+      opacity: .6;
+    }
+  }
+  
+  .swiper-button-prev {
+    width: 20px !important;
+    height: 35px !important;
+    opacity: .6;
+
+    &:hover {
+      opacity: .6;
+    }
+  }
+}

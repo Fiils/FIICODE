@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import styles from '../../styles/scss/SinglePost/Comment.module.scss'
 import { useAuth  } from '../../utils/useAuth'
 import { server } from '../../config/server'
+import useWindowSize from '../../utils/useWindowSize'
 
 
 interface Comment {
@@ -46,9 +47,13 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
     const [ data, setData ] = useState(comment)
     const user = useAuth()
 
+    const [ width, height ] = useWindowSize()
+
     const [ like, setLike ] = useState(false)
     const [ dislike, setDislike ] = useState(false)
     const [ reported, setReported ] = useState(false)
+
+    const [ buttonBox, setButtonBox ] = useState(false)
 
     const [ press, setPress ] = useState(true)
 
@@ -155,24 +160,50 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             <div className={styles.comment_text}>
                 <p style={{ marginTop: 5, marginBottom: 10 }}>{comment.text}</p>
             </div>
-            <div className={styles.manip_sec}>
-                <div className={`${styles.option}`} onClick={e => LikeRequest(e)}>
-                    <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={15} height={15} />
-                    <span id='#text'>{data.upVoted.count}</span>
-                </div>
-                <div className={styles.option} onClick={e => DislikeRequest(e)}>
-                    <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={15} height={15} />
-                    <span id='#text'>{data.downVoted.count}</span>
-                </div>
-                <div className={styles.option} onClick={() => { if(!reported) { setCreateReport(!createReport); } }}>
-                <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } width={15} height={15} />
-                    <span id='#text'>Semnalează</span>
-                </div>
-            </div>
+            {width >= 700 ?
+                    <div className={styles.manip_sec}>
+                        <div className={`${styles.option}`} onClick={e => LikeRequest(e)}>
+                            <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={15} height={15} />
+                            <span id='#text'>{data.upVoted.count}</span>
+                        </div>
+                        <div className={styles.option} onClick={e => DislikeRequest(e)}>
+                            <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={15} height={15} />
+                            <span id='#text'>{data.downVoted.count}</span>
+                        </div>
+                        <div className={styles.option} onClick={() => { if(!reported) { setCreateReport(!createReport); } }}>
+                            <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } width={15} height={15} />
+                            <span id='#text'>Semnalează</span>
+                        </div>
+                    </div>
+                :
+                    <div style={{ display: 'flex', gap: '.5em' }}>
+                        <div className={styles.options_box_button}>
+                            <Image onClick={() => setButtonBox(!buttonBox)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649346820/FIICODE/more-7660_xvyrhj.svg' height={15} width={15} />
+                        </div>
+                        {buttonBox &&
+                            <div className={styles.options_box}>
+                                <ul>
+                                    <li onClick={e => { setButtonBox(false); LikeRequest(e) }}>
+                                        <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <span>Apreciază</span>
+                                    </li>
+                                    <li onClick={e => { setButtonBox(false); DislikeRequest(e) }}>
+                                        <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <span>Dezapreciază</span>
+                                    </li>
+                                    <li onClick={e => { setButtonBox(false); if(!reported) { setCreateReport(!createReport); } }}>
+                                        <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <span id='#text'>Semnalează</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                }
             {createReport &&
                 <form className={styles.form_comment}>
                     <div className={`${styles.add_comment} ${errorReport ? styles.wrong_input : '' }`}>
-                        <textarea placeholder='Semnalează...' value={textReport} onChange={e => { setTextReport(e.target.value); setErrorReport(false) } } />
+                        <textarea maxLength={200} placeholder='Semnalează...' value={textReport} onChange={e => { setTextReport(e.target.value); setErrorReport(false) } } />
                     </div>  
                     {!loadingReport ?
                         <div style={{ alignSelf: 'flex-end'}}>

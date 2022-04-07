@@ -19,7 +19,7 @@
         content: '';
         position: absolute;
         height: calc(100% - 40px);
-        width: 2px;
+        width: 2.5px;
         left: 14px;
         top: 40px;
         background: gray;
@@ -148,4 +148,127 @@
         border-color: red !important;
         outline-color: red !important;
     }
+}
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+    .container {
+        width: 90vw;
+        max-width: 350px;
+        font-size: 1rem;
+        margin: 50px auto 200px auto;
+    }
+
+    .form_comment {
+        button {
+            font-size: .7rem;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .add_comment {
+        textarea {
+            height: 9em;
+        }
+    }
+
+    .deep_level {
+        margin-left: 30px;
+        margin-top: 30px;
+    }
+
+    .options_box_button {
+        margin-left: 60px !important;
+        margin-top: 5px;
+        position: relative;
+    }
+
+    .options_box {
+        position: absolute;
+        width: 90px;
+        height: auto;
+        background: rgb(240, 240, 240);
+        margin-top: .45em;
+        left: 75px;
+        z-index: 99999;
+
+        ul {
+            list-style-type: none;
+            padding-left: 0px;
+            font-family: 'Baloo Bhai 2';
+            font-weight: 900;
+            font-size: .55rem;
+
+            li {
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                gap: .5em;
+                padding-left: 5px;
+                padding-bottom: 5px;
+
+                &:not(:first-child) {
+                    margin-top: 5px;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid rgb(130, 130, 130);
+                }
+
+            }
+        }
+    }
+    
+}
+
+@media screen and(min-width: 500px) and (max-width: 700px) {
+    .options_box_button {
+        margin-left: 60px !important;
+        margin-top: 5px;
+        position: relative;
+    }
+
+    .options_box {
+        position: absolute;
+        width: 150px;
+        height: auto;
+        background: rgb(240, 240, 240);
+        margin-top: .45em;
+        left: 75px;
+        z-index: 99999;
+
+        ul {
+            list-style-type: none;
+            padding-left: 0px;
+            font-family: 'Baloo Bhai 2';
+            font-weight: 900;
+            font-size: 1rem;
+
+            li {
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                gap: .5em;
+                padding-left: 5px;
+                padding-bottom: 5px;
+
+                &:not(:first-child) {
+                    margin-top: 5px;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid rgb(130, 130, 130);
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1024px) {
+    .manip_sec .option:hover {
+        background: rgb(245, 245, 245);
+}
 }

@@ -104,7 +104,7 @@
         content: '';
         position: absolute;
         height: 2px;
-        width:100%;
+        width: 100%;
         bottom: -10px;
         background-color: rgb(200, 200, 200);
     }
@@ -121,4 +121,143 @@
     line-height: 1.5;
     font-size: 1.2rem;
     margin: 50px auto 200px auto;
+}
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+
+    .swiper_limit {
+        width: 90vw;
+        max-width: 300px;
+
+        h1 {
+            font-size: 1rem;
+            margin-bottom: 0;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+        }
+    }
+    
+    .manip_sec {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: .2em;
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+
+    .option {
+        flex-flow: row nowrap;
+        font-size: 1rem;
+        margin-top: 10px;
+    
+        img:hover {
+            background-color: rgb(245, 245, 245);
+        }
+    
+        img {
+            padding: 5px !important;
+        }
+    }
+
+    .status {
+        gap: .2em;
+        top: -35px;
+        font-size: .8rem;
+    }
+    
+    .under_ph {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 1em;
+        font-size: .7rem;
+        font-family: 'Baloo Bhai 2';
+        margin-top: 20px;
+
+        span {
+            margin: 0 !important;
+        }
+    }
+
+    .description {
+        width: 90vw;
+        max-width: 300px;
+        line-height: 1.5;
+        font-size: .8rem;
+        font-family: sans-serif;
+        margin: 30px auto 200px auto;
+    }
+
+}
+
+@media screen and (min-width: 500px) and (max-width: 1200px) {
+
+    .swiper_limit {
+        width: 90vw;
+        max-width: 800px;
+
+        h1 {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+        }
+    }
+    
+    .manip_sec {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: .2em;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        margin-left: 0px;
+    }
+
+    .option {
+        flex-flow: row nowrap;
+        font-size: 1rem;
+        margin-top: 10px;
+    
+        img:hover {
+            background-color: rgb(245, 245, 245);
+        }
+    
+        img {
+            padding: 5px !important;
+        }
+    }
+
+    .status {
+        gap: .2em;
+        top: -40px;
+        font-size: 1.2rem;
+    }
+    
+    .under_ph {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 1em;
+        font-size: 1rem;
+        font-family: 'Baloo Bhai 2';
+        margin-top: 20px;
+
+        span {
+            margin: 0 !important;
+        }
+    }
+
+    .description {
+        width: 90vw;
+        line-height: 1.5;
+        font-size: 1rem;
+        max-width: 800px;
+        font-family: sans-serif;
+        margin: 30px auto 200px auto;
+    }
+
+}
+
+@media screen and (min-width: 500px) and (max-width: 700px) {
+    .post_info {
+        font-size: 1rem;
+    }
 }
