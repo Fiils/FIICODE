@@ -3,8 +3,11 @@
     height: auto;
     min-height: 200px;
     width: 90%;
+    max-width: 1400px;
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 50px;
     padding: 25px 50px 50px 50px;
 }
@@ -14,9 +17,12 @@
     height: auto;
     min-height: 500px;
     width: 90%;
+    max-width: 1400px;
     display: flex;
     align-items: center;
-    padding: 0 50px 50px 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 25px 50px 50px 50px;
 }
 
 .background_make_video {
@@ -24,9 +30,12 @@
     height: auto;
     min-height: 600px;
     width: 90%;
+    max-width: 1400px;
     display: flex;
     align-items: center;
-    padding: 0 50px 50px 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 25px 50px 50px 50px;
 }
 
 .background_make_description {
@@ -34,8 +43,11 @@
     height: auto;
     min-height: 600px;
     width: 90%;
+    max-width: 1400px;
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: auto;
     padding: 25px 50px 50px 50px;
 }
 
@@ -44,8 +56,11 @@
     height: auto;
     min-height: 100px;
     width: 90%;
+    max-width: 1400px;
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: auto;
     justify-content: flex-end;
     padding: 25px 50px;
 
@@ -69,17 +84,16 @@
 }
 
 .heading {
-    margin-left: 10vw;
+    margin-left: 5vw;
     justify-content: center;
     gap: 1em;
     font-size: 1.4rem;
     font-family: 'Baloo Tamma 2';
-    margin-top: 10vh;
+    margin-top: 50px;
 }
 
 .form {
-    margin-left: 10vw;
-    margin-top: 10vh;
+    margin-top: 80px;
     display: flex;
     flex-flow: column wrap;
     gap: 3em;
@@ -101,7 +115,8 @@
     }
 
     input {
-        width: 70%;
+        width: 100%;
+        max-width: 800px;
         padding: .8em 1em .8em .5em;
         border-radius: 5px;
         border: 1px solid rgb(130, 130, 130);
@@ -137,8 +152,7 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
-    width: 70%;
-    height: 280px;
+    width: max-content;
     background: white;
 }
 
@@ -197,6 +211,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 160px;
+    height: 160px;
 
 
     &:hover:not(:first-child::after) {
@@ -216,17 +232,17 @@
 }
 
 .no_content {
-    margin-left: 100px;
     justify-self: center;
     align-self: center;
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
     cursor: pointer;
 
     p {
         font-family: 'Baloo Bhai 2';
         color: rgb(220, 220, 220);
         font-size: 1.3rem;
-        margin-left: -25%;
-        margin-top: 0 !important;
     }
 }
 
@@ -243,7 +259,8 @@
 
 .container_video {
     border: 1px solid gray;
-    width: 70%;
+    width: 100%;
+    max-width: 900px;
     height: 400px;
     padding: 0 1em;
     position: relative;
@@ -258,6 +275,7 @@
 .description {
     display: flex;
     flex-flow: column wrap;
+    font-family: 'Baloo Tamma 2';
 
     label {
         font-family: 'Baloo Tamma 2';
@@ -267,10 +285,151 @@
 }
 
 .wrong_input {
-    border: 1px solid red !important;
-
+    &:not([id='title']) {
+        border: 1px solid red !important;
+    }
+    
     input {
         border-color: red !important;
         outline-color: red !important;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+    .heading {
+        margin-left: 5vw;
+        width: 95vw;
+        font-size: .75rem;
+        margin-bottom: -5vh;
+    }   
+
+    .background_make {
+        padding-left: 8vw;
+        padding-right: 5vw;
+    }
+
+    .background_make_photos {
+        padding-left: 8vw;
+        padding-right: 5vw;
+    }
+
+    .background_make_video {
+        padding-left: 8vw;
+        padding-right: 0vw;
+    }
+
+    .background_make_description {
+        padding-left: 8vw;
+        padding-right: 5vw;
+    }
+
+    .background_make_button {
+        padding-left: 8vw;
+        padding-right: 5vw;
+    }
+
+    .input {
+        display: flex;
+        flex-flow: column wrap;
+        width: 100% !important;
+        max-width: 400px;
+
+        label {
+            font-family: 'Baloo Tamma 2';
+            font-size: 1.6rem;
+            color: #8BBD8B;
+        }
+    
+        p {
+            font-family: 'Baloo Bhai 2';
+            font-size: .8rem;
+        }
+    
+        input {
+            width: 100%;
+            padding: .8em 1em .8em .5em;
+            border-radius: 5px;
+            border: 1px solid rgb(130, 130, 130);
+            font-size: 1rem;
+            font-family: sans-serif;
+            background: rgb(250, 250, 250);
+    
+            &:focus {
+                outline-color: #6CAE75;
+                border-color: #6CAE75;
+            }
+    
+            &[type=file] {
+                border: none;
+                display: none;
+            }
+        }
+    }
+
+    .container_video {
+        border: 1px solid gray;
+        width: 100%;
+        height: 250px;
+        padding: 0 1em;
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .description {
+        font-size: .8rem;
+    }
+
+    .flex_add {
+        gap: .5em;
+        padding-right: 1em;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .heading {
+        margin-left: calc((100vw - 1400px) / 2);
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .image_container {
+        overflow: scroll;
+        width: 70vw;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .image_lay {
+        width: 110px;
+        height: 110px;
+    }
+
+    .img_replace {
+        width: 110px;
+        height: 110px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .delete_icon_ph_mob {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        background: white;
+        padding: 4px;
+        padding-top: 0;
+        height: auto;
+        z-index: 999999;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .img_replace {
+        padding-right: 24px; 
     }
 }

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss';
+import useWindowSize from '../../utils/useWindowSize'
 
 interface ImageOverlayProps {
     img: string;
@@ -14,6 +15,7 @@ interface ImageOverlayProps {
 const ImageOverlayed: FC<ImageOverlayProps> = ({ img, i, setFiles, files }) => {
 
     const [ deleteImage, setDeleteImage ] = useState(false)
+    const [ width, height ] = useWindowSize()
 
     const handleDeleteImage = (e: any) => {
         e.preventDefault();
@@ -45,26 +47,37 @@ const ImageOverlayed: FC<ImageOverlayProps> = ({ img, i, setFiles, files }) => {
     return (
         <div className={styles.image_lay} onMouseEnter={() => setDeleteImage(true)} onMouseLeave={() => setDeleteImage(false)}>
             {img ?
-            <>
-                    <div className={styles.img_replace} style={{ padding: 0}}>
-                        <Image src={img.toString()} width={150} height={150} />
-                        {deleteImage &&
-                            <div className={styles.delete_photo}>
-                                <button onClick={e => handleDeleteImage(e)}>Elimină</button>
-                            </div>
-                        }
-                    </div>
-            </>
+                <>
+                        <div className={styles.img_replace} style={{ padding: 0}}>
+                            <Image src={img.toString()} width={width > 900 ? 150 : 110} height={width > 900 ? 150 : 110} />
+                                    {width < 1024 ?
+                                        <div className={styles.delete_icon_ph_mob} id='#photo-delete'>
+                                            <Image onClick={e => handleDeleteImage(e)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649507464/FIICODE/close-877_r16t5q.svg' width={10} height={10} />
+                                        </div>
+                                    :
+                                        <>
+                                            {deleteImage &&
+                                                <div className={styles.delete_photo}>
+                                                    <button onClick={e => handleDeleteImage(e)}>Elimină</button>
+                                                </div>
+                                            }
+                                        </>
+
+
+                            }
+                        </div>
+                </>
             :
-            <>
-                <input type='file' id='file' name='file' onChange={uploadPhoto} style={{ display: 'none' }} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept='image/*' />
-                <label htmlFor='file'>
-                    <div className={`${styles.img_replace} ${i === 0 ? styles.first_element : ''}`}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg' width={50} height={50} />
-                    </div>
-                </label>
-            </>
-        }
+                <>
+                    <input type='file' id='file' name='file' onChange={uploadPhoto} style={{ display: 'none' }} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept='image/*' />
+                    <label htmlFor='file'>
+                        <div className={`${styles.img_replace} ${i === 0 ? styles.first_element : ''}`}>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg' width={50} height={50} />
+                        </div>
+
+                    </label>
+                </>
+            }
         </div>
     )
 }

@@ -9,6 +9,7 @@ import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
 import { server } from '../../config/server'
 import ImageOverlayed from '../../components/CreatePost/ImageOverlayed'
 import { useAuth } from '../../utils/useAuth'
+import useWindowSize from '../../utils/useWindowSize'
 
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -41,6 +42,8 @@ const CreatePost: NextPage = () => {
             }
         },
     });
+
+    const [ width, height ] = useWindowSize()
 
     const [ title, setTitle ] = useState('')
     const [ files, setFiles ] = useState<Array<string>>([])
@@ -76,7 +79,6 @@ const CreatePost: NextPage = () => {
 
    const [ loading, setLoading ] = useState(false)
    const [ error, setError ] = useState({ title: false, description: false })
-   const [ errorMessages, setErrorMessages ] = useState({ title : '', description : '' })
    const [ fullError, setFullError ] = useState(false)
 
     const handleSubmit = async (e: any) => {
@@ -99,11 +101,6 @@ const CreatePost: NextPage = () => {
             setError({
                 title: title.split('').length < 15 ? true : false,
                 description: numberOfChars < 50 ? true : false
-            })
-
-            setErrorMessages({
-                title: title.split('').length < 15 ? 'Titlu prea scurt' : '',
-                description: numberOfChars < 50 ? 'Descriere prea scurtă' : ''
             })
 
             if(title.split('').length < 15 || numberOfChars < 50) {
@@ -131,12 +128,6 @@ const CreatePost: NextPage = () => {
             }
         }                        
     }
-
-    function wrongInput() {
-        if (error.description) {
-          return 'wrong_input';
-        }
-      }
 
     return (
         <>
@@ -194,11 +185,13 @@ const CreatePost: NextPage = () => {
                 </div>
                 <form className={styles.form}>
                     <div className={styles.background_make} style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'flex-start'}}>
-                        <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} style={{ width: '100%' }}>
+                        <div className={`${styles.input} ${error.title ? styles.wrong_input : ''}`} id='title' style={{ width: '100%'}}>
                             <label htmlFor='title'>Titlu</label>
                             <p>Oferă cât mai multe informații, în cât mai puține cuvinte <span style={{ color : '#8BBD8B'}}>(minimum 15 caractere)</span></p>
-                            <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
-                            <p style={{ alignSelf: 'flex-end', marginRight: '30%', marginTop: 0 }}>{title.split('').length}/150</p>
+                            <div style={{ position: 'relative', width: '100%', maxWidth: '800px'}}>
+                                <input id='title' maxLength={150} minLength={15} name='title' value={title} onChange={e => { setError({ ...error, title: false }); setTitle(e.target.value) }} />
+                                <p style={{ position: 'absolute', right: 0, top: 35 }}>{title.split('').length}/150</p>
+                            </div>
                         </div>
                         {(user.user.comuna && user.user.comuna !== '') &&
                             <div className={styles.input} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: '2em'}}>
@@ -261,7 +254,7 @@ const CreatePost: NextPage = () => {
                                                     }
                                                 </div>
                                                 <div className={styles.delete_icon}>
-                                                    <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={30} height={30} />
+                                                    <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={width > 530 ? 30 : 15} height={width > 530 ? 30 : 15} />
                                                 </div>
                                             </div>
                                         </div>
@@ -273,21 +266,43 @@ const CreatePost: NextPage = () => {
                             <div className={styles.description}>
                                 <label htmlFor='description'>Descriere</label>
                                 <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
-                                <div style={{ width: '80%' }} className={error.description ? styles.wrong_input : ''}>
-                                    <Editor
-                                        wrapperClassName="wrapper-class"
-                                        editorClassName="editor-class"
-                                        toolbarClassName="toolbar-class"
-                                        defaultEditorState={description}
-                                        onEditorStateChange={setDescription}
-                                        onChange={() => setError({ ...error, description: false })}
-                                        toolbar={{
-                                            options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                                            fontSize: {
-                                                options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
-                                            }
-                                        }}
-                                    />
+                                <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''}>
+                                    {/* {width > 700 ?
+                                        <Editor
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class"
+                                            toolbarClassName="toolbar-class"
+                                            defaultEditorState={description}
+                                            onEditorStateChange={setDescription}
+                                            onChange={() => setError({ ...error, description: false })}
+                                            toolbar={{
+                                                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                                fontSize: {
+                                                    options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
+                                                }
+                                            }}
+                                        />
+                                    :  */}
+                                        <Editor
+                                            wrapperClassName="wrapper-class"
+                                            editorClassName="editor-class"
+                                            toolbarClassName="toolbar-class"
+                                            defaultEditorState={description}
+                                            onEditorStateChange={setDescription}
+                                            onChange={() => setError({ ...error, description: false })}
+                                            toolbar={{
+                                                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign' ],
+                                                inline: { inDropdown: true },
+                                                blockType: { inDropdown: true },
+                                                list: { inDropdown: true },
+                                                textAlign: { inDropdown: true },
+                                                history: { inDropdown: true},
+                                                fontSize: {
+                                                    options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
+                                                }
+                                            }}
+                                        />
+                                    {/* } */}
                                 </div>
                             </div>
                         </div>
