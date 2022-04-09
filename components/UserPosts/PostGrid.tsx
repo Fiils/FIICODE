@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import styles from '../../styles/scss/UserPosts/Post.module.scss';
 import formatDate from '../../utils/formatDate'
+import useWindowSize from '../../utils/useWindowSize'
 
 interface Post { 
     index: number;
@@ -46,6 +47,8 @@ interface Post {
 }
 
 const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments }) => {
+    const [ width, height ] = useWindowSize()
+    
     return (
         <div key={_id} className={styles.post}>
             <a href={`/postari/${_id}`}>
@@ -62,12 +65,18 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
             </div>
             <div>
                 <div className={styles.post_info}>
-                    <Image src={authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : authorProfilePicture } width={40} height={40} />
-                    <div>
-                        <span>{nameAuthor} {firstNameAuthor}</span>
-                        <br />
+                    {width > 500 ?
+                        <>
+                            <Image src={authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : authorProfilePicture } width={40} height={40} />
+                            <div>
+                                <span>{nameAuthor} {firstNameAuthor}</span>
+                                <br />
+                                <span>{formatDate(creationDate)}</span>
+                            </div>
+                        </>
+                    :
                         <span>{formatDate(creationDate)}</span>
-                    </div>
+                    }
                     <div className={styles.status}>
                         <Image src={status === 'Trimis' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648628565/FIICODE/paper-plane-2563_dlcylv.svg' : (status === 'Vizionat' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713682/FIICODE/check-7078_v85jcm.svg' : (status === 'În lucru' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648713958/FIICODE/time-management-9651_fywiug.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648714033/FIICODE/wrench-and-screwdriver-9431_hf7kve.svg' )) } height={120} width={30} />
                         <p>{status}</p>

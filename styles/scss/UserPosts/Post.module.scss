@@ -1,6 +1,7 @@
 .post {
     width: 80%;
     height: 600px;
+    max-width: 700px;
     background: rgb(255, 255, 255);
     border-radius: 4px;
     cursor: pointer;
@@ -8,6 +9,7 @@
     border-bottom: 2px solid rgb(220, 220, 220);
     border-right: 2px solid rgb(220, 220, 220);
     border-left: 2px solid rgb(220, 220, 220);
+
     &:nth-child(odd) {
         justify-self: end;
     }
@@ -139,3 +141,67 @@
         background-color: rgb(230, 230, 230)
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 900px) {
+    .post {
+        height: 550px;
+        max-width: 500px;
+
+        &:nth-child(odd) {
+            justify-self: center;
+        }
+        &:nth-child(even) {
+            justify-self: center;
+        }
+    }
+
+    .image {
+        height: 55%;
+    }
+
+
+}
+
+
+@media screen and (max-width: 500px) {
+    .title {
+        margin-left: 20px;
+        font-size: 1rem;
+    }
+
+    .manip_section {
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-flow: column wrap;
+        gap: .5em;
+    }
+    
+    .manip_item {
+        font-size: .85rem;
+        background: white;
+        width: max-content;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .manip_item {
+        background: white;
+
+        &:hover {
+            background-color: white;
+        }
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1245px) {
+    .post {
+        width: 90%;
+    }
+} 
+
+@media screen and (min-width: 1245px) and (max-width: 1400px) {
+    .post {
+        width: 85%;
+    }
+}   

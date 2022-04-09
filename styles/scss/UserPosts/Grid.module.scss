@@ -4,6 +4,7 @@
     margin-top: 50px;
     text-align: center;
     color: #60BF60;
+
     h1 {
         margin-bottom: 0 !important;
     }
@@ -68,5 +69,51 @@
         width: 70%;
         text-align: center;
         color: rgb(220, 220, 220);
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 290px) {
+    .grid_posts {
+      margin-left: -5vw;
+    }
+  }
+  
+  @media screen and (min-width: 290px) and (max-width: 310px) {
+    .grid_posts {
+      margin-left: -3vw;
+    }
+  }
+  
+  @media screen and (min-width: 0px) and (max-width: 500px) {
+    .more_button {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+        mix-blend-mode: multiply;
+        
+        button {
+            padding: .8em 1.2em;
+            font-size: 1rem;
+    
+            &:hover {
+                opacity: 1;
+            }
+    
+            &:active {
+                opacity: 1;
+            }
+        }
+    }
+  }
+
+@media screen and (min-width: 0px) and (max-width: 900px) {
+    .title {
+        font-family: 'Baloo Tamma 2';
+        font-size: 1rem;
+    }
+
+    .grid_posts {
+        width: 100%;
+        grid-template-columns: 1fr;
     }
 }

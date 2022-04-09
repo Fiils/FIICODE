@@ -348,20 +348,20 @@ const Postari: NextPage<InitialFetchProps> = () => {
                             </>
                         }
                     {loading && <div className={gridStyles.loader}></div> }
-                    <div>
-                        {width >= 480 ?
-                                <>
-                                    {(posts.numberOfPages > 0  && posts.posts.length > 0) &&
-                                        <Pagination numberOfPages={posts.numberOfPages} />
-                                    }
-                                </>
-                            :
-                                <>
-                                    {(posts.numberOfPages > 0 && posts.posts.length > 0) &&
-                                        <MobilePagination numberOfPages={posts.numberOfPages} />
-                                    }
-                                </>
-                        }
+                        <div>
+                            {width >= 480 ?
+                                    <>
+                                        {(posts.numberOfPages > 0  && posts.posts.length > 0) &&
+                                            <Pagination numberOfPages={posts.numberOfPages} />
+                                        }
+                                    </>
+                                :
+                                    <>
+                                        {(posts.numberOfPages > 0 && posts.posts.length > 0) &&
+                                            <MobilePagination numberOfPages={posts.numberOfPages} />
+                                        }
+                                    </>
+                            }
                         </div>
                 </div>
 
