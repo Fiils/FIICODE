@@ -4,6 +4,22 @@ const nextConfig = {
   images: {
     domains: [ 'res.cloudinary.com' ],
   },
+  rewrites() {
+    return {
+        beforeFiles: [
+            {
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'dashboard.romdig.net',
+                    },
+                ],
+                destination: '/404',
+            },
+        ]
+    }
+}
 }
 
 module.exports = nextConfig
