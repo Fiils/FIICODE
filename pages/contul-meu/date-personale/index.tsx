@@ -27,6 +27,8 @@ interface User {
             city: string;
             county: string;
             street: string;
+            comuna: string;
+            active: boolean;
         }
     }
 }
@@ -191,30 +193,53 @@ const PersonalData: NextPage<User> = ({ user }) => {
 
                     <div className={styles.flex_option}>
                         <div className={styles.option}>
-                            <p title='Oraș'>
-                                {user.user.city}
-                            </p>
+                            {user.user.comuna === '' ?
+                                <p title='Oraș'>
+                                    {user.user.city}
+                                </p>
+                            :
+                                <p title='Comună'>
+                                    {user.user.comuna}
+                                </p>
+                            }
                         </div>
 
-                        <div className={styles.option}>
-                            <p title='Județ'>
-                                {user.user.county}
-                            </p>
-                        </div>
+                        {user.user.comuna === '' ?
+                            <div className={styles.option}>
+                                <p title='Județ'>
+                                    {user.user.county}
+                                </p>
+                            </div>
+                        :
+                            <div className={styles.option}>
+                                <p title='Sat'>
+                                    {user.user.city}
+                                </p>
+                            </div>
+}
                     </div>
 
                     <div className={styles.flex_option}>
+                        {user.user.comuna !== '' && 
+                            <div className={styles.option}>
+                                <p title='Județ'>
+                                    {user.user.county}
+                                </p>
+                            </div>
+                        }
                         <div className={styles.option}>
                             <p title='Stradă'>
                                 {user.user.street}    
                             </p>
                         </div>
 
-                        <div style={{ width: 300 }}></div>
+                        {user.user.comuna === '' && <div style={{ width: 300 }}></div> }
                     </div>
 
                 </div>
 
+                {!user.user.active && 
+                <>
                 <div className={styles.setting} style={{ marginTop: 100 }}>
                     <div>
                         <h2>Schimbă parola</h2>
@@ -258,6 +283,8 @@ const PersonalData: NextPage<User> = ({ user }) => {
                         <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Pentru schimbarea a oricărei date din formularul de înregistrare, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)'}}>contact.romdig@gmail.com</span></p>
                     </div>
                 </div>
+                </>
+}
 
 
             </div>
