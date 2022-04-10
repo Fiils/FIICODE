@@ -385,7 +385,9 @@
     }
 
     .description {
-        font-size: .8rem;
+        p {
+            font-size: .8rem;
+        }
     }
 
     .flex_add {

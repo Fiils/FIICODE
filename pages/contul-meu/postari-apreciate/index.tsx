@@ -2,8 +2,10 @@ import type { NextPage, GetServerSideProps} from 'next'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useMediaQuery } from 'react-responsive'
 
 import SideMenu from '../../../components/MyAccount/SideMenu'
+import SideMenuMobile from '../../../components/MyAccount/SideMenuMobile'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/Posts/PostsSection.module.scss'
 import Post from '../../../components/MyAccount/Post'
@@ -50,6 +52,8 @@ interface InitialFetchProps {
 }
 
 const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
+    const isSmallScreen = useMediaQuery({ query: '(max-width: 900px)'})
+
     const maxSize = likedPosts.posts.length > 5 ? 5 : likedPosts.posts.length 
     const iterations = []
     for(let i = 0; i < maxSize; i++) {
@@ -61,7 +65,11 @@ const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
     }
     return (
         <div className={gridStyles.container_grid}>
-            <SideMenu active={2} />
+            {!isSmallScreen ?
+                <SideMenu active={2} />
+            :
+                <SideMenuMobile active={2} />
+            }
             
             <div className={gridStyles.container_options}>
                 {likedPosts.posts.length > 0 ?

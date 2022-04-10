@@ -6,7 +6,6 @@ import type { FC } from 'react'
 import Head from 'next/head'
 
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
-import { useAuth } from '../../utils/useAuth'
 import { server } from '../../config/server'
 
 interface ListItem {
@@ -22,8 +21,6 @@ interface PropsForStyling {
 
 const MyAccount: FC<PropsForStyling> = ({ active }) => {
     const router = useRouter()
-
-    const user = useAuth()
 
     const ListItem = ({name, url, index}: ListItem) => {
 

@@ -40,3 +40,13 @@
         }
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 900px) {
+    .container_grid {
+        flex-flow: column wrap;
+    }
+
+    .container_options {
+        width: 100%; 
+    }
+}

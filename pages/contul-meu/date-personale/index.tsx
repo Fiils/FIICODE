@@ -3,11 +3,13 @@ import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 
 import SideMenu from '../../../components/MyAccount/SideMenu'
+import SideMenuMobile from '../../../components/MyAccount/SideMenuMobile'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/PersonalData.module.scss'
 import { useAuth } from '../../../utils/useAuth'
@@ -33,6 +35,8 @@ const PersonalData: NextPage<User> = ({ user }) => {
     const router = useRouter()
 
     const auth = useAuth()
+
+    const isSmallScreen = useMediaQuery({ query: '(max-width: 900px)'})
 
     const [ showPassword, setShowPassword ] = useState(false)
     const [ showNewPassword, setShowNewPassword ] = useState(false)
@@ -119,7 +123,11 @@ const PersonalData: NextPage<User> = ({ user }) => {
 
     return (
         <div className={gridStyles.container_grid}>
-            <SideMenu active={1} />
+            {!isSmallScreen ?
+                <SideMenu active={1} />
+            :
+                <SideMenuMobile active={1} />
+            }
             
             <div className={gridStyles.container_options}>
                 {!auth.user.active &&

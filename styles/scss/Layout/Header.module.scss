@@ -160,17 +160,24 @@ $hover-color: #8BBD8B;
         }
     }
 
+    @keyframes open_container {
+        0% { opacity: 0; height: 0; }
+        100% { opacity: 1; height: 280px; }
+    }
+
+    @keyframes close_container {
+        0% { opacity: 1; height: 280px; }
+        100% { opacity: .4; height: 0; }
+    }
+
     .opened_container {
-        opacity: 1;
+        animation: open_container .2s;
         height: 280px;
-        transition: all .2s;
     }
 
     .closed_container {
-        visibility: hidden;
-        opacity: .4;
-        height: 0;
-        transition: all .2s;
+        animation: close_container .2s;
+        height: 0px;
     }
 
     .authentication_links {

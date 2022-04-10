@@ -2,8 +2,10 @@ import type { NextPage, GetServerSideProps} from 'next'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useMediaQuery } from 'react-responsive'
 
 import SideMenu from '../../../components/MyAccount/SideMenu'
+import SideMenuMobile from '../../../components/MyAccount/SideMenuMobile'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/Posts/PostsSection.module.scss'
 import Post from '../../../components/MyAccount/Post'
@@ -51,6 +53,8 @@ interface InitialFetchProps {
 }
 
 const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
+    const isSmallScreen = useMediaQuery({ query: '(max-width: 900px)'})
+
     const maxSize = personalPosts.posts.length > 5 ? 5 : personalPosts.posts.length 
     const iterations = []
     for(let i = 0; i < maxSize; i++) {
@@ -62,7 +66,12 @@ const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
     }
     return (
         <div className={gridStyles.container_grid}>
-            <SideMenu active={3} />
+            {!isSmallScreen ?
+                <SideMenu active={3} />
+            :
+                <SideMenuMobile active={3} />
+            }
+            
             
             <div className={gridStyles.container_options}>
                 {personalPosts.posts.length > 0 ?
