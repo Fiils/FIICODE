@@ -326,7 +326,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
                                 <span onClick={() => router.push(`/postari/cx/${router.query.category}/p1/sat`)} className={gridStyles.inactive_cat}>Sat</span>
                             </div>
                         }
-                        {width < 1400 &&
+                        {width <= 1399 &&
                             <MobileCategories changeCategory={changeCategory} status={status} handleChange={handleChange} />
                         }
                         {posts.numberOfPages > 0 ?

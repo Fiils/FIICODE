@@ -146,6 +146,7 @@
     .post {
         height: 550px;
     }
+
     .title {
         font-size: 1rem;
         margin-left: 10px;
@@ -163,6 +164,10 @@
             margin-right: 5px !important;
         }
 
+    }
+
+    .image {
+        height: 52%;
     }
 
     .status {
@@ -216,31 +221,3 @@
 
     }
 }
-
-@media screen and (min-width: 768px) and (max-width: 800px) {
-
-}
-
-@media screen and (min-width: 800px) and (max-width: 1224px) {
-
-}
-
-// @media screen and (min-width: 1224px) {
-  
-// }
-
-// @media screen and (min-width: 1500px) {
-
-// }
-
-// @media screen and (min-width: 1780px) {
-
-// }
-
-// @media screen and (min-width: 2000px) {
-
-// }
-
-// @media screen and (min-width: 2415px) {
-
-// }

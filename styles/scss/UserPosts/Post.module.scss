@@ -195,8 +195,17 @@
 }
 
 @media screen and (min-width: 900px) and (max-width: 1245px) {
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .image {
+        height: 50%;
+    }
+
     .post {
         width: 90%;
+        height: 550px;
     }
 } 
 
