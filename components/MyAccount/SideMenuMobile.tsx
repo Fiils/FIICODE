@@ -48,7 +48,7 @@ const SideMenuMobile: FC<PropsForStyling> = ({ active }) => {
     }
 
     return (
-        <>
+        <div>
             <div className={styles.active_page} onClick={() => setOpenedMenu(!openedMenu)}>
                 <div>
                     <span>{category}</span>
@@ -71,7 +71,7 @@ const SideMenuMobile: FC<PropsForStyling> = ({ active }) => {
                     </ul>
                 </div>
             }
-        </>
+        </div>
     )
 }
 

@@ -194,11 +194,11 @@ const CreatePost: NextPage = () => {
                             </div>
                         </div>
                         {(user.user.comuna && user.user.comuna !== '') &&
-                            <div className={styles.input} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: '2em'}}>
+                            <div className={styles.input} id='#level' style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: '2em', marginTop: 40}}>
                                 <label>Nivel: </label>
                                 <div>
                                     <ThemeProvider theme={greenTheme}>
-                                        <FormControl variant='standard' sx={{ minWidth: 120}}>
+                                        <FormControl variant='standard' sx={{ minWidth: 60 }}>
                                             <Select
                                                 labelId="demo-simple-select-standard-label"
                                                 id="demo-simple-select-standard"
@@ -266,7 +266,7 @@ const CreatePost: NextPage = () => {
                             <div className={styles.description}>
                                 <label htmlFor='description'>Descriere</label>
                                 <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
-                                <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''}>
+                                <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''} id='#editor'>
                                     {/* {width > 700 ?
                                         <Editor
                                             wrapperClassName="wrapper-class"

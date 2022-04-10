@@ -330,6 +330,14 @@
     .background_make_button {
         padding-left: 8vw;
         padding-right: 5vw;
+
+        button {
+            padding-inline: 1.2em;
+        }
+
+        span {
+            font-size: .9rem;
+        }
     }
 
     .input {

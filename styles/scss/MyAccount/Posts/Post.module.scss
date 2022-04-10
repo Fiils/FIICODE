@@ -1,10 +1,10 @@
 .mini_post {
+    position: relative;
     width: 100%;
     height: 220px;
     display: grid;
     grid-template-columns: .6fr 1.4fr;
     cursor: pointer;
-    position: relative;
 
     &:not(:last-child){
         &::after {
@@ -105,5 +105,86 @@
 
     &:hover {
         background-color: rgb(230, 230, 230)
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1350px) {
+    .mini_post {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: 400px;
+        margin-inline: auto;
+        max-width: 400px;
+    }
+
+    .image {
+        position: relative;
+        height: 100%;
+        width: 80%;
+        margin-inline: auto;
+    
+        img {
+            border-radius: 2px;
+        }
+    }
+
+    .title {
+        width: 75%;
+        font-size: 1rem;
+    }
+
+    .manip_section {
+        position: relative;
+        margin: 20px 0px 0px 10px;
+        gap: .5em;
+        height: 100px;
+        font-size: 1rem;
+        flex-flow: column wrap;
+
+        &::before {
+            height: 5em;
+        }
+    }
+
+    .manip_item {
+        padding-top: .3em;
+        padding-bottom: .3em;
+        background: rgb(250, 250, 250);
+        width: 150px;
+        margin-left: 15px;
+
+        &:first-child {
+            margin-left: 15px;
+        }
+    
+        &:hover {
+            background-color: rgb(250, 250, 250);
+        }
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1350px) {
+    .mini_post {
+        padding-left: 20px;
+    }
+
+    .image {
+        height: 90%;
+    }
+} 
+
+@media screen and (min-width: 1000px) and (max-width: 1350px) {
+    .mini_post {
+        width: 500px; 
+        max-width: 500px;
+    }
+    
+    .image {
+        width: 60%;
+        height: 110%;
+    }
+    .title {
+        width: 75%;
+        font-size: 1.3rem;
     }
 }

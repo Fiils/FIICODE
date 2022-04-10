@@ -190,6 +190,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                                     .catch(err => console.log(err))
     }
 
+    console.log(width)
+
     return (
         <>
             <Head>
@@ -244,7 +246,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                     <div className={styles.swiper_limit}>
                         <h1>{data.title}</h1>
                         <div className={styles.post_info}>
-                            {width >= 1200 ? 
+                            {width >= 1199 ? 
                                 <>
                                     <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={50} height={50} />
                                     <div>
@@ -275,8 +277,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '1em', }} className={styles.img_full}>
-                        {width >= 1200 && 
+                        <div style={{ display: 'flex', gap: '1em' }} className={styles.img_full}>
+                        {width >= 1199 && 
                             <div className={styles.manip_sec} style={{ width: (data.media.length >= 2 || (data.video && data.video !== '')) ? '100%' : '', position: 'absolute' }}>
                                 <div className={`${styles.option}`}>
                                     <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648629762/FIICODE/heart-492_2_bul5uk.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={30} height={30} onClick={e => LikeRequest(e)} />
@@ -333,7 +335,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         
                         </Swiper>
                         </div>
-                        {width < 1200 &&
+                        {width < 1199 &&
                             <div className={styles.under_ph}>
                                 <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } width={width < 500 ? 35 : 50} height={25} />
                                 <div>

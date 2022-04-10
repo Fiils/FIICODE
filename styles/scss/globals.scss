@@ -116,3 +116,10 @@ a {
     }
   }
 }
+
+@media screen and (min-width: 0px) and (max-width: 400px) {
+  .rdw-editor-main {
+    min-height: 300px;
+    max-height: 300px;
+  }
+}

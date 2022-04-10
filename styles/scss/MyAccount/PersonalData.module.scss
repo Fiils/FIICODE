@@ -1,23 +1,19 @@
-.container_options {
-    position: relative;
-    width: 70%;
-    height: auto;
-    border-radius: 3px;
-    background: white;
-    padding: 1em 3em 10vh 3em;
-    flex-flow: column wrap;
-}
-
 .restricted_view {
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 53%;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
     z-index: 9999;
-    background-color: rgba(255, 255, 255, .7)
+    background-color: rgba(255, 255, 255, .7);
+
+    h2 {
+        font-size: 1.2rem !important;
+    }
 }
 
 .display_none {
@@ -89,6 +85,11 @@
     font-family: 'Baloo Tamma 2';
     position: relative;
 
+    label {
+        color: rgb(150, 150, 150);
+        font-family: 'Baloo Bhai 2';
+    }
+
     p {
         position: relative;
         width: 300px;
@@ -98,20 +99,15 @@
         border-radius: 5px;
         padding: .4em .6em;
         background-color: rgba(240, 240,240);
-        
+        margin-top: 0;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        overflow-x: scroll;
+
         &::-webkit-scrollbar {
             display: none;
         }
 
-        &::before {
-            content: attr(title);
-            position: absolute;
-            top: -22px;
-            left: 0;
-            color: rgb(150, 150, 150)
-        }
     }
 }
 
@@ -210,6 +206,7 @@
 @media screen and (min-width: 0px) and (max-width: 900px) {
     .title {
         font-size: clamp(.7rem, 2vw, .9rem);
+        margin-left: clamp(0px, 2vw, 50px);
 
         h1 {
             width: 100%;
@@ -217,17 +214,101 @@
     }
 
     .flex_option {
-        // flex-flow: column wrap;
-        // margin-left: 10px;
+        flex-flow: column wrap;
+        margin-left: 10px;
         width: 100%;
-        gap: 1em;
+        gap: 0;
         justify-content: center;
     }
 
     .option {
         p {
-            width: 100px;
-            height: 50px;
+            width: max(200px, 60%);
+            overflow-x: scroll;
+            height: 2.5em   ;
+            margin-top: 0;
+            font-size: .9rem;
+        }
+    }
+
+    .setting {
+        flex-flow: column wrap;
+        gap: 0;
+        margin-top: 50px;
+
+        h2 {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            text-align: center;
+        }
+
+        p {
+            font-size: clamp(.8rem, 2vw, 1rem);
+            margin-left: 15%;
+            text-align: center;
+            width: 70%;
+        }
+    }
+    
+    .reset {
+        margin-inline: auto;
+
+        button {
+            &:hover {
+                background-color: white;
+            }
+            &:active {
+                border-color: revert;
+            }
+        }
+    }
+
+    .input {
+        width: 100%;
+    }
+
+    .change_button {
+        width: 100% !important;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 900px) {
+    .flex_option {
+        flex-flow: row nowrap;
+        gap: 3em;
+    }
+
+    .option {
+        p {
+            width: 30vw;
+        }
+    }
+
+    .override_wid {
+        width: 30vw !important;
+    }
+}   
+
+@media screen and (min-width: 901px) and (max-width: 1260px) {
+    .setting {
+        h2 {
+            font-size: 1.43rem;
+        }
+    }
+    .flex_option {
+        margin-left: 0 !important;
+    }
+    .option {
+        p {
+            width: 20vw;
+        }
+    }
+    .override_wid {
+        width: 20vw !important;
+    }
+
+    .setting {
+        p {
+            font-size: .875rem;
         }
     }
 }

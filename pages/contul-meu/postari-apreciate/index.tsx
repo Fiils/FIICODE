@@ -53,6 +53,7 @@ interface InitialFetchProps {
 
 const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
     const isSmallScreen = useMediaQuery({ query: '(max-width: 900px)'})
+    const isVerySmallScreen = useMediaQuery({ query: '(max-width: 450px)'})
 
     const maxSize = likedPosts.posts.length > 5 ? 5 : likedPosts.posts.length 
     const iterations = []
@@ -75,9 +76,9 @@ const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
                 {likedPosts.posts.length > 0 ?
                 <>  
                     <div className={styles.title}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648561628/FIICODE/folder-and-heart-11496_bybyn1.svg' width={50} height={50} priority/>
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648561628/FIICODE/folder-and-heart-11496_bybyn1.svg' width={!isVerySmallScreen ? 50 : 35} height={!isVerySmallScreen ? 50 : 35} priority/>
                         <h1>
-                            Postări votate pozitiv
+                            Postări apreciate
                         </h1>
                     </div>
                         <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '5em'}}>

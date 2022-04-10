@@ -12,7 +12,6 @@ import SideMenu from '../../../components/MyAccount/SideMenu'
 import SideMenuMobile from '../../../components/MyAccount/SideMenuMobile'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/PersonalData.module.scss'
-import { useAuth } from '../../../utils/useAuth'
 import { server } from '../../../config/server'
 
 
@@ -35,8 +34,6 @@ interface User {
 
 const PersonalData: NextPage<User> = ({ user }) => {
     const router = useRouter()
-
-    const auth = useAuth()
 
     const isSmallScreen = useMediaQuery({ query: '(max-width: 900px)'})
 
@@ -132,7 +129,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
             }
             
             <div className={gridStyles.container_options}>
-                {!auth.user.active &&
+                {!user.user.active &&
                 <div className={styles.restricted_view}>
                         <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648554021/FIICODE/user-login-security-11955_wtbrnb.svg' width={200} height={200} />
                         <h2 style={{ width: '70%', textAlign: 'center', color: '#808080', fontSize: '2rem'}}>Contul dumneavoastră va fi activat în cel mai scurt timp</h2>
@@ -162,15 +159,17 @@ const PersonalData: NextPage<User> = ({ user }) => {
                         </div>
                 </div>
                 
-                <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '2em'}}>
+                <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '2em', marginLeft: 0}}>
                     <div className={styles.flex_option}>
                         <div className={styles.option}>
+                            <label>Nume</label>
                             <p title='Nume'>
                                 {user.user.name}
                             </p>
                         </div>
 
                         <div className={styles.option}>
+                            <label>Prenume</label>
                             <p title='Prenume'>
                                 {user.user.firstName}
                             </p>
@@ -179,12 +178,14 @@ const PersonalData: NextPage<User> = ({ user }) => {
 
                     <div className={styles.flex_option}>
                         <div className={styles.option}>
+                            <label>Sex</label>
                             <p title='Sex'>
                                 {user.user.gender}
                             </p>
                         </div>
 
                         <div className={styles.option}>
+                            <label>Email</label>
                             <p title='Email'>
                                 {user.user.email}    
                             </p>
@@ -194,24 +195,32 @@ const PersonalData: NextPage<User> = ({ user }) => {
                     <div className={styles.flex_option}>
                         <div className={styles.option}>
                             {user.user.comuna === '' ?
-                                <p title='Oraș'>
-                                    {user.user.city}
-                                </p>
+                                <>
+                                    <label>Oraș</label>
+                                    <p title='Oraș'>
+                                        {user.user.city}
+                                    </p>
+                                </>
                             :
-                                <p title='Comună'>
-                                    {user.user.comuna}
-                                </p>
+                                <>
+                                    <label>Comună</label>
+                                    <p title='Comună'>
+                                        {user.user.comuna}
+                                    </p>
+                                </>
                             }
                         </div>
 
                         {user.user.comuna === '' ?
                             <div className={styles.option}>
+                                <label>Județ</label>
                                 <p title='Județ'>
                                     {user.user.county}
                                 </p>
                             </div>
                         :
                             <div className={styles.option}>
+                                <label>Sat</label>S
                                 <p title='Sat'>
                                     {user.user.city}
                                 </p>
@@ -222,28 +231,28 @@ const PersonalData: NextPage<User> = ({ user }) => {
                     <div className={styles.flex_option}>
                         {user.user.comuna !== '' && 
                             <div className={styles.option}>
+                                <label>Județ</label>
                                 <p title='Județ'>
                                     {user.user.county}
                                 </p>
                             </div>
                         }
                         <div className={styles.option}>
+                            <label>Stradă</label>
                             <p title='Stradă'>
                                 {user.user.street}    
                             </p>
                         </div>
 
-                        {user.user.comuna === '' && <div style={{ width: 300 }}></div> }
+                        {user.user.comuna === '' && <div style={{ width: 300 }} className={styles.override_wid}></div> }
                     </div>
 
                 </div>
 
-                {!user.user.active && 
-                <>
                 <div className={styles.setting} style={{ marginTop: 100 }}>
-                    <div>
+                    <div style={{ width: '100%'}}>
                         <h2>Schimbă parola</h2>
-                        <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Introdu alături vechea ta parolă, după care introdu noua ta parola pe care vrei să o folosești</p>
+                        <p style={{ color: 'rgb(180, 180, 180)' }}>Introdu alături vechea ta parolă, după care introdu noua ta parola pe care vrei să o folosești</p>
                     </div>
                     <div className={styles.reset}>
                         <div className={`${styles.input} ${errorPassword ? styles.wrong_input : ''}`}>
@@ -264,7 +273,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                             <label htmlFor='reset-new-password'>Verificare parola nouă</label>
                             <input type='password' id='reset-new-password' name='reset-new-password' value={resetNewPassword} onChange={e => { setResetNewPassword(e.target.value); setSuccess(false) }} />
                         </div>
-                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', width: '120%', mixBlendMode: 'multiply' }}>
+                        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', width: '120%', mixBlendMode: 'multiply' }} className={styles.change_button}>
                             {!loadingPassword ?
                                 <>
                                     <button onClick={e => handleResetPassword(e)}>Schimbă parola</button>
@@ -280,11 +289,9 @@ const PersonalData: NextPage<User> = ({ user }) => {
                 <div className={styles.setting} style={{ marginTop: 100 }}>
                     <div>
                         <h2 style={{ marginTop: 0 }}>Schimbarea datelor</h2>
-                        <p style={{ color: 'rgb(180, 180, 180)', width: '25em' }}>Pentru schimbarea a oricărei date din formularul de înregistrare, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)'}}>contact.romdig@gmail.com</span></p>
+                        <p style={{ color: 'rgb(180, 180, 180)' }}>Pentru schimbarea a oricărei date din formularul de înregistrare, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)'}}>contact.romdig@gmail.com</span></p>
                     </div>
                 </div>
-                </>
-}
 
 
             </div>

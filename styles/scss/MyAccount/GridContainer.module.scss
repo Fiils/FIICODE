@@ -1,4 +1,5 @@
 .container_grid {
+    position: relative;
     display: flex;
     flex-flow: row nowrap;
     width: 80vw;
@@ -7,6 +8,7 @@
 }
 
 .container_options {
+    position: relative;
     width: 70%;
     height: auto;
     border-radius: 3px;
@@ -49,5 +51,11 @@
     .container_options {
         width: 100%; 
         padding-inline: 0;
+    }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1260px) {
+    .container_options {
+        width: 100%;
     }
 }

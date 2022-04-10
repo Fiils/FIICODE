@@ -6,9 +6,6 @@
     border-radius: 4px;
     cursor: pointer;
     position: relative;
-    border-bottom: 2px solid rgb(220, 220, 220);
-    border-right: 2px solid rgb(220, 220, 220);
-    border-left: 2px solid rgb(220, 220, 220);
 }
 
 .post_info {
@@ -89,6 +86,7 @@
 
     img {
         border-radius: 4px 4px 0 0;
+        border-bottom: 2px solid rgb(220, 220, 220) !important;
     }
 }
 
