@@ -16,6 +16,7 @@ import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/Authentication.module.scss'
 import { server } from '../../config/server'
 import useWindowSize from '../../utils/useWindowSize'
+import { NoSSR } from '../../utils/NoSsr'
 
 
 const Inregistrare: NextPage = () => {
@@ -87,7 +88,7 @@ const Inregistrare: NextPage = () => {
     }
 
     return (
-        <>
+        <NoSSR fallback={null}>
             <Head>
 
                 <link
@@ -120,14 +121,14 @@ const Inregistrare: NextPage = () => {
                 </div>
 
                 <div className={styles.logo}>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} priority/>
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' alt='Icon' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} priority/>
                     <span>ROMDIG</span>
                 </div>
 
                 <form className={overrideStyles.form}>
                     {width > 1100 && 
                         <div className={styles.design}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649256461/FIICODE/Background_Login_img_green_lw9i3n.png' layout='fill' priority/>
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649256461/FIICODE/Background_Login_img_green_lw9i3n.png' alt='Icon' layout='fill' priority/>
                         </div>
                     }
 
@@ -158,12 +159,12 @@ const Inregistrare: NextPage = () => {
                                 {!loading ?
                                 <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                                 :
-                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Icon' width={150} height={150} /> }
                             </div>     
                         </div>           
                 </form>
             </div>
-        </>
+        </NoSSR>
     )
 }
 

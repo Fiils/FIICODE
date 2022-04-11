@@ -5,6 +5,7 @@ import Image from 'next/image'
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss';
 import useWindowSize from '../../utils/useWindowSize'
 
+
 interface ImageOverlayProps {
     img: string;
     i: number;
@@ -49,10 +50,10 @@ const ImageOverlayed: FC<ImageOverlayProps> = ({ img, i, setFiles, files }) => {
             {img ?
                 <>
                         <div className={styles.img_replace} style={{ padding: 0}}>
-                            <Image src={img.toString()} width={width > 900 ? 150 : 110} height={width > 900 ? 150 : 110} />
+                            <Image src={img.toString()} width={width > 900 ? 150 : 110} height={width > 900 ? 150 : 110} alt='Imagine aleasa' />
                                     {width < 1024 ?
                                         <div className={styles.delete_icon_ph_mob} id='#photo-delete'>
-                                            <Image onClick={e => handleDeleteImage(e)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649507464/FIICODE/close-877_r16t5q.svg' width={10} height={10} />
+                                            <Image onClick={e => handleDeleteImage(e)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649507464/FIICODE/close-877_r16t5q.svg' width={10} height={10} alt='Sterge' />
                                         </div>
                                     :
                                         <>

@@ -228,9 +228,7 @@
         &:hover {
             background: #6CAE75;
             color: white;
-        }
 
-        &:hover {
             a {
                 color: white;
             }
@@ -632,7 +630,7 @@
         border: 0;
 
         h2 {
-            margin-top: 0;
+            margin-top: 20px;
             font-size: 1.4rem;
         }
 
@@ -650,7 +648,7 @@
         padding-bottom: 20px;
 
         h2 {
-            margin-top: 0;
+            margin-top: 20px;
             font-size: 1.4rem;
         }
 
@@ -668,6 +666,7 @@
         border: 0;
 
         h2 {
+            margin-top: 20px;
             font-size: 1.4rem;
         }
 
@@ -850,6 +849,62 @@
 
         span {
             transition: all .35s ease-out;
+        }
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .go_back {
+        &:hover {
+            a {
+                color: black !important;
+            }
+        }
+    }
+
+    .button_sub {
+        button {
+            &:hover {
+                background: white;
+                color: #6CAE75;
+
+                a {
+                    color: #6CAE75;
+                }
+            }
+        }
+    }
+
+    .buttons_gender {
+        button {
+            border-color: rgb(200, 200, 200);
+        }
+    }
+
+    .prev {
+        &:hover {
+            span {
+                color: black;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .button_file_input {
+        &:hover {
+            background-color: white;
+        }
+    }
+
+    .additional_info {
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .input_upload {
+        .hover_for_info {
+            display: none;
         }
     }
 }

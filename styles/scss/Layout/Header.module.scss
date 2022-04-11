@@ -233,22 +233,27 @@ $hover-color: #8BBD8B;
     }
 }
 
-// @media screen and (min-width: 1224px) {
-  
-// }
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .container {
+        a {
+            &:hover:not(:last-child) {
+                color: $normal-color;
+            }
 
-// @media screen and (min-width: 1500px) {
+        }
 
-// }
+        button {
+            &:hover {
+                background: white;
+                color: $hover-color;
+            }
+        }
+    }
 
-// @media screen and (min-width: 1780px) {
-
-// }
-
-// @media screen and (min-width: 2000px) {
-
-// }
-
-// @media screen and (min-width: 2415px) {
-
-// }
+    .profile_account {
+        a:hover {
+            color: $normal-color !important;
+            text-decoration: none;
+        }
+    }
+}

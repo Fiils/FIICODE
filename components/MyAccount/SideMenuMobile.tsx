@@ -101,7 +101,7 @@ const SideMenuMobile: FC<PropsForStyling> = ({ active }) => {
                 <div className={styles.active_page} onClick={() => setOpenedMenu(!openedMenu)}>
                     <div>
                         <span>{category}</span>
-                        <Image src={openedMenu ? 'https://res.cloudinary.com/multimediarog/image/upload/v1649594478/FIICODE/arrow-234_k98gm1.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1649594481/FIICODE/north-arrow-235_vlrcqp.svg'} width={10} height={10} />
+                        <Image src={openedMenu ? 'https://res.cloudinary.com/multimediarog/image/upload/v1649594478/FIICODE/arrow-234_k98gm1.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1649594481/FIICODE/north-arrow-235_vlrcqp.svg'} width={10} height={10} alt='Meniu' />
                     </div>
                 </div>
                 {openedMenu !== null &&
@@ -114,7 +114,7 @@ const SideMenuMobile: FC<PropsForStyling> = ({ active }) => {
                             <li className={styles.logout}>
                                 <a onClick={() => LogOut()} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', justifyContent: 'center'}}>
                                     Deloghează-te
-                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648387131/FIICODE/exit-logout-2857_ycu1g7.svg' width={30} height={30} />
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648387131/FIICODE/exit-logout-2857_ycu1g7.svg' width={30} height={30} alt='Inchidere' />
                                 </a>
                             </li>
                         </ul>

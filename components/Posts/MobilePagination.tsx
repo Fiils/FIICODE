@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 
 import styles from '../../styles/scss/Posts/Pagination.module.scss'
@@ -62,16 +62,14 @@ const [currentButton, setCurrentButton] = useState<number>(parseInt(number) > 0 
         <div className={styles.container_flex}>
         <button onClick={prevPage} style={{opacity: `${currentButton <= 1 ? '0.5' : '1'}`}} disabled={currentButton <= 1}>
             <Image
-                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954309/FIICODE/left-arrow-6404_sg9u3r.svg"
-                width={15} height={15} priority/>
+                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954309/FIICODE/left-arrow-6404_sg9u3r.svg" width={15} height={15} alt='Stanga' priority/>
         </button>
 
         <button type="button" className={styles.current} disabled={true}>{currentButton} din {numberOfPages}</button>
                 
         <button onClick={nextPage} style={{opacity: `${currentButton >= numberOfPages ? '0.5' : '1'}`, }} disabled={currentButton >= numberOfPages}>
             <Image
-                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954361/FIICODE/right-arrow-6405_ww5mk2.svg"
-                width={15} height={15} priority/>
+                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954361/FIICODE/right-arrow-6405_ww5mk2.svg" width={15} height={15} alt='Dreapta' priority/>
         </button>
     </div>
     )

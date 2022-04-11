@@ -52,10 +52,30 @@
         width: 100%; 
         padding-inline: 0;
     }
+
+    .no_data {
+        h1 {
+            font-size: clamp(1.3rem, 5vw, 2rem);
+        }
+    }
 }
 
 @media screen and (min-width: 901px) and (max-width: 1260px) {
     .container_options {
         width: 100%;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .no_data {
+        h1 {
+            a {
+                color: #89BE91;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
     }
 }

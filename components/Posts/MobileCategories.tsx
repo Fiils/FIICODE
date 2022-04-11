@@ -50,11 +50,11 @@ const CategoriesForMobile: FC<Props> = ({ changeCategory, status, handleChange }
             </div>
                 <div className={`${styles.menu} ${!menu ? styles.close_menu : styles.open_menu}`}>
                     <div className={styles.close_icon}>
-                        <Image onClick={() => setMenu(false)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649333841/FIICODE/x-10327_1_larnxj.svg' width={15} height={15} />
+                        <Image onClick={() => setMenu(false)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649333841/FIICODE/x-10327_1_larnxj.svg' width={15} height={15} alt='Inchidere' />
                     </div>
                         
                     <h2>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649334950/FIICODE/category-872_cc1beq.svg' width={30} height={30} />
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649334950/FIICODE/category-872_cc1beq.svg' width={30} height={30} alt='Icon' />
                         Categorii
                     </h2>
                     

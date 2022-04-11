@@ -31,11 +31,14 @@
 @media screen and (min-width: 0px) and (max-width: 900px) {
     .title {
         font-size: clamp(.5rem, 2.5vw, .8rem);
+        margin-left: clamp(0px, 2vw, 50px);
     }
 }
 
-@media screen and (min-width: 0px) and (max-width: 900px) {
-    .title {
-        margin-left: clamp(0px, 2vw, 50px);
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .forward {
+        a:hover {
+            text-decoration: none;
+        }
     }
 }

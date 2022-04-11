@@ -275,7 +275,6 @@
 .description {
     display: flex;
     flex-flow: column wrap;
-    font-family: 'Baloo Tamma 2';
 
     label {
         font-family: 'Baloo Tamma 2';
@@ -285,6 +284,7 @@
 
     p {
         font-size: 1.1rem;
+        font-family: 'Baloo Tamma 2';
     }
 }
 
@@ -445,5 +445,32 @@
 @media screen and (max-width: 800px) {
     .img_replace {
         padding-right: 24px; 
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .background_make_button {
+        button {
+            &:hover {
+                opacity: 1 !important;
+            }
+    
+            &:active {
+                opacity: 1 !important;
+            }
+        }
+    }
+
+    .delete_photo {
+        button {
+            &:hover {
+                background: white;
+            }
+    
+            &:active {
+                border-color: rgb(230, 230, 230);
+                background: white;
+            }
+        }
     }
 }

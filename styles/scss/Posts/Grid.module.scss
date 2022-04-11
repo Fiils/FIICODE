@@ -25,33 +25,36 @@
   }
 
   .special_categories {
-    position: absolute;
-    max-width: 600px;
-    width: 65%;
+    position: relative;
+    left: 0px;
+    top: 1.5%;
+    width: 70%;
+    max-width: 480px;
+    bottom: 0;
     margin-right: auto;
     margin-left: auto;
-    top: .5%;
     display: flex;
     flex-flow: row nowrap;
     gap: 2.5em;
     font-family: 'Baloo Tamma 2';
-    cursor: default;
+    cursor: pointer;
     border-bottom: 1.5px solid #808080;
+    margin-bottom: -100px;
+  
   }
 
   .inactive_cat {
     color: rgb(200, 200, 200);
-    cursor: pointer;
+    cursor: default;
 
-    &:hover {
-      color: rgb(170, 170, 170);
-    }
   }
+
 
 @media screen and (min-width: 0px) and (max-width: 290px) {
   .grid_posts {
     justify-items: center;
     left: -1% !important;
+    width: 100vw;
   }
 
   .special_categories {
@@ -65,6 +68,7 @@
 @media screen and (min-width: 290px) and (max-width: 300px) {
   .grid_posts {
     justify-items: center;
+    width: 100vw;
   }
 
   .special_categories {
@@ -87,6 +91,21 @@
     top: 60px;
     width: 70%;
     max-width: 480px;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 420px) {
+  .special_categories {
+    gap: clamp(.4em, 5vw, 1.8em);
+    font-size: .9rem;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+  .not_found {
+    text-align: center;
+    font-size: clamp(.8rem, 2.5vw, 1.5rem);
+    margin-inline: 5px;
   }
 }
 
@@ -160,6 +179,9 @@
     bottom: 10vh;
     overflow: scroll;
     border-radius: 2px;
+    max-width: 500px;
+    left: 5%;
+
 
     h2 {
       display: flex;
@@ -201,7 +223,7 @@
   }
 }
 
-@media screen and (min-width: 500px) and (max-width: 1400px) {
+@media screen and (min-width: 500px) and (max-width: 1399px) {
    .menu {
      max-width: 400px;
      left: calc((100% - 400px) / 2)
@@ -212,9 +234,5 @@
   .grid_posts {
     padding-top: 5%;
     width: 55%;
-  }
-
-  .special_categories {
-    top: .5%;
   }
 }

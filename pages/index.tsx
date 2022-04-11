@@ -50,13 +50,13 @@ const Home: NextPage = () => {
             <button onClick={buttonClick} className={styles.create_post}>Publică o postare</button>
           </div>
             <div className={styles.bg_img}>
-              <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648223698/FIICODE/pexels-thisisengineering-3862365_fzupwt.jpg' layout='fill' priority/>
+              <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648223698/FIICODE/pexels-thisisengineering-3862365_fzupwt.jpg' alt='Poza Principala' layout='fill' priority/>
             </div>
         </div>
 
         <div className={styles.container_p2_bg}>
             <div className={styles.i_icon}>
-              <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648228664/FIICODE/information-6255_2_ibnur9.svg' width={30} height={30} />
+              <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648228664/FIICODE/information-6255_2_ibnur9.svg' alt='Icon Ajutor' width={30} height={30} />
             </div>
             <div className={styles.cp2_inf}>
               <h2 id='first'>De ce?</h2>
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
                 eliminând multe zile de așteptare până când aceasta ar fi luată la cunoștință de primărie
               </p>
               <div className={styles.icon_inf}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648229911/FIICODE/hotel-3447_kki0g6.svg' width={130} height={110} />
+                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648229911/FIICODE/hotel-3447_kki0g6.svg' alt='Icon' width={130} height={110} />
               </div>
             </div>
             <div className={styles.cp2_inf}>
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
                 să fie observată de primărie va fi mai mare, iar soluția ei mult mai aproape
               </p>
               <div className={styles.icon_inf}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648230325/FIICODE/social-media-post-4544_dju4xc.svg' width={130} height={110} />
+                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648230325/FIICODE/social-media-post-4544_dju4xc.svg' alt='Icon' width={130} height={110} />
               </div>
             </div>
             <div className={styles.cp2_inf}>
@@ -85,7 +85,7 @@ const Home: NextPage = () => {
                 doar câteva date, după care să introduceți un cod. Apoi, va trebui să așteptați ca contul dumneavoastră să fie activat de unul dintre specialiștii noștrii
               </p>
               <div className={styles.icon_inf}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648230455/FIICODE/user-browser-login-11948_zuyxma.svg' width={130} height={110} />
+                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648230455/FIICODE/user-browser-login-11948_zuyxma.svg' alt='Icon' width={130} height={110} />
               </div>
             </div>
         </div>
@@ -98,4 +98,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;

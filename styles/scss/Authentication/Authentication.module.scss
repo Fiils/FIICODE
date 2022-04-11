@@ -101,3 +101,18 @@
         margin-top: 100px;
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .button_sub {
+        button {
+            &:hover {
+                background: white;
+                color: #6CAE75;
+
+                a {
+                    color: #6CAE75;
+                }
+            }
+        }
+    }
+}

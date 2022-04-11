@@ -21,6 +21,7 @@ import CodeComponent from '../../components/Register/Code'
 import { server } from '../../config/server'
 import GoogleInput from '../../components/Register/GoogleInput'
 import useWindowSize from '../../utils/useWindowSize'
+import { NoSSR } from '../../utils/NoSsr'
 
 
 const Inregistrare: NextPage = () => {
@@ -228,54 +229,53 @@ const Inregistrare: NextPage = () => {
 
     return (
         <>
-        
-        <Head>
+            <Head>
 
-            <link
-            rel="preload"
-            href="/fonts/BalooTamma2/BalooTamma2.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-            />
-            <link
-            rel="preload"
-            href="/fonts/BalooTamma2/BalooTamma2.woff"
-            as="font"
-            type="font/woff"
-            crossOrigin="anonymous"
-            />
-            <link
-            rel="preload"
-            href="/fonts/BalooTamma2/BalooTamma2.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous" 
-            />
+                <link
+                rel="preload"
+                href="/fonts/BalooTamma2/BalooTamma2.woff2"
+                as="font"
+                type="font/woff2"
+                crossOrigin="anonymous"
+                />
+                <link
+                rel="preload"
+                href="/fonts/BalooTamma2/BalooTamma2.woff"
+                as="font"
+                type="font/woff"
+                crossOrigin="anonymous"
+                />
+                <link
+                rel="preload"
+                href="/fonts/BalooTamma2/BalooTamma2.ttf"
+                as="font"
+                type="font/ttf"
+                crossOrigin="anonymous" 
+                />
 
-            <link
-            rel="preload"
-            href="/fonts/BalooBhai2/BalooBhai2.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-            />
-            <link
-            rel="preload"
-            href="/fonts/BalooBhai2/BalooBhai2.woff"
-            as="font"
-            type="font/woff"
-            crossOrigin="anonymous"
-            />
-            <link
-            rel="preload"
-            href="/fonts/BalooBhai2/BalooBhai2.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous" 
-            />
+                <link
+                rel="preload"
+                href="/fonts/BalooBhai2/BalooBhai2.woff2"
+                as="font"
+                type="font/woff2"
+                crossOrigin="anonymous"
+                />
+                <link
+                rel="preload"
+                href="/fonts/BalooBhai2/BalooBhai2.woff"
+                as="font"
+                type="font/woff"
+                crossOrigin="anonymous"
+                />
+                <link
+                rel="preload"
+                href="/fonts/BalooBhai2/BalooBhai2.ttf"
+                as="font"
+                type="font/ttf"
+                crossOrigin="anonymous" 
+                />
 
-        </Head>
+            </Head>
 
             <div className={styles.container}>
                 <div className={styles.go_back}>
@@ -283,7 +283,7 @@ const Inregistrare: NextPage = () => {
                     <KeyboardReturnRoundedIcon />
                 </div>
                 <div className={styles.logo}>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} />
+                    <NoSSR fallback={null}><Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647443140/FIICODE/city-icon-png-19_nwzbj1.png' alt='Logo' width={width > 450 ? (width < 900 ? 40 : 60) : 30} height={width > 450 ? (width < 900 ? 40 : 60) : 30} /></NoSSR>
                     <span>ROMDIG</span>
                 </div>
                 {!codePage ? 
@@ -296,18 +296,18 @@ const Inregistrare: NextPage = () => {
                             <div className={styles.input_d} style={{ display: 'flex', gap: '2em', justifyContent: 'center', marginTop: 0}}>
                                 <div className={`${styles.input_d} ${error.name ? styles.wrong_input : ''}`}>
                                     <label htmlFor='name'>Nume*</label>
-                                    <input type="text" autoComplete='name' id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }); setErrorMessages({ ...errorMessages, name: '' }) }} />
+                                    <input maxLength={50} type="text" autoComplete='name' id='name' name='name' value={name} onChange={e => { setName(e.target.value); setError({ ...error, name: false }); setErrorMessages({ ...errorMessages, name: '' }) }} />
                                     {errorMessages.name !== '' ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.name}</label> : <></> }
                                 </div>
                                 <div className={`${styles.input_d} ${error.firstName ? styles.wrong_input : ''}`}>
                                     <label htmlFor='firstName'>Prenume*</label>
-                                    <input type="text" id='firstName' autoComplete='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }); setErrorMessages({ ...errorMessages, firstName: '' }) }} />
+                                    <input maxLength={50} type="text" id='firstName' autoComplete='firstName' name='firstName' value={firstName} onChange={e => { setFirstName(e.target.value); setError({ ...error, firstName: false }); setErrorMessages({ ...errorMessages, firstName: '' }) }} />
                                     {errorMessages.firstName !== ''  ? <label id='#wrong' style={{ color: 'red' }}>{errorMessages.firstName}</label> : <></> }
                                 </div>
                             </div>
                             <div className={`${styles.input_d} ${error.email ? styles.wrong_input : ''}`}>
                                 <label htmlFor='email'>E-mail*</label>
-                                <input type="text" id='email' name='email' autoComplete='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: ''  }) }} />
+                                <input maxLength={255} type="text" id='email' name='email' autoComplete='email' value={email} onChange={e => { setEmail(e.target.value); setError({ ...error, email: false }); setErrorMessages({ ...errorMessages, email: ''  }) }} />
                                 <div className={styles.svg_container}>
                                     <EmailIcon />
                                 </div>
@@ -340,7 +340,7 @@ const Inregistrare: NextPage = () => {
                                 </h2>
                                 <div className={`${styles.input_d} ${error.cnp ? styles.wrong_input : ''}`}>
                                     <label htmlFor='cnp'><abbr title='Cod Numeric Personal' style={{ textDecoration: 'none' }}>CNP</abbr>*</label>
-                                    <input type="text" id='cnp' name='cnp' autoComplete='CNP' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }); setErrorMessages({ ...errorMessages, cnp: '' }) }} />
+                                    <input maxLength={13} minLength={13} type="text" id='cnp' name='cnp' autoComplete='CNP' value={cnp} onChange={e => { setCnp(e.target.value); setError({ ...error, cnp: false }); setErrorMessages({ ...errorMessages, cnp: '' }) }} />
                                     <div className={styles.svg_container}>
                                         <BadgeIcon />
                                     </div>
@@ -353,7 +353,7 @@ const Inregistrare: NextPage = () => {
                                 </div>
                                 <div className={`${styles.input_d} ${error.street ? styles.wrong_input : ''}`}>
                                     <label htmlFor='street'>Strada* (buletin)</label>
-                                    <input type="text" id='street' name='street' value={street} autoComplete='street' onChange={e => { setStreet(e.target.value); setError({ ...error, street: false }); setErrorMessages({ ...errorMessages, street: '' }) }} />
+                                    <input maxLength={200} type="text" id='street' name='street' value={street} autoComplete='street' onChange={e => { setStreet(e.target.value); setError({ ...error, street: false }); setErrorMessages({ ...errorMessages, street: '' }) }} />
                                     <div className={styles.svg_container}>
                                         <AddRoadTwoToneIcon />
                                     </div>
@@ -380,7 +380,7 @@ const Inregistrare: NextPage = () => {
                                     {!loading ?
                                     <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                                     :
-                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={150} height={150} /> }
                                 </div>
                                 {fullError && <label style={{ display: 'flex', justifyContent: 'center', alignContent: 'flex-end', color: 'red', fontWeight: 800 }}>Ceva neașteptat s-a întamplat </label> }
                             </div>

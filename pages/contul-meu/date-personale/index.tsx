@@ -4,15 +4,17 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import dynamic from 'next/dynamic'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 
-import SideMenu from '../../../components/MyAccount/SideMenu'
-import SideMenuMobile from '../../../components/MyAccount/SideMenuMobile'
 import gridStyles from '../../../styles/scss/MyAccount/GridContainer.module.scss'
 import styles from '../../../styles/scss/MyAccount/PersonalData.module.scss'
 import { server } from '../../../config/server'
+
+const SideMenu = dynamic(() => import('../../../components/MyAccount/SideMenu'), { ssr: false })
+const SideMenuMobile = dynamic(() => import('../../../components/MyAccount/SideMenuMobile'), { ssr: false })
 
 
 interface User {
@@ -67,7 +69,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
         const changePhoto = async () => {
             setLoading(true)
             const photo = profilePicture.profile
-            console.log(loading)
+
             await axios.post(`${server}/api/functionalities/profile-picture`, { photo }, { withCredentials: true })
                 .then(res => res.data)
                 .catch(err => console.log(err))
@@ -131,19 +133,19 @@ const PersonalData: NextPage<User> = ({ user }) => {
             <div className={gridStyles.container_options}>
                 {!user.user.active &&
                 <div className={styles.restricted_view}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648554021/FIICODE/user-login-security-11955_wtbrnb.svg' width={200} height={200} />
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648554021/FIICODE/user-login-security-11955_wtbrnb.svg' alt='Icon' width={200} height={200} />
                         <h2 style={{ width: '70%', textAlign: 'center', color: '#808080', fontSize: '2rem'}}>Contul dumneavoastră va fi activat în cel mai scurt timp</h2>
                 </div>
                 }
                 <div className={styles.title}>
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648483006/FIICODE/resume-9871_grltqn.svg' width={50} height={50} />
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648483006/FIICODE/resume-9871_grltqn.svg' alt='Icon' width={50} height={50} />
                     <h1>
                         Date personale
                     </h1>
                 </div>
                 <div style={{ position: 'relative'}}>
                     <div className={styles.image_profile}>
-                            <Image className={styles.make_visible} onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } width={120} height={120} /> 
+                            <Image className={styles.make_visible} onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)} src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } alt='Poza Profil' width={120} height={120} /> 
                                 {!loading ? 
                                     <>
                                     {mouseOver &&
@@ -154,7 +156,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                                     }
                                     </> 
                                 : 
-                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={30} height={30} />
                                 }
                         </div>
                 </div>
@@ -220,7 +222,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                             </div>
                         :
                             <div className={styles.option}>
-                                <label>Sat</label>S
+                                <label>Sat</label>
                                 <p title='Sat'>
                                     {user.user.city}
                                 </p>
@@ -280,7 +282,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                                     <p style={{ color: '#8BBD8B' }}>{success ? 'Parolă schimbată' : ''}</p>
                                 </>
                             :
-                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={50} height={50} />
+                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={50} height={50} alt='Loading...' />
                             }
                         </div>
                     </div>

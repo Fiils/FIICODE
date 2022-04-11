@@ -63,13 +63,16 @@ const Positive: NextPage<InitialFetchProps> = ({ posts }) => {
     
     useEffect(() => {
         const getMorePosts = async () => {
+            setLoading(true)
             const result = await axios.get(`${server}/api/user/favorites?page=${addPosts}`, { withCredentials: true })
                             .then(res => res.data)
                             .catch(err => {
                                 setError(true)
                                 console.log(err)
+                                setLoading(false)
                             })
-                            console.log(result)
+
+            setLoading(false)
             const newPosts: any =  [...data, ...result.posts ]
             setData(newPosts)
         }   
@@ -150,14 +153,14 @@ const Positive: NextPage<InitialFetchProps> = ({ posts }) => {
                             {!loading ?
                             <button onClick={() => setAddPosts(prevState => prevState + 1)}>Mai multe...</button>
                             :
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={50} height={50} />
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={50} height={50} />
                             }
                         </div>
                         }
                     </>
                 :
                     <div className={gridStyles.no_data}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648565768/FIICODE/warning-3092_1_yzwvzq.svg' width={120} height={120} />
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648565768/FIICODE/warning-3092_1_yzwvzq.svg' alt='Fara Postari' width={120} height={120} />
                         <h1>
                             Nicio postare nu a fost adăugată la favorite
                         </h1>

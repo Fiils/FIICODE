@@ -5,6 +5,7 @@ import Head from 'next/head'
 
 import styles from '../styles/scss/Layout/ErrorPage.module.scss'
 import useWindowSize from '../utils/useWindowSize'
+import { NoSSR } from '../utils/NoSsr'
 
 const ErrorPage: NextPage = () => {
     const router = useRouter()
@@ -45,7 +46,9 @@ const ErrorPage: NextPage = () => {
                     <p>Pagina pe care ai încercat să o accesezi nu a fost găsită. Apasă pe butonul de mai jos pentru a merge pe pagina principală</p>
                     <button onClick={() => router.push('/')}>Înapoi</button>
                 </div>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648906258/FIICODE/laptop-error-12463_1_kriddr.svg' width={width > 1000 ? 500 : (width > 800 ? 300 : 200)} height={width > 1000 ? 500 : (width > 800 ? 300 : 200)} />
+                <NoSSR fallback={null}>
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648906258/FIICODE/laptop-error-12463_1_kriddr.svg' width={width > 1000 ? 500 : (width > 800 ? 300 : 200)} height={width > 1000 ? 500 : (width > 800 ? 300 : 200)} alt='Eroare' /> 
+                </NoSSR>
             </div>
         </>
     )

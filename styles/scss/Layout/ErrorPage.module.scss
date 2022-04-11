@@ -111,3 +111,17 @@
         }
     }
 }
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .info {
+        button {
+            &:hover {
+                opacity: 1;
+            }
+    
+            &:active {
+                opacity: 1
+            }
+        }
+    }
+}

@@ -10,6 +10,7 @@ import { server } from '../../config/server'
 import ImageOverlayed from '../../components/CreatePost/ImageOverlayed'
 import { useAuth } from '../../utils/useAuth'
 import useWindowSize from '../../utils/useWindowSize'
+import { NoSSR } from '../../utils/NoSsr'
 
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -38,8 +39,16 @@ const CreatePost: NextPage = () => {
     const greenTheme = createTheme({
         palette: {
             primary: {
-                main: '#94C294'
+                main: '#94C294',
             }
+        },
+    });
+
+    const errorTheme = createTheme({
+        palette: {
+            primary: {
+                main: '#FF0000',
+            },
         },
     });
 
@@ -49,8 +58,7 @@ const CreatePost: NextPage = () => {
     const [ files, setFiles ] = useState<Array<string>>([])
     const [ video, setVideo ] = useState('')
     const [ description, setDescription ] = useState(EditorState.createEmpty())
-    const [ village, setVillage ] = useState('false')
-
+    const [ type, setType ] = useState('')
 
     const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 
@@ -71,14 +79,13 @@ const CreatePost: NextPage = () => {
 
    const uploadVideo = async (e: any) => {
         if(e.target.files[0] && e.target.files[0].size / 1000000 < 100) {
-            console.log(e.target.files[0])
             const base64: string = await convertToBase64(e.target.files[0])
             setVideo(base64)
         }
    }
 
    const [ loading, setLoading ] = useState(false)
-   const [ error, setError ] = useState({ title: false, description: false })
+   const [ error, setError ] = useState({ title: false, description: false, type: false })
    const [ fullError, setFullError ] = useState(false)
 
     const handleSubmit = async (e: any) => {
@@ -100,15 +107,16 @@ const CreatePost: NextPage = () => {
 
             setError({
                 title: title.split('').length < 15 ? true : false,
-                description: numberOfChars < 50 ? true : false
+                description: numberOfChars < 50 ? true : false,
+                type: type === ''
             })
 
-            if(title.split('').length < 15 || numberOfChars < 50) {
+            if(title.split('').length < 15 || numberOfChars < 50 || type === '') {
                 setLoading(false)
                 return;
             }
 
-            const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video, village }, { withCredentials: true })
+            const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video, type }, { withCredentials: true })
                                         .then(res => res.data)
                                         .catch(err => {
                                             setFullError(true)
@@ -116,44 +124,23 @@ const CreatePost: NextPage = () => {
                                             console.log(err)
                                         })        
 
-            if(result && result.message === 'Postare afișată'){
-                setLoading(false)
-                setTitle('')
-                setFiles([])
-                setVideo('')
-                setVillage('false')
-                setDescription(EditorState.createEmpty())
-
-                router.push(`/postari/${result._id}`)
+            if(result && result.message === 'Postare afișată'){     
+                setTimeout(() => {
+                    setTitle('')
+                    setFiles([])
+                    setVideo('')
+                    setType('')
+                    setDescription(EditorState.createEmpty())
+                    setLoading(false)
+                    router.push(`/postari/${result._id}`)
+                }, 1000)
             }
         }                        
     }
 
     return (
-        <>
+        <NoSSR fallback={null}>
             <Head>
-          
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
 
                 <link
                     rel="preload"
@@ -193,27 +180,40 @@ const CreatePost: NextPage = () => {
                                 <p style={{ position: 'absolute', right: 0, top: 35 }}>{title.split('').length}/150</p>
                             </div>
                         </div>
-                        {(user.user.comuna && user.user.comuna !== '') &&
                             <div className={styles.input} id='#level' style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: '2em', marginTop: 40}}>
                                 <label>Nivel: </label>
                                 <div>
-                                    <ThemeProvider theme={greenTheme}>
-                                        <FormControl variant='standard' sx={{ minWidth: 60 }}>
-                                            <Select
-                                                labelId="demo-simple-select-standard-label"
-                                                id="demo-simple-select-standard"
-                                                value={village}
-                                                onChange={e => setVillage(e.target.value)}
+                                    <ThemeProvider theme={error.type ? errorTheme : greenTheme}>
+                                        <FormControl variant='standard' sx={{ minWidth: 120 }}>
+                                            {(user.user.comuna && user.user.comuna !== '') ? 
+                                                <Select
+                                                labelId="selectare-nivel-postare"
+                                                id="nivel-postare"
+                                                value={type}
+                                                onChange={e => { setError({ ...error, type: false }); setType(e.target.value) }}
                                                 label="Tip"
-                                            >
-                                            <MenuItem value={'false'}>Comunal</MenuItem>
-                                            <MenuItem value={'true'}>Sătesc</MenuItem>
-                                            </Select>
+                                                >
+                                                    <MenuItem value={'comuna'}>Comunal</MenuItem>
+                                                    <MenuItem value={'sat'}>Sătesc</MenuItem>
+                                                    <MenuItem value={'judet'}>Județean</MenuItem>
+                                                </Select>
+                                            :
+                                                <Select
+                                                labelId="selectare-nivel-postare"
+                                                id="nivel-postare"
+                                                value={type}
+                                                onChange={e => setType(e.target.value)}
+                                                label="Tip"
+                                                >
+                                                    <MenuItem value={'oras'}>Orășesc</MenuItem>
+                                                    <MenuItem value={'judet'}>Județean</MenuItem>
+                                                </Select>
+                                        }
+     
                                         </FormControl>
                                     </ThemeProvider>
                                 </div>
                             </div>
-                        }
                     </div>
                     <div className={styles.background_make_photos}>
                         <div className={styles.flex_add}>
@@ -237,7 +237,7 @@ const CreatePost: NextPage = () => {
                                                 <div className={styles.container_video}>
                                                     {(!video || video === '') ? 
                                                     <label htmlFor='video' className={styles.no_content}>
-                                                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' width={100} height={100} />
+                                                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' alt='Icon' width={100} height={100} />
                                                             <p>Niciun video selectat</p>
                                                             <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept="video/mp4,video/x-m4v,video/*" />
                                                     </label>
@@ -254,7 +254,7 @@ const CreatePost: NextPage = () => {
                                                     }
                                                 </div>
                                                 <div className={styles.delete_icon}>
-                                                    <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' width={width > 530 ? 30 : 15} height={width > 530 ? 30 : 15} />
+                                                    <Image onClick={() => setVideo('')} src='https://res.cloudinary.com/multimediarog/image/upload/v1648741801/FIICODE/close-x-10324_qtbbzj.svg' alt='Inchidere' width={width > 530 ? 30 : 15} height={width > 530 ? 30 : 15} />
                                                 </div>
                                             </div>
                                         </div>
@@ -267,7 +267,7 @@ const CreatePost: NextPage = () => {
                                 <label htmlFor='description'>Descriere</label>
                                 <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
                                 <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''} id='#editor'>
-                                    {/* {width > 700 ?
+                                    {width > 700 ?
                                         <Editor
                                             wrapperClassName="wrapper-class"
                                             editorClassName="editor-class"
@@ -282,7 +282,7 @@ const CreatePost: NextPage = () => {
                                                 }
                                             }}
                                         />
-                                    :  */}
+                                    : 
                                         <Editor
                                             wrapperClassName="wrapper-class"
                                             editorClassName="editor-class"
@@ -302,7 +302,7 @@ const CreatePost: NextPage = () => {
                                                 }
                                             }}
                                         />
-                                    {/* } */}
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -316,13 +316,13 @@ const CreatePost: NextPage = () => {
                                 <button type='submit' onClick={handleSubmit} disabled={!user.user.active}>Postează</button>
                             </>
                         :
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={60} height={60} /> 
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={60} height={60} /> 
                         }
                     </div>
 
                 </form>
             </div>
-        </>
+        </NoSSR>
     )
 }
 

@@ -51,7 +51,7 @@ const Code: FC = () => {
         <form className={styles.form}>
             <h2 style={{ textAlign: 'center', marginBottom: 0, marginTop: 10 }}>Verifică-ți inboxul!</h2>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20}}>
-                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648464445/FIICODE/mail-142_2_ouytab.svg' width={120} height={120} />
+                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648464445/FIICODE/mail-142_2_ouytab.svg' width={120} height={120} alt='Mail' />
             </div>
             <p className={overrideStyles.additional_info}>Verifică-ți inboxul emailului și o să vezi că ai primit un mail cu un cod. Introdu-l mai jos pentru a finaliza crearea noului tău cont. Dacă nu îl găsești, verifică secțiunea spam.</p>
             <div className={`${styles.input_d} ${codeError ? styles.wrong_input : ''}`}>
@@ -63,7 +63,7 @@ const Code: FC = () => {
                     {!loading ?
                     <button type="submit" onClick={e => handleSubmitCode(e)}>Trimite</button>
                     :
-                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
+                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} alt='Loading...' /> }
             </div>
         </form>
     )

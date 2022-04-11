@@ -110,8 +110,7 @@ const changePage = (value: number) => {
         <div className={styles.container_flex}>
         <button onClick={prevPage} style={{opacity: `${currentButton <= 1 ? '0.5' : '1'}`}} disabled={currentButton <= 1}>
             <Image
-                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954309/FIICODE/left-arrow-6404_sg9u3r.svg"
-                width={15} height={15} priority/>
+                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954309/FIICODE/left-arrow-6404_sg9u3r.svg" width={15} height={15} alt='Stanga' priority/>
         </button>
         {arrCurBtn.map((value: number, index: number) => 
                     <div key={index}>
@@ -125,8 +124,7 @@ const changePage = (value: number) => {
         }
         <button onClick={nextPage} style={{opacity: `${currentButton >= numberOfPages ? '0.5' : '1'}`, }} disabled={currentButton >= numberOfPages}>
             <Image
-                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954361/FIICODE/right-arrow-6405_ww5mk2.svg"
-                width={15} height={15} priority/>
+                src="https://res.cloudinary.com/multimediarog/image/upload/v1647954361/FIICODE/right-arrow-6405_ww5mk2.svg" width={15} height={15} alt='Dreapta' priority/>
         </button>
     </div>
     )

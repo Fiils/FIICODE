@@ -39,6 +39,10 @@
     }
 
     span[id='#name'] {
+        width: 100%;
+        position: relative;
+        
+        
         &::before {
             content: '';
             display: inline-block;
@@ -187,7 +191,7 @@
 
     .options_box {
         position: absolute;
-        width: 90px;
+        width: 100px;
         height: auto;
         background: rgb(240, 240, 240);
         margin-top: .45em;
@@ -199,7 +203,7 @@
             padding-left: 0px;
             font-family: 'Baloo Bhai 2';
             font-weight: 900;
-            font-size: .55rem;
+            font-size: .75rem;
 
             li {
                 display: flex;
@@ -217,6 +221,16 @@
                     border-bottom: 1px solid rgb(130, 130, 130);
                 }
 
+            }
+        }
+    }
+
+    .info {
+        span[id='#name'] {
+            left: 10px;
+
+            &::before {
+                display: none;
             }
         }
     }

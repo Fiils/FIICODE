@@ -19,7 +19,7 @@ interface PropsForStyling {
 }
 
 
-const MyAccount: FC<PropsForStyling> = ({ active }) => {
+const SideMenu: FC<PropsForStyling> = ({ active }) => {
     const router = useRouter()
 
     const ListItem = ({name, url, index}: ListItem) => {
@@ -92,6 +92,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                 />
 
             </Head>
+
             <div className={styles.user_list}>
                 <ul>
                     <ListItem name='Date Personale' url='/contul-meu/date-personale' index={1} />
@@ -101,7 +102,7 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
                     <li className={styles.logout}>
                         <a onClick={() => LogOut()} style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', justifyContent: 'center'}}>
                             Deloghează-te
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648387131/FIICODE/exit-logout-2857_ycu1g7.svg' width={30} height={30} />
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648387131/FIICODE/exit-logout-2857_ycu1g7.svg' width={30} height={30} alt='Inchidere' />
                         </a>
                     </li>
                 </ul>
@@ -110,4 +111,4 @@ const MyAccount: FC<PropsForStyling> = ({ active }) => {
     )
 }
 
-export default MyAccount
+export default SideMenu

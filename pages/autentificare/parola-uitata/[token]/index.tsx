@@ -184,7 +184,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                 <form className={overrideStyles.form}>
                     <h2 style={{ textAlign: 'center', marginBottom: 10 }}>Schimbă parola</h2>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647695526/FIICODE/reset-stock-password_hqhya1.svg' width={100} height={100} priority/>
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1647695526/FIICODE/reset-stock-password_hqhya1.svg' alt='Icon' width={100} height={100} priority/>
                     </div>
                     <div className={`${styles.input_d} ${error.password ? styles.wrong_input : ''}`}>
                         <label htmlFor="password">Parola*</label>
@@ -203,7 +203,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                         {!loading ?
                         <button type="submit" onClick={e => handleSubmit(e)}>Trimite</button>
                         :
-                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={150} height={150} /> }
+                        <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={150} height={150} /> }
                     </div>     
                 </form>
                 :
@@ -214,7 +214,7 @@ const Token: NextPage<InitialProps> = ({ status }) => {
                             De acum vă puteți autentifica în cont folosind parola cea nouă.
                         </p>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-                            <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647696142/FIICODE/safety-3599_1_pbz0mr.svg' width={100} height={100} priority />
+                            <Image src='https://res.cloudinary.com/media-cloud-dw/image/upload/v1647696142/FIICODE/safety-3599_1_pbz0mr.svg' alt='Icon' width={100} height={100} priority />
                         </div>
                         <div className={overrideStyles.button_sub} style={{ marginTop: 50 }}>
                             <button>
@@ -246,11 +246,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     } else {
         return {
-            redirect: {
-                permanent: false,
-                destination: '/404'
-            },
-            props: {}
+            notFound: true
         }
     }
 }

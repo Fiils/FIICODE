@@ -154,7 +154,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
     return (
         <>
             <div className={styles.info}>
-                <Image src={comment.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : comment.profilePicture } width={30} height={30} />
+                <Image src={comment.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : comment.profilePicture } alt='Poza Profil' width={30} height={30} />
                 <span id='#name'>{comment.nameAuthor} {comment.firstNameAuthor}</span>
             </div>
             <div className={styles.comment_text}>
@@ -163,36 +163,36 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
             {width >= 700 ?
                     <div className={styles.manip_sec}>
                         <div className={`${styles.option}`} onClick={e => LikeRequest(e)}>
-                            <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={15} height={15} />
+                            <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } alt='Icon' width={15} height={15} />
                             <span id='#text'>{data.upVoted.count}</span>
                         </div>
                         <div className={styles.option} onClick={e => DislikeRequest(e)}>
-                            <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={15} height={15} />
+                            <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } alt='Icon' width={15} height={15} />
                             <span id='#text'>{data.downVoted.count}</span>
                         </div>
                         <div className={styles.option} onClick={() => { if(!reported) { setCreateReport(!createReport); } }}>
-                            <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } width={15} height={15} />
+                            <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } alt='Icon' width={15} height={15} />
                             <span id='#text'>Semnalează</span>
                         </div>
                     </div>
                 :
                     <div style={{ display: 'flex', gap: '.5em' }}>
                         <div className={styles.options_box_button}>
-                            <Image onClick={() => setButtonBox(!buttonBox)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649346820/FIICODE/more-7660_xvyrhj.svg' height={15} width={15} />
+                            <Image onClick={() => setButtonBox(!buttonBox)} src='https://res.cloudinary.com/multimediarog/image/upload/v1649346820/FIICODE/more-7660_xvyrhj.svg' height={15} width={15} alt='Icon' />
                         </div>
                         {buttonBox &&
                             <div className={styles.options_box}>
                                 <ul>
                                     <li onClick={e => { setButtonBox(false); LikeRequest(e) }}>
-                                        <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <Image src={!like ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643733/FIICODE/heart-492_3_lf3zdy.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648630120/FIICODE/heart-329_1_o8ehwn.svg' } alt='Icon' width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
                                         <span>Apreciază</span>
                                     </li>
                                     <li onClick={e => { setButtonBox(false); DislikeRequest(e) }}>
-                                        <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <Image src={!dislike ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643730/FIICODE/broken-heart-2940_2_vqhdks.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648631540/FIICODE/broken-heart-2943_s0ap3p.svg' } alt='Icon' width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
                                         <span>Dezapreciază</span>
                                     </li>
                                     <li onClick={e => { setButtonBox(false); if(!reported) { setCreateReport(!createReport); } }}>
-                                        <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
+                                        <Image src={!reported ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648643727/FIICODE/start-flag-8252_2_q5ai3q.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654972/FIICODE/start-flag-8253_2_so1lkv.svg' } alt='Icon' width={width < 500 ? 10 : 20} height={width < 500 ? 10 : 20} />
                                         <span id='#text'>Semnalează</span>
                                     </li>
                                 </ul>
@@ -212,7 +212,7 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                         </div>
                     :
                         <div className={styles.loading}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' width={30} height={30} />
+                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={30} height={30} />
                         </div>
                     }
                 </form>

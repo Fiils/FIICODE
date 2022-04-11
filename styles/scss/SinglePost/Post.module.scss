@@ -129,7 +129,7 @@
         width: 90vw;
         max-width: 300px;
 
-        h1 {
+        h1[id='#title'] {
             font-size: 1rem;
             margin-bottom: 0;
             border-bottom: 2px solid black;
@@ -143,6 +143,12 @@
         gap: .2em;
         margin-top: 20px;
         margin-left: 0px;
+    }
+
+    .video {
+        video {
+            margin-top: 0px !important;
+        }
     }
 
     .option {
@@ -195,7 +201,7 @@
         width: 90vw;
         max-width: 800px;
 
-        h1 {
+        h1[id='#title'] {
             font-size: 1.25rem;
             margin-bottom: 0;
             border-bottom: 2px solid black;
