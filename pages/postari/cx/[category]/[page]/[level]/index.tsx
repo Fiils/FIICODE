@@ -258,7 +258,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }, [status])
 
     return (
-        <NoSSR fallback={null}>
+        <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
                 
                 <link

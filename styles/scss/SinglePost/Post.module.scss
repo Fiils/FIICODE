@@ -12,6 +12,10 @@
     }
 }
 
+.under_font {
+    font-family: 'Baloo Bhai 2';
+}
+
 .image_section {
     display: flex;
     flex-flow: row wrap;
@@ -121,6 +125,12 @@
     line-height: 1.5;
     font-size: 1.2rem;
     margin: 50px auto 200px auto;
+
+    p {
+        span {
+            background-color: rgb(245, 245, 245) !important;
+        }
+    }
 }
 
 @media screen and (min-width: 0px) and (max-width: 500px) {

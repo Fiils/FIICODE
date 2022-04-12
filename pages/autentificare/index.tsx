@@ -79,7 +79,7 @@ const Inregistrare: NextPage = () => {
                         })
 
         if(result && result.message === 'User logat') {
-            Cookies.set('x-access-token', result.token, { expires: 30 })
+            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: 'none' })
             router.reload()
             setLoading(false)
         } else {
@@ -88,7 +88,7 @@ const Inregistrare: NextPage = () => {
     }
 
     return (
-        <NoSSR fallback={null}>
+        <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
 
                 <link

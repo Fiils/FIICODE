@@ -69,7 +69,7 @@ const Posts: NextPage<InitialFetchProps> = ({ favoritePosts }) => {
         }
     }
     return (
-        <NoSSR fallback={null}>
+        <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <div className={gridStyles.container_grid}>
                 {!isSmallScreen ?
                     <SideMenu active={4} />

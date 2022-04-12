@@ -139,7 +139,7 @@ const CreatePost: NextPage = () => {
     }
 
     return (
-        <NoSSR fallback={null}>
+        <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
 
                 <link
@@ -267,7 +267,7 @@ const CreatePost: NextPage = () => {
                                 <label htmlFor='description'>Descriere</label>
                                 <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
                                 <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''} id='#editor'>
-                                    {width > 700 ?
+                                    {width > 1000 ?
                                         <Editor
                                             wrapperClassName="wrapper-class"
                                             editorClassName="editor-class"
@@ -277,6 +277,9 @@ const CreatePost: NextPage = () => {
                                             onChange={() => setError({ ...error, description: false })}
                                             toolbar={{
                                                 options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+                                                inline: {
+                                                    options: [ 'bold', 'italic', 'underline', 'strikethrough' ]
+                                                },
                                                 fontSize: {
                                                     options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
                                                 }
@@ -292,7 +295,7 @@ const CreatePost: NextPage = () => {
                                             onChange={() => setError({ ...error, description: false })}
                                             toolbar={{
                                                 options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign' ],
-                                                inline: { inDropdown: true },
+                                                inline: { inDropdown: true, options: [ 'bold', 'italic', 'underline', 'strikethrough' ] },
                                                 blockType: { inDropdown: true },
                                                 list: { inDropdown: true },
                                                 textAlign: { inDropdown: true },

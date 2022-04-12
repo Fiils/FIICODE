@@ -189,7 +189,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     }
 
     return (
-        <NoSSR fallback={null}>
+        <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
           
                 <link
@@ -336,13 +336,30 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         </Swiper>
                         </div>
                         {(width < 1199) &&
-                            <div className={styles.under_ph}>
+                            <div className={styles.under_ph} style={{ position: 'relative' }}>
                                 <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } alt='Poza Profil' width={width < 500 ? 35 : 50} height={25} />
                                 <div>
                                     <span>{data.nameAuthor} {data.firstNameAuthor}</span>
                                     <br />
                                     <span>{formatDate(data.creationDate)}</span>
                                 </div>
+                                <div style={{  position: 'absolute', top: -15.5, right: 0, color: 'rgb(200, 200, 200)', marginTop: 15, marginRight: 5, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3 }}> 
+                                    <div style={{ marginTop: 0 }}>
+                                        <span>Vizionări: </span> 
+                                        <span>{data.views.count}</span>
+                                    </div>
+                                    <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649762065/FIICODE/eye-12109_ho0gpr.svg' alt='Icon' height={20} width={20} />
+                                </div>
+                            </div>
+                        }
+
+                        {width >= 1199 && 
+                            <div className={styles.under_font} style={{ color: 'rgb(200, 200, 200)', marginTop: 15, marginRight: 5, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3 }}> 
+                                <div style={{ marginTop: 2}}>
+                                    <span>Vizionări: </span> 
+                                    <span>{data.views.count}</span>
+                                </div>
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1649762065/FIICODE/eye-12109_ho0gpr.svg' alt='Icon' height={20} width={20} />
                             </div>
                         }
                     </div>
