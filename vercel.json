@@ -1,5 +1,14 @@
 {
-    "redirects": [
-        { "source": "https://dashboard.romdig.net", "destination": "/dashboard" }
+    "rewrites": [
+      {
+        "source": "/:path*",
+        "has": [
+          {
+            "type": "host",
+            "value": "dashboard.romdig.net"
+          }
+        ],
+        "destination": "/dashboard/:path*"
+      }
     ]
-}
+  }
