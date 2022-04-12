@@ -20,7 +20,7 @@ export function AuthProvider(props: any) {
     const [user, setUser] = useState({ isLoggedIn: false, userId: '', active: false, profilePicture: '/', comuna: '' })
 
     async function login() {
-        const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: 'x-acces-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNTQ0ZjYyZDliNzgxNTk4ZWE4MWQzOSIsImlhdCI6MTY0OTc2MDg4MiwiZXhwIjoxNjUyMzUyODgyfQ.JX4di5jFaAaQPzQPumF9pNm1gBKPeLUC8d5__UTKo_w'} })
+        const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true })
                             .then(res => res.data)
                             .catch(err => err.response)    
         if(response){
