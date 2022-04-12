@@ -1,5 +1,5 @@
 {
     "redirects": [
-        { "source": "/dashboard", "destination": "https://dashboard.romdig.net" }
+        { "source": "https://dashboard.romdig.net", "destination": "/dashboard" }
     ]
 }
