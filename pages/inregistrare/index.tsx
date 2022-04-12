@@ -18,7 +18,7 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss';
 import CodeComponent from '../../components/Register/Code'
-import { server } from '../../config/server'
+import { server, dev } from '../../config/server'
 import GoogleInput from '../../components/Register/GoogleInput'
 import useWindowSize from '../../utils/useWindowSize'
 import { NoSSR } from '../../utils/NoSsr'
@@ -167,7 +167,7 @@ const Inregistrare: NextPage = () => {
                         })
         
         if(result && result.message === 'Cerere acceptată'){
-            Cookies.set('data-id', result.token, { expires: (1 * 1440) * 15, sameSite: 'none', secure: true })
+            Cookies.set('data-id', result.token, { expires: (1 * 1440) * 15, sameSite: dev ? 'lax' : 'none', secure: !dev })
             setCodePage(true)
             setLoading(false)
         } else {

@@ -14,7 +14,7 @@ import EmailIcon from '@mui/icons-material/Email';
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/Authentication.module.scss'
-import { server } from '../../config/server'
+import { server, dev } from '../../config/server'
 import useWindowSize from '../../utils/useWindowSize'
 import { NoSSR } from '../../utils/NoSsr'
 
@@ -79,7 +79,7 @@ const Inregistrare: NextPage = () => {
                         })
 
         if(result && result.message === 'User logat') {
-            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: 'none' })
+            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev })
             router.reload()
             setLoading(false)
         } else {
