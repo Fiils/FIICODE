@@ -167,7 +167,7 @@ const Inregistrare: NextPage = () => {
                         })
         
         if(result && result.message === 'Cerere acceptată'){
-            // Cookies.set('data-id', result.token, { expires: (1 * 1440) * 15, sameSite: dev ? 'lax' : 'none', secure: !dev })
+            Cookies.set('data-id', result.token, { expires: (1 * 1440) * 15, sameSite: dev ? 'lax' : 'none', secure: !dev })
             setCodePage(true)
             setLoading(false)
         } else {
