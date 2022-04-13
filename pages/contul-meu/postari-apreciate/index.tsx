@@ -61,7 +61,7 @@ const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
     const isVerySmallScreen = useMediaQuery({ query: '(max-width: 450px)'})
 
     const maxSize = likedPosts.posts.length > 5 ? 5 : likedPosts.posts.length 
-    const iterations = []
+    const iterations: number[] = []
     for(let i = 0; i < maxSize; i++) {
         if(maxSize <= 0) {
             break;
