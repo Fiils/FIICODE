@@ -13,7 +13,7 @@ import { NoSSR } from '../../../utils/NoSsr'
 
 
 const Inregistrare: NextPage = () => {
-    const [ width, height ] = useWindowSize()
+    const [ width ] = useWindowSize()
 
     const [ email, setEmail ] = useState('')
 
