@@ -8,7 +8,7 @@
             "value": "dashboard.romdig.net"
           }
         ],
-        "destination": "/dashboard/:path*"
+        "destination": "/dashboard"
       }
     ]
 }

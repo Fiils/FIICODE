@@ -77,7 +77,6 @@ const SearchLocationInput: FC<Props> = ({ name, county, setCounty, error, setErr
   const autoCompleteRef = useRef(null);
 
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_GOOGLE_API_KEY, process.env.GOOGLE_API_KEY)
     loadScript(
       `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&libraries=places`,
       () => handleScriptLoad(setCounty, autoCompleteRef, setFullExactPosition)
