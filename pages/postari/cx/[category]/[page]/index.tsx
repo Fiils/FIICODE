@@ -346,9 +346,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         })
                             : 
                             <> {!loading &&
-                                <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center', mixBlendMode: 'multiply'}}>
+                                <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center', justifyContent: 'center', mixBlendMode: 'multiply' }}>
                                     <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648493816/FIICODE/photos-10608_1_ewgru0.svg' alt='Fara Postari' width={200} height={200} />
-                                    <h2 style={{ width: '100%', color: '#808080'}}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
+                                    <h2 style={{ width: '100%', color: '#808080', textAlign: 'center' }}>Nicio postare nu a fost găsită. Fii primul care face una.</h2>
                                 </div>
                                 }
                             </>

@@ -40,13 +40,11 @@
     cursor: pointer;
     border-bottom: 1.5px solid #808080;
     margin-bottom: -100px;
-  
   }
 
   .inactive_cat {
     color: rgb(200, 200, 200);
     cursor: default;
-
   }
 
 
@@ -234,5 +232,11 @@
   .grid_posts {
     padding-top: 5%;
     width: 55%;
+  }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1400px) {
+  .special_categories {
+    top: 1.5%;
   }
 }
