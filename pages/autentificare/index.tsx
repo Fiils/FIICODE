@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
 import Cookies from 'js-cookie'
 
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'; 
@@ -89,31 +88,6 @@ const Inregistrare: NextPage = () => {
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
-            <Head>
-
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
-
-            </Head>
             <div className={styles.container}>
                 <div className={styles.go_back}>
                     <span><Link href='/'>Înapoi</Link></span>

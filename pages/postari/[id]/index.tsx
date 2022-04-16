@@ -17,6 +17,7 @@ import CommentSection from '../../../components/SinglePost/CommentSection'
 import { server } from '../../../config/server'
 import useWindowSize from '../../../utils/useWindowSize'
 import { NoSSR } from '../../../utils/NoSsr'
+import ReportModal from '../../../components/SinglePost/ReportModal'
 
 
 interface Post {
@@ -98,6 +99,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     const router = useRouter()
 
     const [ width, height ] = useWindowSize()
+
+    //Pentru randarea imaginilor doar pe clien side
     const [ ssr, setSsr ] = useState(false)
 
     useEffect(() => {
@@ -109,6 +112,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     const [ like, setLike ] = useState(false)
     const [ dislike, setDislike ] = useState(false)
     const [ favorite, setFavorite ] = useState(false)
+    const [ report, setReport ] = useState(false)
+    const [ reportModal, setReportModal ] = useState(false)
 
     const [ press, setPress ] = useState(true)
 
@@ -121,7 +126,15 @@ const Page: NextPage<Post> = ({ post, comments }) => {
         if(data.favorites.people.includes(user.user.userId)) {
             setFavorite(true)
         }
+        if(data.reports.people.includes(user.user.userId)) {
+            setReport(true)
+        }
     }, [user])
+
+    useEffect(() => {
+        if(reportModal) document.body.style.overflow = 'hidden'
+        if(!reportModal) document.body.style.overflow = 'unset'
+    }, [reportModal])
 
     const LikeRequest = async (e: any) => {
         e.preventDefault()
@@ -188,6 +201,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
         }
     }
 
+
+
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
@@ -237,6 +252,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                 />
                 
             </Head>
+            {(reportModal && !report) && <ReportModal setReport={setReport} setReportModal={setReportModal} id={data._id} /> }
             <div className={styles.container}>
                 <div className={styles.image_section}>
                     <div className={styles.swiper_limit}>
@@ -266,7 +282,10 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                                             <div className={styles.option}>
                                                 <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} alt='Icon' width={width > 500 ? 20 : 15} height={width > 500 ? 20 : 15} onClick={e => FavoriteRequest(e)} />
                                                 <span id='#text'>{data.favorites.count}</span>
-                                            </div>  
+                                            </div> 
+                                            <div className={styles.option}>
+                                                <Image src={ !report ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648826940/FIICODE/start-flag-8253_3_bhujpa.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654241/FIICODE/start-flag-8252_3_f9nlcp.svg' } alt='Icon' width={width > 500 ? 20 : 15} height={width > 500 ? 20 : 15} onClick={() => { if(!report) { setReportModal(true) } }} />
+                                            </div>
                                         </div>
                                         }
                                     </>
@@ -292,6 +311,9 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                                     <Image src={!favorite ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648632020/FIICODE/favourite-2765_1_bmyyrq.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648632018/FIICODE/star-346_2_tczou4.svg'} alt='Icon' width={30} height={30} onClick={e => FavoriteRequest(e)} />
                                     <span id='#text'>{data.favorites.count}</span>
                                 </div>  
+                                <div className={styles.option}>
+                                    <Image src={ !report ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648826940/FIICODE/start-flag-8253_3_bhujpa.svg' : 'https://res.cloudinary.com/multimediarog/image/upload/v1648654241/FIICODE/start-flag-8252_3_f9nlcp.svg' } alt='Icon' width={30} height={30} onClick={() => { if(!report) { setReportModal(true) } }} />
+                                </div>
                             </div>
                             }
                         <Swiper

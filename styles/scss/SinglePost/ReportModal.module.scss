@@ -1,0 +1,116 @@
+.overlay {
+    z-index: 99;
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin-left: 0 !important;
+}
+
+.modal_container {
+    position: fixed;
+    display: inline-block;
+    z-index: 100;
+    width: 500px;
+    height: 380px;
+    background: white;
+    top: calc(50vh - 190px);
+    left: calc(50vw - 250px);
+    border-radius: 10px;
+    padding-left: 0 !important;
+
+}
+
+.title_modal {
+    font-family: 'Baloo Bhai 2';
+    margin-top: 21px;
+    margin-left: 15px;
+}
+
+.close_image {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    position: absolute;
+    right: 10px;
+
+    img {
+        transition: all .25s ease-out;
+        border-radius: 50% !important;
+        padding: 5px !important;
+    }
+
+    img:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, .1)
+    }
+}
+
+.icon_modal {
+    position: absolute;
+    top: 9px;
+    left: 5px;
+}
+
+.reasons_box {
+    margin-top: 100px;
+    margin-inline: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 1em;
+
+    button {
+        font-family: 'Baloo Bhai 2';
+        font-size: 1rem;
+        padding: .5em 2em;
+        border-radius: 25px;
+        background: rgb(250, 250, 250);
+        border: 2px solid rgb(230, 230, 230);
+        white-space: nowrap;
+
+        &:hover {
+            cursor: pointer;
+            background: rgba(245, 245, 245);
+            border-color: #89BE91;
+        }
+
+        &:active {
+            background: rgb(240, 240, 240);
+        }
+    }
+}
+
+.selected {
+    border-color: rgb(50, 50, 50) !important;
+}
+
+.send {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    
+    button {
+        padding: .8em 4em;
+        border-radius: 5px;
+        border: none;
+        font-family: sans-serif;
+        font-weight: 600;
+        color: white;
+        background: #60BF60;
+
+        &:hover {
+            opacity: .9;
+            cursor: pointer;
+        }
+
+        &:active {
+            opacity: .8;
+        }
+    }
+}
+
+.error {
+    border-color: red !important;
+}

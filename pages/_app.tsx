@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="canonical" href="https://romdig.net" />
           <link rel="logo icon" href="/favicon.ico" />
         </Head>
+        <noscript>Please enable JavaScript to view this page</noscript>
         {showLayout ? <Header /> : <></> }
         <Component {...pageProps} />
         {showLayout ? <Footer /> : <></> }
