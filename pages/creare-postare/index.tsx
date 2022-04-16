@@ -92,6 +92,15 @@ const CreatePost: NextPage = () => {
         if(user.user.active) {
             e.preventDefault()
 
+            let titleLetters: number = 0;
+            const letters = title.split('')
+            for(let i = 0; i < letters.length; i++) {
+                if(letters[i] !== ' ' && letters[i] !== '') {
+                    titleLetters++;
+                }
+            }
+
+
             const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
             setFullError(false)
             setLoading(true)
@@ -106,7 +115,7 @@ const CreatePost: NextPage = () => {
             }
 
             setError({
-                title: title.split('').length < 15 ? true : false,
+                title: title.split('').length < 15 ? true : (titleLetters < 5 ? true : false),
                 description: numberOfChars < 50 ? true : false,
                 type: type === ''
             })

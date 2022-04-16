@@ -11,7 +11,7 @@
 
 .modal_container {
     position: fixed;
-    display: inline-block;
+    display: block;
     z-index: 100;
     width: 500px;
     height: 380px;
@@ -20,7 +20,6 @@
     left: calc(50vw - 250px);
     border-radius: 10px;
     padding-left: 0 !important;
-
 }
 
 .title_modal {
@@ -113,4 +112,27 @@
 
 .error {
     border-color: red !important;
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+    .modal_container {
+        width: 80vw;
+        height: 90vh;
+        top: 5vh;
+        left: 12vw;
+        overflow-y: auto;
+    }
+
+    .reasons_box {
+        justify-content: center;
+        grid-template-columns: .8fr;
+
+        button {
+            font-size: clamp(.8rem, 5vw, 1rem);
+        }
+    }
+
+    .send {
+        margin-bottom: 20px;
+    }
 }
