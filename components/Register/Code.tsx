@@ -38,7 +38,7 @@ const Code: FC = () => {
         
         if(result && result.message === 'Utilizator creat') {
             Cookies.remove('data-id')
-            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev, domain: dev ? 'localhost': '.romdigcoserver.com' })
+            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev })
             router.reload()
             setLoading(false)
         } else {
