@@ -338,7 +338,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             <>
                                 {data.media.map((img: string, i: number) => {
                                     return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                <Image key={i} src={'https://res.cloudinary.com/multimediarog/image/upload/v1649163472/fiicode_photos/public_posts/624c3c6277fe4bc5e7068e2c/image_0_624c3c6277fe4bc5e7068e2c.png'} alt='Poza Carusel' width={width < 500 ? 200 : 950} height={width < 500 ? 200 : 650} />
+                                                <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 200 : 950} height={width < 500 ? 200 : 650} />
                                             </SwiperSlide>
                                 })}
                             </>

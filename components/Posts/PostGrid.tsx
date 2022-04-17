@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import styles from '../../styles/scss/Posts/Post.module.scss';
-import { useAuth } from '../../utils/useAuth'
 import formatDate from '../../utils/formatDate'
 import useWindowSize from '../../utils/useWindowSize'
 
@@ -49,8 +48,6 @@ interface Post {
 
 const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments }) => {
     const [ width, height ] = useWindowSize()
-
-    const user = useAuth()
 
     return (
         <div key={_id} className={styles.post}>
