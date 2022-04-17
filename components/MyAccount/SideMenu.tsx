@@ -4,9 +4,11 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import type { FC } from 'react'
 import Head from 'next/head'
+import Cookies from 'js-cookie'
 
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
 import { server } from '../../config/server'
+
 
 interface ListItem {
     name: string;
@@ -37,6 +39,10 @@ const SideMenu: FC<PropsForStyling> = ({ active }) => {
         const result = await axios.post(`${server}/api/functionalities/logout`, {}, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => console.log(err))
+
+        if(Cookies.get('x-access-token')) {
+            Cookies.remove('x-access-token')
+        }
 
         if(result.message === 'User delogat') {
             router.reload()

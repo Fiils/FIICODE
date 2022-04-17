@@ -5,6 +5,7 @@ import axios from 'axios';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import Cookies from 'js-cookie'
 
 import { server } from '../../config/server'
 import styles from '../../styles/scss/MyAccount/SideMenu.module.scss'
@@ -42,6 +43,11 @@ const SideMenuMobile: FC<PropsForStyling> = ({ active }) => {
         const result = await axios.post(`${server}/api/functionalities/logout`, {}, { withCredentials: true })
                         .then(res => res.data)
                         .catch(err => console.log(err))
+
+                        
+        if(Cookies.get('x-access-token')) {
+            Cookies.remove('x-access-token')
+        }
 
         if(result.message === 'User delogat') {
             router.reload()
