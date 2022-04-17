@@ -78,7 +78,7 @@ const Inregistrare: NextPage = () => {
                         })
 
         if(result && result.message === 'User logat') {
-            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev })
+            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev, domain: dev ? 'localhost': '.romdigcoserver.com' })
             router.reload()
             setLoading(false)
         } else {

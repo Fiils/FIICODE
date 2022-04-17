@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 
 import styles from '../../styles/scss/Authentication/Registration.module.scss'
 import overrideStyles from '../../styles/scss/Authentication/ForgotPassword.module.scss'
-import { server } from '../../config/server'
+import { server, dev } from '../../config/server'
 
 
 const Code: FC = () => {
@@ -38,7 +38,7 @@ const Code: FC = () => {
         
         if(result && result.message === 'Utilizator creat') {
             Cookies.remove('data-id')
-            Cookies.set('x-access-token', result.token, { expires: 30 })
+            Cookies.set('x-access-token', result.token, { expires: 30, sameSite: dev ? 'lax' : 'none', secure: !dev, domain: dev ? 'localhost': '.romdigcoserver.com' })
             router.reload()
             setLoading(false)
         } else {
