@@ -57,7 +57,7 @@
 
 .container_p2_bg {
     width: 85%;
-    max-width: 1800px;
+    max-width: 1650px;
     margin-top: 13%;
     margin: 20vh auto 20vh auto;
     display: grid;
@@ -265,7 +265,6 @@
     .container_p2_bg {
         width: 65%;
         margin-top: 13%;
-    
         margin: 20vh auto 20vh auto;;
         display: grid;
         gap: 3em;
@@ -310,7 +309,7 @@
     }
 }
 
-@media screen and (min-width: 801px) and (max-width: 1024px) {
+@media screen and (min-width: 801px) and (max-width: 1025px) {
     .container_tpi {
         margin-top: 5vh;
         width: 60%;
@@ -395,7 +394,9 @@
     }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1224px) {
+
+
+@media screen and (min-width: 1025px) and (max-width: 1224px) {
     .container_tpi {
         margin-top: 7vh;
         width: 60%;
@@ -502,5 +503,4 @@
         width: 70%;
         margin-left: 15vw;
     }
-    
 }
