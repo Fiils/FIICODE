@@ -253,9 +253,8 @@ const CreatePost: NextPage = () => {
                                                     : 
                                                         <div className={styles.video}>
                                                             <video
-                                                                className="VideoInput_video"
                                                                 width="100%"
-                                                                height={'100%'}
+                                                                height='100%'
                                                                 controls
                                                                 src={video}
                                                             />
