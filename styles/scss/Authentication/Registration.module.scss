@@ -144,16 +144,18 @@
 
     .hover_for_info {
         position: relative;
+
         &:hover {
             cursor: help;
         }
+
         &::before {
             content: attr(hover-info);
             position: absolute;
             background: rgb(230, 230, 230);
             height: 50px;
-            width: 120%;
-            margin-left: -10%;
+            width: 150px;
+            margin-left: -25%;
             margin-top: -50px;
             font-size: .6rem;
             text-align: center;
@@ -904,7 +906,7 @@
 
     .input_upload {
         .hover_for_info {
-            display: none;
+            // display: none;
         }
     }
 }
