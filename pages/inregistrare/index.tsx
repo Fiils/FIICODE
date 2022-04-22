@@ -67,11 +67,13 @@ const Inregistrare: NextPage = () => {
             return;
         }
 
+        let locationError = false
+
         let county: any = [];
         if(fullExactPosition && fullExactPosition.address_components) {
             for(let i = 0; i < fullExactPosition.address_components.length; i++) {
                 if(fullExactPosition.address_components[i].types.includes('administrative_area_level_1')) {
-                    for(let j = 0; j < fullExactPosition.address_components[i].long_name.split(' ').length - 1; j++){
+                    for(let j = 0; j < (fullExactPosition.address_components[i].long_name.split(' ').length > 1 ? fullExactPosition.address_components[i].long_name.split(' ').length - 1 :  fullExactPosition.address_components[i].long_name.split(' ').length); j++){
                         county = [ ...county, fullExactPosition.address_components[i].long_name.split(' ')[j] ]
                     }
                     county = county.join(" ")
@@ -80,15 +82,13 @@ const Inregistrare: NextPage = () => {
                 if(i === fullExactPosition.address_components.length - 1) {
                     setError({ ...error, city: true })
                     setErrorMessages({ ...errorMessages, city: 'Localitate invalidă' })
-                    setLoading(false)
-                    return;
+                    locationError = true
                 }
             }
         } else {
             setError({ ...error, city: true })
             setErrorMessages({ ...errorMessages, city: 'Localitate invalidă' })
-            setLoading(false)
-            return;
+            locationError = true
         }
 
         let comuna: any = [], ok = 0;
@@ -112,8 +112,7 @@ const Inregistrare: NextPage = () => {
         if(ok === 1 && !comuna){
             setError({ ...error, city: true })
             setErrorMessages({ ...errorMessages, city: 'Localitate invalidă' })
-            setLoading(false)
-            return;
+            locationError = true
         }
 
         const person = { name, firstName, email, password, comuna, gender, cnp, city, county, street, domiciliu, buletin }
@@ -147,7 +146,7 @@ const Inregistrare: NextPage = () => {
             buletin: !buletin.length ? 'Spațiul nu poate fi gol' : '',
         })
         
-        if(!name.length || !firstName.length || !email.length || !password.length || !gender.length || !cnp.length || !city.length || !county.length || !street.length || !photo.buletin.length || !photo.domiciliu.length || !email.match(emailRegex) || password.length < 8 || !cnpRegex.test(cnp) || !regex.test(password) || cnp.length !== 13){
+        if(!name.length || !firstName.length || !email.length || !password.length || !gender.length || !cnp.length || !city.length || !county.length || !street.length || !photo.buletin.length || !photo.domiciliu.length || !email.match(emailRegex) || password.length < 8 || !cnpRegex.test(cnp) || !regex.test(password) || cnp.length !== 13 || locationError){
             setLoading(false);
             return;
         } 
