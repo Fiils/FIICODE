@@ -8,6 +8,7 @@ import styles from '../../styles/scss/SinglePost/Comment.module.scss'
 import { useAuth  } from '../../utils/useAuth'
 import { server } from '../../config/server'
 import useWindowSize from '../../utils/useWindowSize'
+import ReportModal from './ReportModalComment'
 
 
 interface Comment {
@@ -116,41 +117,6 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
 
     const [ createReport, setCreateReport ] = useState(false)
 
-    const [ textReport, setTextReport ] = useState('')
-    const [ errorReport, setErrorReport ] = useState(false)
-    const [ loadingReport, setLoadingReport ] = useState(false)
-
-    const handleSubmitReport = async (e: any) => {
-        e.preventDefault()
-        if(user.user.active) {
-            setLoadingReport(true)
-            setErrorReport(false)
-
-            if(textReport === '') {
-                setErrorReport(true)
-                setLoadingReport(false)
-                return;
-            }
-            const reason = textReport
-            const result = await axios.patch(`${server}/api/comment/report/${data.originalPostId}/${data._id}`, { reason }, { withCredentials: true })
-                                    .then(res => res.data)
-                                    .catch(err => {
-                                        console.log(err)
-                                        setErrorReport(true)
-                                        setLoadingReport(false)
-                                    })
-
-            if(result && result.message === 'Comentariu raportat') {
-                setLoadingReport(false)
-                setCreateReport(false)
-                setTextReport('')
-                router.reload()
-            } else {
-                setLoadingReport(false)
-            }
-        }
-    }
-
     return (
         <>
             <div className={styles.info}>
@@ -200,23 +166,9 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
                         }
                     </div>
                 }
-            {createReport &&
-                <form className={styles.form_comment}>
-                    <div className={`${styles.add_comment} ${errorReport ? styles.wrong_input : '' }`}>
-                        <textarea maxLength={200} placeholder='Semnalează...' value={textReport} onChange={e => { setTextReport(e.target.value); setErrorReport(false) } } />
-                    </div>  
-                    {!loadingReport ?
-                        <div style={{ alignSelf: 'flex-end'}}>
-                            {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: '1rem'}}>Contul nu a fost încă activat</span> }
-                            <button type="submit" onClick={e => handleSubmitReport(e)}>Trimite</button>
-                        </div>
-                    :
-                        <div className={styles.loading}>
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={30} height={30} />
-                        </div>
-                    }
-                </form>
-            }
+                {(createReport && !reported) && 
+                    <ReportModal originalPostId={data.originalPostId} commentId={data._id} setReportModal={setCreateReport} setReport={setReported} />
+                }
         </>
     )
 }

@@ -91,6 +91,7 @@ const CreatePost: NextPage = () => {
     const handleSubmit = async (e: any) => {
         if(user.user.active) {
             e.preventDefault()
+            setLoading(true)
 
             let titleLetters: number = 0;
             const letters = title.split('')
@@ -103,7 +104,6 @@ const CreatePost: NextPage = () => {
 
             const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
             setFullError(false)
-            setLoading(true)
             
             let numberOfChars = 0;
             for(const letter in convertToRaw(description.getCurrentContent()).blocks){
