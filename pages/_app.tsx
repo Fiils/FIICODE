@@ -2,11 +2,15 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
 import Footer from '../components/Layout/Footer'
+import { server } from '../config/server'
 import { AuthProvider } from '../utils/useAuth'
+
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,6 +26,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       setShowLayout(true)
     }
   }, [pathname])
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      let error = false;
+
+      const response = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true })
+                        .then(res => res.data)
+                        .catch(err => {
+                          error = true
+                        })    
+
+      if(Cookies.get('x-access-token') && error) {
+        Cookies.remove('x-access-token')
+      }
+    }
+    verifyUser()
+  }, [])
 
 
   return(
