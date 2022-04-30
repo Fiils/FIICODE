@@ -300,7 +300,7 @@ const Comment: FC<Comment> = ({ comment }) => {
                             </form>
                 }
             {(comment.hasReplies && showMore) &&
-                    <div className={`${styles.comment} ${styles.deep_level} ${styles.border_left_more}`}>
+                    <div className={`${styles.deep_level}`}>
                     {moreComments.map((comment: any, i: number) => {
                         return  <CommentOnComment key={comment._id} comment={comment} />
                     })}

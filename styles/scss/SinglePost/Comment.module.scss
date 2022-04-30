@@ -18,10 +18,10 @@
     &::before {
         content: '';
         position: absolute;
-        height: calc(100% - 40px);
-        width: 2.5px;
+        height: calc(100% - 10px);
+        width: 1.5px;
         left: 14px;
-        top: 40px;
+        top: 0px;
         background: gray;
     }
 }
