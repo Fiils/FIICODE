@@ -84,6 +84,10 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
     const [ width, height ] = useWindowSize()
 
+    const [ executeChangeCategory, setExecuteChangeCategory ] = useState(false)
+    const [ executeChangeStatus, setExecuteChangeStatus ] = useState(false)
+    const [ executeChangePage, setExecuteChangePage ] = useState(false)
+
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
         switch(categ) {
             case 'apreciate':
@@ -106,6 +110,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const [ loading, setLoading ] = useState(false)
 
     const changePage = async (category: string | undefined | string[]) => {
+        if(!executeChangePage) return;
+        setExecuteChangePage(false)
+
         if(Array.isArray(category) || !categoriesAllowed.includes(category || 'a')){
             router.push('/404')
         }
@@ -156,7 +163,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }
 
     const changeCategory = async (category: string) => {
-        if(category === router.query.category) return;
+        if(category === router.query.category || !executeChangeCategory) return;
+        setExecuteChangeCategory(false)
+
         router.push({
             pathname: router.pathname,
             query: { ...router.query, category: category, page: 'p1' }
@@ -186,6 +195,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }
 
     const changeStatus = async (status: string[]) => {
+        if(!executeChangeStatus) return;
+        setExecuteChangeStatus(false)
+
         if(Array.isArray(router.query.category) || !categoriesAllowed.includes(router.query.category || 'a')){
             router.push('/404')
         }
@@ -229,14 +241,21 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
     useEffect(() => {
         changePage(router.query.category)
-    }, [router.query.page, router.query.level])
+    }, [router.query.page, router.query.level, executeChangePage])
 
+    const [ specialIndex, setSpecialIndex ] = useState(router.query.category === 'popular' ? 1 : (router.query.category === 'apreciate' ? 2 : (router.query.category === 'vizionate' ? 3 : (router.query.category === 'comentarii' ? 4 : (router.query.category === 'noi' ? 5 : (router.query.category === 'vechi' ? 6 : 1))))))
     const ListItem = ({ text, category, index, }: ListItems) => {
         const active = index === 1 ? router.query.category === 'popular' : ( index === 2 ? router.query.category === 'apreciate' : ( index === 3 ? router.query.category === 'vizionate' : ( index === 4 ? router.query.category === 'comentarii' : (index === 5 ? router.query.category === 'noi' : router.query.category === 'vechi' ))))
         
-                
+        useEffect(() => {
+            if(specialIndex === index) {
+                changeCategory(category)
+            }
+        }, [executeChangeCategory])
+
+        
         return (
-                <li key={index} className={active ? styles.active : ''} onClick={() => changeCategory(category)}>
+                <li key={index} className={active ? styles.active : ''} onClick={() => { setExecuteChangeCategory(true); setSpecialIndex(index) } }>
                     <p key={index}>
                         {text}
                     </p>
@@ -246,6 +265,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     
 
     const handleChange = async (event: any) => {
+        setExecuteChangeStatus(true)
         if(!status.includes(event.target.value)) {
             setStatus([ ...status, event.target.value ])
         } else {
@@ -255,33 +275,11 @@ const Postari: NextPage<InitialFetchProps> = () => {
 
     useEffect(() => {
         changeStatus(status)
-    }, [status])
+    }, [status, executeChangePage])
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
-                
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
     
                 <link
                     rel="preload"
@@ -367,13 +365,13 @@ const Postari: NextPage<InitialFetchProps> = () => {
                             {(width >= 480) ?
                                 <>
                                     {posts.numberOfPages !== 0 &&
-                                        <Pagination numberOfPages={posts.numberOfPages} />
+                                        <Pagination setExecuteChangePage={setExecuteChangePage} numberOfPages={posts.numberOfPages} />
                                     }
                                 </>
                             :
                                 <>
                                     {posts.numberOfPages !== 0 &&
-                                        <MobilePagination numberOfPages={posts.numberOfPages} />
+                                        <MobilePagination setExecuteChangePage={setExecuteChangePage} numberOfPages={posts.numberOfPages} />
                                     }
                                 </>
                         }

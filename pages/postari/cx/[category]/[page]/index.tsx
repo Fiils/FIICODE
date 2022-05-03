@@ -27,59 +27,43 @@ interface ListItems {
     category: string;
 }
 
-interface InitialFetchProps { 
-    pages: number;
-    data: {
-        key: number;
-        _id: string;
-        title: string;
-        authorId: string;
-        city: string;
-        county: string;
-        description: string;
-        downVoted: {
-            count: number;
-            people: Array<any>
-        },
-        upVoted: {
-            count: number;
-            people: Array<any>
-        },
-        reports: {
-            count: number,
-            people: Array<any>
-        };
-        favorites: {
-            count: number,
-            people: Array<any>
-        };
-        firstNameAuthor: string;
-        media: Array<any>;
-        status: string;
-        views: {
-            count: number;
-            people: Array<any>;
-        };
-        comments: {
-            count: number;
-            people: Array<any>;
-        };
-        creationDate: Date;
-        nameAuthor: string;
-        authorProfilePicture: string;
-    }
+interface Posts {
+    _posts: any;
+    numberOfPages: number;
 }
 
 
-const Postari: NextPage<InitialFetchProps> = () => {
+const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
     const router = useRouter()
 
     const auth = useAuth()
 
     const [ width, height ] = useWindowSize()
      
-    const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
+    const [ posts, setPosts ] = useState({ numberOfPages: numberOfPages ? numberOfPages : 0, posts: _posts ? _posts: []})
     const [ status, setStatus ] = useState<string[]>([])
+
+
+
+    const [ executeChangeCategory, setExecuteChangeCategory ] = useState(false)
+    const [ executeChangeStatus, setExecuteChangeStatus ] = useState<null | boolean>(null)
+    const [ executeChangePage, setExecuteChangePage ] = useState(false)
+
+    useEffect(() => {
+        if(executeChangeStatus !== null) return;
+        const statuses = []
+        if(router.query.statusa === 'Trimis') {
+            status.push('Trimis')
+        } else if(router.query.statusb === 'Vizionat') {
+            status.push('Vizionat')
+        } else if(router.query.statusc === 'În lucru') {
+            status.push('În lucru')
+        } else if(router.query.statusd === 'Efectuat') {
+            status.push('Efectuat')
+        }
+        
+        setStatus([ ...statuses ])
+    }, [])
 
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
         switch(categ) {
@@ -103,6 +87,8 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const [ loading, setLoading ] = useState(false)
 
     const changePage = async (category: string | undefined | string[]) => {
+        if(!executeChangePage) return;
+        setExecuteChangePage(false)
         if(!router.query.page) {
             router.push('/404')
         }
@@ -150,7 +136,9 @@ const Postari: NextPage<InitialFetchProps> = () => {
     }
 
     const changeCategory = async (category: string) => {
-        if(category === router.query.category) return;
+        if(category === router.query.category || !executeChangeCategory) return;
+        setExecuteChangeCategory(false)
+
         router.push({
             pathname: router.pathname,
             query: { category: category, page: 'p1' }
@@ -164,9 +152,10 @@ const Postari: NextPage<InitialFetchProps> = () => {
                         .then(res => res.data)
                         .catch(err => {
                             console.log(err); 
+                            setLoading(false)
                             return;
                         })
-                        setLoading(false)
+        setLoading(false)
         if(!result) {
             router.replace({
                 pathname: router.pathname,
@@ -179,55 +168,24 @@ const Postari: NextPage<InitialFetchProps> = () => {
         })
     }
 
-    const changeStatus = async (status: string[]) => {
-        if(!router.query.page) {
-            router.push('/404')
-        }
-
-
-        setLoading(true)
-        setPosts({ numberOfPages: 0, posts: []})
-        let urlPart = '';
-        router.replace({
-            pathname: router.pathname,
-            query: { ...router.query, page: 'p1' }
-        })
-
-        status.map((value: string, index: number) => {
-                if(index === 0) {
-                    urlPart += `/${value}`
-                } else if(index === 1) {
-                    urlPart += `/${value}`
-                } else if(index === 2) {
-                    urlPart += `/${value}`
-                } else if(index === 3) {
-                    urlPart += `/${value}`
-                }
-        })
-
-        const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&level=tot&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
-                        .then(res => res.data)
-                        .catch(err => {
-                            console.log(err); 
-                            return;
-                        })
-        setLoading(false)
-        setPosts({
-            numberOfPages: result ? result.numberOfPages : 1,
-            posts: result ? result.posts : []
-        })
-    }
+    
 
     useEffect(() => {
         changePage(router.query.category)
     }, [router.query.page])
 
+    const [ specialIndex, setSpecialIndex ] = useState(1)
     const ListItem = ({ text, category, index, }: ListItems) => {
         const active = index === 1 ? router.query.category === 'popular' : ( index === 2 ? router.query.category === 'apreciate' : ( index === 3 ? router.query.category === 'vizionate' : ( index === 4 ? router.query.category === 'comentarii' : (index === 5 ? router.query.category === 'noi' : router.query.category === 'vechi' ))))
-        
                 
+        useEffect(() => {
+            if(specialIndex === index) {
+                changeCategory(category)
+            }
+        }, [executeChangeCategory])
+
         return (
-                <li key={index} className={active ? styles.active : ''} onClick={() => changeCategory(category)}>
+                <li key={index} className={active ? styles.active : ''} onClick={() => { setExecuteChangeCategory(true); setSpecialIndex(index)  } }>
                     <p key={index}>
                         {text}
                     </p>
@@ -237,6 +195,7 @@ const Postari: NextPage<InitialFetchProps> = () => {
     
 
     const handleChange = async (event: any) => {
+        setExecuteChangeStatus(true)
         if(!status.includes(event.target.value)) {
             setStatus([ ...status, event.target.value ])
         } else {
@@ -244,35 +203,110 @@ const Postari: NextPage<InitialFetchProps> = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {   
+        const changeStatus = async (status: any[]) => {
+            if(!executeChangeStatus) return;
+            setExecuteChangeStatus(false)
+    
+            if(!router.query.page) {
+                router.push('/404')
+            }
+    
+    
+            setLoading(true)
+            setPosts({ numberOfPages: 0, posts: []})
+            let urlPart = '';
+            
+            // router.replace({
+            //     pathname: router.pathname,
+            //     query: { ...router.query, page: 'p1' }
+            // })
+    
+    
+            status.map((value: string, index: number) => {
+                    if(index === 0) {
+                        urlPart += `/${value}`
+    
+                    } else if(index === 1) {
+                        urlPart += `/${value}`
+    
+                    } else if(index === 2) {
+                        urlPart += `/${value}`
+    
+                    } else if(index === 3) {
+                        urlPart += `/${value}`
+                    }
+            })
+    
+            if(status.includes('Trimis')) {            
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, page: 'p1', statusa: encodeURI('Trimis') }
+                })
+            } else if(!status.includes('Trimis') && router.query.statusa) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusa: undefined }
+                })
+            }
+            
+            if(status.includes('Vizionat')) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusb: encodeURI('Vizionat') }
+                })
+            } else if(!status.includes('Vizionat') && router.query.statusa) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusb: undefined }
+                })
+            }
+    
+            if(status.includes('În lucru')) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusc: encodeURI('În lucru') }
+                })
+            } if(!status.includes('În lucru') && router.query.statusa) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusc: undefined }
+                })
+            }
+    
+            if(status.includes('Efectuat')) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusd: encodeURI('Efectuat') }
+                })
+            } else if(!status.includes('Efectuat') && router.query.statusa) {
+                router.replace({
+                    pathname: router.pathname,
+                    query: { ...router.query, statusd: undefined }
+                })
+            }
+    
+            const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&level=tot&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
+                            .then(res => res.data)
+                            .catch(err => {
+                                console.log(err); 
+                                return;
+                            })
+            setLoading(false)
+            setPosts({
+                numberOfPages: result ? result.numberOfPages : 1,
+                posts: result ? result.posts : []
+            })
+        }
+
         changeStatus(status)
     }, [status])
+
+    console.log(router.query, status)
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
-            
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
 
                 <link
                     rel="preload"
@@ -358,13 +392,13 @@ const Postari: NextPage<InitialFetchProps> = () => {
                             {width >= 480 ?
                                     <>
                                         {(posts.numberOfPages > 0  && posts.posts.length > 0) &&
-                                            <Pagination numberOfPages={posts.numberOfPages} />
+                                            <Pagination setExecuteChangePage={setExecuteChangePage} numberOfPages={posts.numberOfPages} />
                                         }
                                     </>
                                 :
                                     <>
                                         {(posts.numberOfPages > 0 && posts.posts.length > 0) &&
-                                            <MobilePagination numberOfPages={posts.numberOfPages} />
+                                            <MobilePagination setExecuteChangePage={setExecuteChangePage} numberOfPages={posts.numberOfPages} />
                                         }
                                     </>
                             }
@@ -425,7 +459,35 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     }
 
+    const chooseCategoryServer = (categ: string | undefined | string[]) => {
+        switch(categ) {
+            case 'apreciate':
+                return '/mupvotes';
+            case 'vizionate':
+                return '/mviews';
+            case 'popular':
+                return '/popular';
+            case 'comentarii':
+                return '/mcomments';
+            case 'noi':
+                return '/age';
+            case 'vechi':
+                return '/age';
+            default:
+                return '/popular'
+        }
+    }
+
+    const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(ctx.query.category)}/${ctx.query.statusa ? ctx.query.statusa : 'a'}/${ctx.query.statusb ? ctx.query.statusb : 'b'}/${ctx.query.statusc ? ctx.query.statusc : 'c'}/${ctx.query.statusd ? ctx.query.statusd : 'd'}?page=${parseInt(ctx.query.page.split('p')[1]) - 1}&age=${ctx.query.category === 'vechi' ? '1' : '-1'}&level=tot`,  { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                    .then(res => res.data)
+                    .catch(err => {
+                        console.log(err); 
+                        return;
+                    })
     return {
-        props: {}
+        props: {
+            _posts: result.posts,
+            numberOfPages: result.numberOfPages
+        }
     }
 }

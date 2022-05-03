@@ -60,7 +60,7 @@ const Inregistrare: NextPage = () => {
         setFullError(false)
         const domiciliu = photo.domiciliu
         const buletin = photo.buletin
-        if(!fullExactPosition || (fullExactPosition.address_components && fullExactPosition.address_components.length <= 0) || fullExactPosition.name !== city) {
+        if(!fullExactPosition || (fullExactPosition.address_components && fullExactPosition.address_components.length <= 0) || fullExactPosition.name !== city || !fullExactPosition.address_components) {
             setError({ ...error, city: true })
             setErrorMessages({ ...errorMessages, city: 'Localitate invalidă'})
             setLoading(false)

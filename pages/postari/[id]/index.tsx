@@ -438,14 +438,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
 
     const comments = await axios.get(`${server}/api/comment/show-commentonpost/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                             .then(res => res.data)
-                            .catch(err => console.log(err))
+                            .catch(err => {
+                                console.log(err)
+                                redirect = true
+                            })
 
 
     if(redirect) {
         return {
             redirect: {
                 permanent: false,
-                destination: '/'
+                destination: '/postari/cx/popular/p1'
             },
             props: {}
         }
