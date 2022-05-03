@@ -205,6 +205,21 @@ const Comment: FC<Comment> = ({ comment }) => {
 
     const [ createReport, setCreateReport ] = useState(false)
 
+    useEffect(() => {
+        const documentWidth = document.documentElement.clientWidth;
+        const windowWidth = window.innerWidth;
+        const scrollBarWidth = windowWidth - documentWidth;
+
+        if(createReport) {
+            document.body.style.overflow = 'hidden'
+            document.body.style.paddingRight = `${scrollBarWidth}px`
+        }
+        if(!createReport) {
+            document.body.style.overflow = 'unset'
+            document.body.style.paddingRight = `0px`
+        }
+    }, [createReport])
+
     return (
         <>
             <div className={styles.info}>

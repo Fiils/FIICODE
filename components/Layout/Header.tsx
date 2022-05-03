@@ -54,7 +54,7 @@ const Header: FC = () => {
                         <span>ROMDIG</span>
                     </div>
                     <Link href="/">Prima pagină</Link>
-                    <a href="/postari/cx/popular/p1">Postări</a>
+                    <Link href="/postari/cx/popular/p1">Postări</Link>
                     <Link href="/creare-postare">Creează o postare</Link>
                     {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                         <div className={styles.links}>
@@ -86,7 +86,7 @@ const Header: FC = () => {
                         <div className={`${styles.menu_container} ${clickMenu !== null ? (clickMenu ? styles.opened_container : styles.closed_container) : ''}`}>
                             <ul className={styles.menu_list}>
                                 <li><Link href='/'><a onClick={() => setClickMenu(false)}>Prima Pagină</a></Link></li>
-                                <li><a href='/postari/cx/popular/p1' onClick={() => setClickMenu(false)}>Postări</a></li>
+                                <li><Link href='/postari/cx/popular/p1'><a onClick={() => setClickMenu(false)}>Postări</a></Link></li>
                                 <li><Link href='/creare-postare'><a onClick={() => setClickMenu(false)}>Creează o postare</a></Link></li>
                                 {(!user.user.isLoggedIn || ( !user.user.active && !user.user.isLoggedIn )) ?
                                     <li className={styles.authentication_links}>

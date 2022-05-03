@@ -131,9 +131,20 @@ const Page: NextPage<Post> = ({ post, comments }) => {
         }
     }, [user])
 
+
     useEffect(() => {
-        if(reportModal) document.body.style.overflow = 'hidden'
-        if(!reportModal) document.body.style.overflow = 'unset'
+        const documentWidth = document.documentElement.clientWidth;
+        const windowWidth = window.innerWidth;
+        const scrollBarWidth = windowWidth - documentWidth;
+
+        if(reportModal) {
+            document.body.style.overflow = 'hidden'
+            document.body.style.paddingRight = `${scrollBarWidth}px`
+        }
+        if(!reportModal) {
+            document.body.style.overflow = 'unset'
+            document.body.style.paddingRight = `0px`
+        }
     }, [reportModal])
 
     const LikeRequest = async (e: any) => {
