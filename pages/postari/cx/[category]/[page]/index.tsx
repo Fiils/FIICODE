@@ -50,19 +50,11 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
     const [ executeChangePage, setExecuteChangePage ] = useState(false)
 
     useEffect(() => {
-        if(executeChangeStatus !== null) return;
-        const statuses = []
-        if(router.query.statusa === 'Trimis') {
-            status.push('Trimis')
-        } else if(router.query.statusb === 'Vizionat') {
-            status.push('Vizionat')
-        } else if(router.query.statusc === 'În lucru') {
-            status.push('În lucru')
-        } else if(router.query.statusd === 'Efectuat') {
-            status.push('Efectuat')
+        if(router.query.status && router.query.status !== '' && executeChangeStatus === null) {
+            const statuses = router.query.status.toString().split(',')
+            
+            setStatus([ ...statuses ])
         }
-        
-        setStatus([ ...statuses ])
     }, [])
 
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
@@ -217,11 +209,7 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
             setPosts({ numberOfPages: 0, posts: []})
             let urlPart = '';
             
-            // router.replace({
-            //     pathname: router.pathname,
-            //     query: { ...router.query, page: 'p1' }
-            // })
-    
+
     
             status.map((value: string, index: number) => {
                     if(index === 0) {
@@ -237,54 +225,17 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
                         urlPart += `/${value}`
                     }
             })
+
+            let statuses = ''
+            for(let i = 0; i < status.length; i++) {
+                statuses += `${status[i]}${status.length > i + 1 ? ',' : ''}`
+            }
+
+            router.replace({
+                pathname: router.pathname,
+                query: { ...router.query, page: 'p1', status: statuses.length > 0 ? statuses : undefined  }
+            })
     
-            if(status.includes('Trimis')) {            
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, page: 'p1', statusa: encodeURI('Trimis') }
-                })
-            } else if(!status.includes('Trimis') && router.query.statusa) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusa: undefined }
-                })
-            }
-            
-            if(status.includes('Vizionat')) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusb: encodeURI('Vizionat') }
-                })
-            } else if(!status.includes('Vizionat') && router.query.statusa) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusb: undefined }
-                })
-            }
-    
-            if(status.includes('În lucru')) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusc: encodeURI('În lucru') }
-                })
-            } if(!status.includes('În lucru') && router.query.statusa) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusc: undefined }
-                })
-            }
-    
-            if(status.includes('Efectuat')) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusd: encodeURI('Efectuat') }
-                })
-            } else if(!status.includes('Efectuat') && router.query.statusa) {
-                router.replace({
-                    pathname: router.pathname,
-                    query: { ...router.query, statusd: undefined }
-                })
-            }
     
             const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0&level=tot&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
                             .then(res => res.data)
@@ -478,7 +429,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     }
 
-    const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(ctx.query.category)}/${ctx.query.statusa ? ctx.query.statusa : 'a'}/${ctx.query.statusb ? ctx.query.statusb : 'b'}/${ctx.query.statusc ? ctx.query.statusc : 'c'}/${ctx.query.statusd ? ctx.query.statusd : 'd'}?page=${parseInt(ctx.query.page.split('p')[1]) - 1}&age=${ctx.query.category === 'vechi' ? '1' : '-1'}&level=tot`,  { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+    let statuses = ''
+    if(ctx.query.status && ctx.query.status !== '') {
+        for(let i = 0; i < ctx.query.status.toString().split(',').length; i++) {
+            statuses += `${ctx.query.status.toString().split(',')[i]}${ctx.query.status.toString().split(',').length > i + 1 ? ',' : ''}`
+        }
+    }
+
+    const statusa = `${(statuses.split(',')[0] && statuses.split(',')[0] !== '') ? `/${statuses.split(',')[0]}` : ''}`
+    const statusb = `${(statuses.split(',')[1] && statuses.split(',')[1] !== '') ? `/${statuses.split(',')[1]}` : ''}`
+    const statusc = `${(statuses.split(',')[2] && statuses.split(',')[2] !== '') ? `/${statuses.split(',')[2]}` : ''}`
+    const statusd = `${(statuses.split(',')[3] && statuses.split(',')[3] !== '') ? `/${statuses.split(',')[3]}` : ''}`
+
+    const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(ctx.query.category)}${statusa}${statusb}${statusc}${statusd}?page=${parseInt(ctx.query.page.split('p')[1]) - 1}&age=${ctx.query.category === 'vechi' ? '1' : '-1'}&level=tot`,  { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
                     .then(res => res.data)
                     .catch(err => {
                         console.log(err); 
