@@ -26,51 +26,13 @@ interface ListItems {
     category: string;
 }
 
-interface InitialFetchProps { 
-    pages: number;
-    data: {
-        key: number;
-        _id: string;
-        title: string;
-        authorId: string;
-        city: string;
-        county: string;
-        description: string;
-        downVoted: {
-            count: number;
-            people: Array<any>
-        },
-        upVoted: {
-            count: number;
-            people: Array<any>
-        },
-        reports: {
-            count: number,
-            people: Array<any>
-        };
-        favorites: {
-            count: number,
-            people: Array<any>
-        };
-        firstNameAuthor: string;
-        media: Array<any>;
-        status: string;
-        views: {
-            count: number;
-            people: Array<any>;
-        };
-        comments: {
-            count: number;
-            people: Array<any>;
-        };
-        creationDate: Date;
-        nameAuthor: string;
-        authorProfilePicture: string;
-    }
+interface Posts {
+    _posts: any;
+    numberOfPages: number;
 }
 
 
-const Postari: NextPage<InitialFetchProps> = () => {
+const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
     const router = useRouter()
 
     const auth = useAuth()
@@ -78,15 +40,23 @@ const Postari: NextPage<InitialFetchProps> = () => {
     const village = router.query.level === 'sat' ? '&village=sat' : (router.query.level === 'comuna' ? '&village=comuna' : '')
     const county = router.query.level === 'judet' ? '&county=judet' : (router.query.level === 'oras' ? '&county=oras' : '')
      
-    const [ posts, setPosts ] = useState({ numberOfPages: 0, posts: []})
+    const [ posts, setPosts ] = useState({ numberOfPages: numberOfPages ? numberOfPages : 0, posts: _posts ? _posts: []})
     const [ status, setStatus ] = useState<string[]>([])
     const categoriesAllowed = [ 'apreciate', 'popular', 'vizionate', 'comentarii', 'noi', 'vechi' ]
 
     const [ width, height ] = useWindowSize()
 
     const [ executeChangeCategory, setExecuteChangeCategory ] = useState(false)
-    const [ executeChangeStatus, setExecuteChangeStatus ] = useState(false)
+    const [ executeChangeStatus, setExecuteChangeStatus ] = useState<null | boolean>(null)
     const [ executeChangePage, setExecuteChangePage ] = useState(false)
+
+    useEffect(() => {
+        if(router.query.status && router.query.status !== '' && executeChangeStatus === null) {
+            const statuses = router.query.status.toString().split(',')
+            
+            setStatus([ ...statuses ])
+        }
+    }, [])
 
     const chooseCategoryServer = (categ: string | undefined | string[]) => {
         switch(categ) {
@@ -209,10 +179,6 @@ const Postari: NextPage<InitialFetchProps> = () => {
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
         let urlPart = '';
-        router.replace({
-            pathname: router.pathname,
-            query: { ...router.query, page: 'p1' }
-        })
 
         status.map((value: string, index: number) => {
                 if(index === 0) {
@@ -224,6 +190,16 @@ const Postari: NextPage<InitialFetchProps> = () => {
                 } else if(index === 3) {
                     urlPart += `/${value}`
                 }
+        })
+
+        let statuses = ''
+        for(let i = 0; i < status.length; i++) {
+            statuses += `${status[i]}${status.length > i + 1 ? ',' : ''}`
+        }
+
+        router.replace({
+            pathname: router.pathname,
+            query: { ...router.query, page: 'p1', status: statuses.length > 0 ? statuses : undefined  }
         })
 
         const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(router.query.category)}${urlPart}?page=0${village}${county}&age=${router.query.category === 'vechi' ? '1' : '-1'}`, { withCredentials: true })
@@ -457,7 +433,50 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
         }
     }
 
+    const chooseCategoryServer = (categ: string | undefined | string[]) => {
+        switch(categ) {
+            case 'apreciate':
+                return '/mupvotes';
+            case 'vizionate':
+                return '/mviews';
+            case 'popular':
+                return '/popular';
+            case 'comentarii':
+                return '/mcomments';
+            case 'noi':
+                return '/age';
+            case 'vechi':
+                return '/age';
+            default:
+                return '/popular'
+        }
+    }
+
+    let statuses = ''
+    if(ctx.query.status && ctx.query.status !== '') {
+        for(let i = 0; i < ctx.query.status.toString().split(',').length; i++) {
+            statuses += `${ctx.query.status.toString().split(',')[i]}${ctx.query.status.toString().split(',').length > i + 1 ? ',' : ''}`
+        }
+    }
+
+    const statusa = `${(statuses.split(',')[0] && statuses.split(',')[0] !== '') ? `/${statuses.split(',')[0]}` : ''}`
+    const statusb = `${(statuses.split(',')[1] && statuses.split(',')[1] !== '') ? `/${statuses.split(',')[1]}` : ''}`
+    const statusc = `${(statuses.split(',')[2] && statuses.split(',')[2] !== '') ? `/${statuses.split(',')[2]}` : ''}`
+    const statusd = `${(statuses.split(',')[3] && statuses.split(',')[3] !== '') ? `/${statuses.split(',')[3]}` : ''}`
+
+    const village = ctx.query.level === 'sat' ? '&village=sat' : (ctx.query.level === 'comuna' ? '&village=comuna' : '')
+    const county = ctx.query.level === 'judet' ? '&county=judet' : (ctx.query.level === 'oras' ? '&county=oras' : '')
+
+    const result = await axios.get(`${server}/api/post/show${chooseCategoryServer(ctx.query.category)}${statusa}${statusb}${statusc}${statusd}?page=${parseInt(ctx.query.page.split('p')[1]) - 1}&age=${ctx.query.category === 'vechi' ? '1' : '-1'}${village}${county}`,  { withCredentials: true, headers: { Cookie: req.headers.cookie || 'a' } })
+                    .then(res => res.data)
+                    .catch(err => {
+                        console.log(err); 
+                        return;
+                    })
     return {
-        props: {}
+        props: {
+            _posts: result.posts,
+            numberOfPages: result.numberOfPages
+        }
     }
 }

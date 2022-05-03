@@ -253,7 +253,6 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
         changeStatus(status)
     }, [status])
 
-    console.log(router.query, status)
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
