@@ -25,8 +25,8 @@ const Footer = () => {
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648811325/FIICODE/twitter-logo-2429_oqqgc7.svg' alt='Twitter' width={width > 700 ? 50 : 35} height={width > 700 ? 50 : 35} />
                             </a>
                         </Link>                     
-                        <Link href='/'>
-                            <a>
+                        <Link href='https://www.instagram.com/romdig_'>
+                            <a target='_blank' rel='nofollow'>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648811330/FIICODE/instagram-logo-8869_jxddho.svg' alt='Instagram' width={width > 700 ? 50 : 35} height={width > 700 ? 50 : 35} />
                             </a>
                         </Link>
