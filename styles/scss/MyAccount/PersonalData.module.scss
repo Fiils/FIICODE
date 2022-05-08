@@ -125,6 +125,10 @@
     align-items: flex-start;
     gap: 3em;
     margin-top: 50px;
+
+    a:hover {
+        text-decoration: underline;
+    }
 }
 
 .reset {

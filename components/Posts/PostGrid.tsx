@@ -44,9 +44,10 @@ interface Post {
     };
     creationDate: Date;
     authorProfilePicture: string;
+    deletedUser: boolean;
 }
 
-const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments }) => {
+const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, favorites, reports, views, creationDate, nameAuthor, authorProfilePicture, comments, deletedUser }) => {
     const [ width, height ] = useWindowSize()
 
     return (
@@ -65,11 +66,11 @@ const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstName
             </div>
             <div>
                 <div className={styles.post_info}>
-                    {width >= 480  && <Image src={authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : authorProfilePicture } alt='Poza Profil' width={40} height={40} /> }
+                    {width >= 480  && <Image src={(authorProfilePicture === '/' || deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : authorProfilePicture } alt='Poza Profil' width={40} height={40} /> }
                     <div>
                         {width >= 480 ?
                             <>
-                                <span>{nameAuthor} {firstNameAuthor}</span>
+                                <span>{deletedUser ? '[Utilizator șters]' : `${nameAuthor} ${firstNameAuthor}`}</span>
                                 <br />
                             </>
                             :

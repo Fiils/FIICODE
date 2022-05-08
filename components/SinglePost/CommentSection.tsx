@@ -41,6 +41,7 @@ interface Comments {
             hasReplies: boolean;
             profilePicture: string;
             creationDate: Date;
+            deletedUser: boolean;
         }]
     }
 }

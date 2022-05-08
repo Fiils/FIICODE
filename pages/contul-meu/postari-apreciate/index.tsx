@@ -107,7 +107,7 @@ const Posts: NextPage<InitialFetchProps> = ({ likedPosts }) => {
                             <div className={styles.title}>
                                 <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648561628/FIICODE/folder-and-heart-11496_bybyn1.svg' alt='Icon' width={50} height={50} priority/>
                                 <h1>
-                                    Postări votate pozitiv
+                                    Postări apreciate
                                 </h1>
                             </div>
 

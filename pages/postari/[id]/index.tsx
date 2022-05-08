@@ -60,6 +60,7 @@ interface Post {
             nameAuthor: string;
             authorProfilePicture: string;
             video: string;
+            deletedUser: boolean;
         }
     };
     comments: {
@@ -90,6 +91,7 @@ interface Post {
             hasReplies: boolean;
             creationDate: Date;
             profilePicture: string;
+            deletedUser: boolean;
         }]
     }
 }
@@ -271,9 +273,9 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         <div className={styles.post_info}>
                             {(width >= 1199) ? 
                                     <>
-                                        <Image src={data.authorProfilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } alt='Poza Profil' width={50} height={50} />
+                                        <Image src={(data.authorProfilePicture === '/' || data.deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } alt='Poza Profil' width={50} height={50} />
                                         <div>
-                                            <span>{data.nameAuthor} {data.firstNameAuthor}</span>
+                                            <span>{data.deletedUser ? '[Utilizator șters]' : `${data.nameAuthor} ${data.firstNameAuthor}`}</span>
                                             <br />
                                             <span>{formatDate(data.creationDate)}</span>
                                         </div>

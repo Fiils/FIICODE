@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
@@ -200,14 +201,14 @@ const PersonalData: NextPage<User> = ({ user }) => {
                                 <>
                                     <label>Oraș</label>
                                     <p title='Oraș'>
-                                        {user.user.city}
+                                        { user.user.city !== '' ? user.user.city : 'NULL' }
                                     </p>
                                 </>
                             :
                                 <>
                                     <label>Comună</label>
                                     <p title='Comună'>
-                                        {user.user.comuna}
+                                        { user.user.comuna !== '' ? user.user.comuna : 'NULL' }
                                     </p>
                                 </>
                             }
@@ -224,7 +225,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                             <div className={styles.option}>
                                 <label>Sat</label>
                                 <p title='Sat'>
-                                    {user.user.city}
+                                    { user.user.city !== '' ? user.user.city : 'NULL' }
                                 </p>
                             </div>
 }
@@ -291,7 +292,7 @@ const PersonalData: NextPage<User> = ({ user }) => {
                 <div className={styles.setting} style={{ marginTop: 100 }}>
                     <div>
                         <h2 style={{ marginTop: 0 }}>Schimbarea datelor</h2>
-                        <p style={{ color: 'rgb(180, 180, 180)' }}>Pentru schimbarea a oricărei date din formularul de înregistrare, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)'}}>contact.romdig@gmail.com</span></p>
+                        <p style={{ color: 'rgb(180, 180, 180)' }}>Pentru înâmpinarea oricăror probeleme sau pentru orice altceva pentru care vreți să ne comunicați, contactați-ne la <span style={{ color: 'rgb(120, 120, 120)' }}>contact.romdig@gmail.com</span></p>
                     </div>
                 </div>
 

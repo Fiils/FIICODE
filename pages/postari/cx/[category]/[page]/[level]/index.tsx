@@ -324,7 +324,7 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
                                     <PostGrid key={value._id} index={key} _id={value._id} title={value.title} authorId={value.authorId} city={value.city} county={value.county} 
                                             description={value.description} downVoted={value.downVoted} upVoted={value.upVoted} firstNameAuthor={value.firstNameAuthor} 
                                             media={value.media} status={value.status} reports={value.reports} views={value.views} favorites={value.favorites} creationDate={value.creationDate} 
-                                            nameAuthor={value.nameAuthor} authorProfilePicture={value.authorProfilePicture} comments={value.comments} />
+                                            nameAuthor={value.nameAuthor} authorProfilePicture={value.authorProfilePicture} comments={value.comments} deletedUser={value.deletedUser} />
                                 )
                         })
                             : 

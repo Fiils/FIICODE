@@ -39,6 +39,7 @@ interface Comment {
         hasReplies: boolean;
         profilePicture: string;
         creationDate: Date
+        deletedUser: boolean;
     }
 }
 
@@ -135,8 +136,8 @@ const CommentOnComment: FC<Comment> = ({ comment }) => {
     return (
         <>
             <div className={styles.info}>
-                <Image src={comment.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : comment.profilePicture } alt='Poza Profil' width={30} height={30} />
-                <span id='#name'>{comment.nameAuthor} {comment.firstNameAuthor}</span>
+                <Image src={(comment.profilePicture === '/' || comment.deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : comment.profilePicture } alt='Poza Profil' width={30} height={30} />
+                <span id='#name'>{comment.deletedUser ? '[Utilizator șters]' : `${comment.nameAuthor} ${comment.firstNameAuthor}`}</span>
             </div>
             
             <div className={styles.border_left_more}>
