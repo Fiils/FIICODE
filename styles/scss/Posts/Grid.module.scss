@@ -5,7 +5,7 @@
     gap: 5em;
     justify-items: center;
     width: 70%;
-    padding-top: 5%;
+    padding-top: 2%;
     margin-left: 0;
 }
 
@@ -27,7 +27,7 @@
   .special_categories {
     position: relative;
     left: 0px;
-    top: 1.5%;
+    margin-top: 2.5vh;
     width: 70%;
     max-width: 480px;
     bottom: 0;
@@ -60,6 +60,7 @@
     top: 60px;
     width: 70%;
     left: -1% !important;
+    margin-top: 0px;
   }
 }
 
@@ -74,6 +75,7 @@
     left: 0;
     top: 60px;
     width: 70%;
+    margin-top: 0px;
   }
 }
 
@@ -89,6 +91,7 @@
     top: 60px;
     width: 70%;
     max-width: 480px;
+    margin-top: 0px;
   }
 }
 
@@ -169,7 +172,7 @@
     position: fixed;
     width: 90%;
     height: 80vh;
-    background: rgb(230, 230, 230);
+    background: rgb(245, 245, 245);
     z-index: 99999;
     left: 5%;
     padding-bottom: 50px;
@@ -230,13 +233,14 @@
 
 @media screen and (min-width: 1400px) and (max-width: 1550px) {
   .grid_posts {
-    padding-top: 5%;
+    padding-top: 2%;
     width: 55%;
   }
 }
 
 @media screen and (min-width: 1400px) and (max-width: 1400px) {
   .special_categories {
-    top: 1.5%;
+    top: 0%;
+    margin-top: 3.5%;
   }
 }

@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import axios from 'axios'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -9,6 +9,9 @@ import { Navigation } from 'swiper'
 import { useRouter } from 'next/router'
 import parse from 'html-react-parser'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import { callBackType, JoLPlayerRef, qualityKey } from "jol-player";
+
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
 import { useAuth } from '../../../utils/useAuth'
@@ -18,6 +21,12 @@ import { server } from '../../../config/server'
 import useWindowSize from '../../../utils/useWindowSize'
 import { NoSSR } from '../../../utils/NoSsr'
 import ReportModal from '../../../components/SinglePost/ReportModal'
+
+
+const JoLPlayer = dynamic(
+    () => import('jol-player'),
+    { ssr: false }
+)
 
 
 interface Post {
@@ -101,6 +110,8 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     const router = useRouter()
 
     const [ width, height ] = useWindowSize()
+
+    const videoRef = useRef<JoLPlayerRef>(null!)
 
     //Pentru randarea imaginilor doar pe clien side
     const [ ssr, setSsr ] = useState(false)
@@ -215,10 +226,44 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     }
 
 
+    // const playerRef = useRef(null);
+
+    // const videoJsOptions = {
+    //   autoplay: true,
+    //   controls: true,
+    //   responsive: true,
+    //   fluid: true,
+    //   sources: [{
+    //     src: data.video,
+    //     type: 'video/mp4'
+    //   }]
+    // };
+  
+    // const handlePlayerReady = (player) => {
+    //   playerRef.current = player;
+  
+    //   // You can handle player events here, for example:
+    //   player.on('waiting', () => {
+    //     player.log('player is waiting');
+    //   });
+  
+    //   player.on('dispose', () => {
+    //     player.log('player will dispose');
+    //   });
+    // };
+  
+
+
+    const toggle = () => {
+        videoRef.current.setVideoSrc(
+          data.video
+        );
+      };
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
+            <link rel="stylesheet" href="/css/video-react.css" />
           
                 <link
                     rel="preload"
@@ -266,8 +311,10 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                 
             </Head>
             {(reportModal && !report) && <ReportModal setReport={setReport} setReportModal={setReportModal} id={data._id} /> }
+            <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
             <div className={styles.container}>
                 <div className={styles.image_section}>
+
                     <div className={styles.swiper_limit}>
                         <h1 id='#title'>{data.title}</h1>
                         <div className={styles.post_info}>
@@ -339,19 +386,31 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             {(data.video && data.video !== '') &&
                                 <SwiperSlide className={styles.video} style={{ display: 'flex', justifyContent: 'center' }}>
                                     <video
-                                        width={width < 500 ? 200 : 950}
-                                        height={width < 500 ? 200 : 650}
+                                        width={'100%'}
+                                        height={width < 500 ? 200 : (width <= 1198 ? 'calc(100% + 50px)' : 690)}
                                         controls
                                         src={data.video}    
                                         style={{ paddingTop: 0 }}
                                     />
+                                    {/* <JoLPlayer
+                                        ref={videoRef}
+                                        option={{
+                                            videoType: "hls",
+                                        videoSrc: data.video,
+                                        width: 750,
+                                        height: 420,
+                                        language: "en",
+                                        pausePlacement: "bottomRight",
+                                        isProgressFloat: true
+                                        }} 
+                                    />*/}
                                 </SwiperSlide>
                             }
                             {data.media.length > 0 ?
                             <>
                                 {data.media.map((img: string, i: number) => {
                                     return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 200 : 950} height={width < 500 ? 200 : 650} />
+                                                <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 300 : 950} height={width < 500 ? 200 : 650} />
                                             </SwiperSlide>
                                 })}
                             </>
@@ -359,7 +418,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                             <>
                                 {(data.video === '') &&
                                     <>
-                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: width < 500 ? 200 : 950, height: width < 500 ? 200 : 650, border: '2px solid black', borderRadius: 3 }}>
+                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: width < 500 ? 300 : 950, height: width < 500 ? 200 : 650, border: '2px solid black', borderRadius: 3 }}>
                                             <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} alt='Fara Poze' width={width < 500 ? 100 : 250} height={width < 500 ? 50 : 300} />
                                             <h1 className={styles.no_image}>Nicio imagine</h1>
                                         </SwiperSlide>

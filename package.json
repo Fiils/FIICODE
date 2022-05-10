@@ -25,15 +25,19 @@
     "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.1.0",
     "html-react-parser": "^1.4.10",
+    "jol-player": "^3.0.0",
     "js-cookie": "^3.0.1",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-draft-wysiwyg": "^1.14.7",
+    "react-player": "^2.10.1",
     "react-responsive": "^9.0.0-beta.6",
     "sass": "^1.49.9",
     "sharp": "^0.30.3",
-    "swiper": "^8.0.7"
+    "swiper": "^8.0.7",
+    "video-react": "^0.15.0",
+    "video.js": "^7.18.1"
   },
   "devDependencies": {
     "@types/draft-js": "^0.11.9",
