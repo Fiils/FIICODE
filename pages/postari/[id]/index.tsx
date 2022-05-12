@@ -10,7 +10,6 @@ import { useRouter } from 'next/router'
 import parse from 'html-react-parser'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import { callBackType, JoLPlayerRef, qualityKey } from "jol-player";
 
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
@@ -24,7 +23,7 @@ import ReportModal from '../../../components/SinglePost/ReportModal'
 
 
 const JoLPlayer = dynamic(
-    () => import('jol-player'),
+    () => import('../../../components/SinglePost/JolPlayer'),
     { ssr: false }
 )
 
@@ -111,7 +110,6 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     const [ width, height ] = useWindowSize()
 
-    const videoRef = useRef<JoLPlayerRef>(null!)
 
     //Pentru randarea imaginilor doar pe clien side
     const [ ssr, setSsr ] = useState(false)
@@ -224,41 +222,6 @@ const Page: NextPage<Post> = ({ post, comments }) => {
             setPress(true)
         }
     }
-
-
-    // const playerRef = useRef(null);
-
-    // const videoJsOptions = {
-    //   autoplay: true,
-    //   controls: true,
-    //   responsive: true,
-    //   fluid: true,
-    //   sources: [{
-    //     src: data.video,
-    //     type: 'video/mp4'
-    //   }]
-    // };
-  
-    // const handlePlayerReady = (player) => {
-    //   playerRef.current = player;
-  
-    //   // You can handle player events here, for example:
-    //   player.on('waiting', () => {
-    //     player.log('player is waiting');
-    //   });
-  
-    //   player.on('dispose', () => {
-    //     player.log('player will dispose');
-    //   });
-    // };
-  
-
-
-    const toggle = () => {
-        videoRef.current.setVideoSrc(
-          data.video
-        );
-      };
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
@@ -392,18 +355,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                                         src={data.video}    
                                         style={{ paddingTop: 0 }}
                                     />
-                                    {/* <JoLPlayer
-                                        ref={videoRef}
-                                        option={{
-                                            videoType: "hls",
-                                        videoSrc: data.video,
-                                        width: 750,
-                                        height: 420,
-                                        language: "en",
-                                        pausePlacement: "bottomRight",
-                                        isProgressFloat: true
-                                        }} 
-                                    />*/}
+                                    {/* <JoLPlayer video={data.video} /> */}
                                 </SwiperSlide>
                             }
                             {data.media.length > 0 ?
