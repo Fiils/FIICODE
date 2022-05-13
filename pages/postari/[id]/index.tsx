@@ -220,7 +220,6 @@ const Page: NextPage<Post> = ({ post, comments }) => {
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
             <Head>
-            <link rel="stylesheet" href="/css/video-react.css" />
           
                 <link
                     rel="preload"
