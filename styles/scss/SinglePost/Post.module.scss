@@ -36,7 +36,7 @@
     margin-bottom: 30px;
 
     img {
-        border-radius: 50%;
+        border-radius: 5px;
     }
 }
 
@@ -115,10 +115,13 @@
 }
 
 .video {
-    margin-top: -70px;
+    background-color: black;
+
+
     video {
-        // margin-top: 0px !important;
-        padding-bottom: 0px !important;
+        object-fit: cover;
+        height: 90% !important;
+        margin-top: 3%;
     }
 }
 

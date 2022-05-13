@@ -9,7 +9,6 @@ import { Navigation } from 'swiper'
 import { useRouter } from 'next/router'
 import parse from 'html-react-parser'
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
 
 
 import styles from '../../../styles/scss/SinglePost/Post.module.scss'
@@ -20,12 +19,7 @@ import { server } from '../../../config/server'
 import useWindowSize from '../../../utils/useWindowSize'
 import { NoSSR } from '../../../utils/NoSsr'
 import ReportModal from '../../../components/SinglePost/ReportModal'
-
-
-const JoLPlayer = dynamic(
-    () => import('../../../components/SinglePost/JolPlayer'),
-    { ssr: false }
-)
+import ReactPlayer from 'react-player'
 
 
 interface Post {
@@ -283,7 +277,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         <div className={styles.post_info}>
                             {(width >= 1199) ? 
                                     <>
-                                        <Image src={(data.authorProfilePicture === '/' || data.deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } alt='Poza Profil' width={50} height={50} />
+                                        <Image className={styles.pp_img} src={(data.authorProfilePicture === '/' || data.deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : data.authorProfilePicture } alt='Poza Profil' width={50} height={50} />
                                         <div>
                                             <span>{data.deletedUser ? '[Utilizator șters]' : `${data.nameAuthor} ${data.firstNameAuthor}`}</span>
                                             <br />
@@ -347,36 +341,35 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                         navigation
                         >
                             {(data.video && data.video !== '') &&
-                                <SwiperSlide className={styles.video} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <video
-                                        width={'100%'}
-                                        height={width < 500 ? 200 : (width <= 1198 ? 'calc(100% + 50px)' : 690)}
+                                <SwiperSlide className={styles.video} style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
+                                    <ReactPlayer
+                                        url={data.video}
+                                        width='100%'
+                                        height='100%'
                                         controls
-                                        src={data.video}    
-                                        style={{ paddingTop: 0 }}
+                                        forceVideo
                                     />
-                                    {/* <JoLPlayer video={data.video} /> */}
                                 </SwiperSlide>
                             }
                             {data.media.length > 0 ?
-                            <>
-                                {data.media.map((img: string, i: number) => {
-                                    return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 300 : 950} height={width < 500 ? 200 : 650} />
-                                            </SwiperSlide>
-                                })}
-                            </>
+                                <>
+                                    {data.media.map((img: string, i: number) => {
+                                        return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
+                                                    <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 300 : 950} height={width < 500 ? 200 : 650} />
+                                                </SwiperSlide>
+                                    })}
+                                </>
                             : 
-                            <>
-                                {(data.video === '') &&
-                                    <>
-                                        <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: width < 500 ? 300 : 950, height: width < 500 ? 200 : 650, border: '2px solid black', borderRadius: 3 }}>
-                                            <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} alt='Fara Poze' width={width < 500 ? 100 : 250} height={width < 500 ? 50 : 300} />
-                                            <h1 className={styles.no_image}>Nicio imagine</h1>
-                                        </SwiperSlide>
-                                    </>
-                                }
-                            </>
+                                <>
+                                    {(data.video === '') &&
+                                        <>
+                                            <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'column wrap', width: width < 500 ? 300 : 950, height: width < 500 ? 200 : 650, border: '2px solid black', borderRadius: 3 }}>
+                                                <Image src={'https://res.cloudinary.com/multimediarog/image/upload/v1648634881/FIICODE/no-image-6663_1_j2edue.svg'} alt='Fara Poze' width={width < 500 ? 100 : 250} height={width < 500 ? 50 : 300} />
+                                                <h1 className={styles.no_image}>Nicio imagine</h1>
+                                            </SwiperSlide>
+                                        </>
+                                    }
+                                </>
                             }
                         
                         </Swiper>

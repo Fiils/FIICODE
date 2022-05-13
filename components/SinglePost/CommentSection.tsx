@@ -83,9 +83,8 @@ const CommentSection: FC<Comments> = ({ comments }) => {
                 setLoading(false)
                 setComment('')
                 router.reload()
-            } else {
-                setLoading(false)
-            }
+            } 
+            setLoading(false)
         }
     }
 
@@ -111,7 +110,7 @@ const CommentSection: FC<Comments> = ({ comments }) => {
                     }
                 </form>
                 {data.length > 0 &&
-                    <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '1.5em'}}>
+                    <div style={{ display: 'flex', flexFlow: 'column wrap', gap: '.2em'}}>
                         {data.map((comment: any, i: number) => {
                             return <Comment key={comment._id} comment={comment} />
                         })}
