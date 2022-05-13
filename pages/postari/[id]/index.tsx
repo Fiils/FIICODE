@@ -267,7 +267,6 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                 
             </Head>
             {(reportModal && !report) && <ReportModal setReport={setReport} setReportModal={setReportModal} id={data._id} /> }
-            <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
             <div className={styles.container}>
                 <div className={styles.image_section}>
 
@@ -431,7 +430,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response);
+                            console.log(err);
                             redirect = true
                         })
 
@@ -448,7 +447,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const post = await axios.get(`${server}/api/post/show/specific/${ctx.query.id}`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response) 
+                            console.log(err) 
                             redirect = true
                         })
 

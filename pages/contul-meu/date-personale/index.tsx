@@ -339,7 +339,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const user = await axios.get(`${server}/api/myaccount/pd-personaldata`, { withCredentials: true, headers: { Cookie: req.headers.cookie! } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response);
+                            console.log(err);
                         })
 
     return {

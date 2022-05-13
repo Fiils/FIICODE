@@ -184,7 +184,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const user = await axios.get(`${server}/api/functionalities/cookie-ax`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response);
+                            console.log(err);
                             redirect = true
                         })
 
@@ -201,7 +201,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const posts = await axios.get(`${server}/api/user/favorites`, { withCredentials: true, headers: { Cookie: ctx.req.headers.cookie || 'a' } })
                         .then(res => res.data)
                         .catch(err => {
-                            console.log(err.response) 
+                            console.log(err) 
                             redirect = true
                         })
 
