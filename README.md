@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Site-ul ROMDIG
 
-## Getting Started
+URL: [`https://www.romdig.net`](https://www.romdig.net)
 
-First, run the development server:
+Nota: in realizarea acestui site nu a fost folosita nicio plata (in afara de achizitionarea URL-ului)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Deployment: Vercel
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Creatori: 1 (Ipatov Ioan Alexandru)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+&nbsp;
+&nbsp;
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```Prima Pagina:``` aici se gasesc cateva informatii despre site si scopul acestuia
+&nbsp;
+&nbsp;
+```Autentificare:``` aici utilizatorul isi poate accesa contul
+&nbsp;
+&nbsp;
+```Parola uitata:``` aici utilizatorul isi poate schimba parola uitata, primind un email, redirectionand-ul catre un link ce ii va permite acest lucru
+&nbsp;
+&nbsp;
+```Inregistrare:``` aici un locuitor isi poate crea un cont ROMDIG; acesta trebuie sa introduca localitatea (nu judet sau comuna) in care se afla (aici am folosit PlacesAPI de la Google Cloud Platform pentru ca toate orasele/satele/comunele/judetele din Romania sa fie disponibile din prima, deci indiferent de unde locuiesti, iti poti face cont); de asemenea, trebuie introdusa poza buletinului, si inca un act ce dovedeste unde locuiesti (unele persoane nu locuiesc unde spune adresa de pe buletin); dupa ce se introduc toate datele, utilizatorul va primi un cod pe email ca sa se verifice ca email-ul introdus este valid
+Nota: pana la acceptarea contului de catre un moderator, permisiunile utilizatorului sunt limitate
+&nbsp;
+&nbsp;
+```Postari:``` in aceasta sectiune pot fi vazute toate postarile (conform localizarii utilizatorului) in functie de 6 categorii diferite, 4 statusuri (pot fi selectate mai multe deodata) si in functie de nivelul postarilor (Toate, Judetene Comunale, Satesti/Orasesti)
+&nbsp;
+&nbsp;
+```Vizualizarea unei postari:``` aici se gasesc toate informatiile despre postare (autor, data crearii, titlu, numar de vizionari etc.), ce poate fi votata pozitiv, negativ, adaugata la favorite sau raportata; totodata, aici este si sectiunea de comentarii, iar comentariile, la randul lor, pot fi apreciate pozitiv, negativ sau raportate
+&nbsp;
+&nbsp;
+```Creaza o postare:``` aici se poate crea o postare (titlu, nivel, imagini, video, descriere), la descriere fiind un editor WYSIWYG, pentru a fi stilizat mai bine
+&nbsp;
+&nbsp;
+```Contul meu:``` aceasta sectiune este impartita in 4 parti + buton de deconectare:
+- ```Date Personale:``` aici sunt afisate cateva date despre contul curent, se poate schimba poza de profil, se poate schimba parola, in cazul in care cea veche inca se mai stie si aici se afla metoda de contactare
+- ```Postari apreciate:``` aici sunt afisate postarile pe care utilizatorul le-a apreciat, in ordinea in care a facut acest lucru (de la cele mai noi la cele mai vechi); cand sunt prea multe, esti trimis cu un buton pe o alta pagina, unde le poti vizualiza pe toate
+- ```Postarile mele:``` aici sunt afisate postarile pe care utilizatorul le-a creat, in ordinea in care a facut acest lucru (de la cele mai noi la cele mai vechi); cand sunt prea multe, esti trimis cu un buton pe o alta pagina, unde le poti vizualiza pe toate
+- ```Postari favorite:``` aici sunt afisate postarile pe care utilizatorul le-a adaugat la favorite, in ordinea in care a facut acest lucru (de la cele mai noi la cele mai vechi); cand sunt prea multe, esti trimis cu un buton pe o alta pagina, unde le poti vizualiza pe toate
+&nbsp;
+&nbsp;
+# Tehnologii folosite
+1. Typescript
+2. ReactJS
+3. NextJS
+4. SASS
+5. Gulp
+6. MUI

@@ -151,9 +151,9 @@ const Positive: NextPage<InitialFetchProps> = ({ posts }) => {
                         {numberOfPages - 1 > addPosts &&
                         <div className={gridStyles.more_button}>
                             {!loading ?
-                            <button onClick={() => setAddPosts(prevState => prevState + 1)}>Mai multe...</button>
+                                <button onClick={() => setAddPosts(prevState => prevState + 1)}>Mai multe...</button>
                             :
-                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={50} height={50} />
+                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={100} height={100} loading='eager' priority/>
                             }
                         </div>
                         }
