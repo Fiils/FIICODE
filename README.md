@@ -8,6 +8,8 @@ Deployment: Vercel
 
 Creatori: 1 (Ipatov Ioan Alexandru)
 
+Responsiveness: 100%
+
 &nbsp;
 &nbsp;
 
@@ -26,8 +28,8 @@ Creatori: 1 (Ipatov Ioan Alexandru)
 &nbsp;
 &nbsp;
 
-```Inregistrare:``` aici un locuitor isi poate crea un cont ROMDIG; acesta trebuie sa introduca localitatea (nu judet sau comuna) in care se afla (aici am folosit PlacesAPI de la Google Cloud Platform pentru ca toate orasele/satele/comunele/judetele din Romania sa fie disponibile din prima, deci indiferent de unde locuiesti, iti poti face cont); de asemenea, trebuie introdusa poza buletinului, si inca un act ce dovedeste unde locuiesti (unele persoane nu locuiesc unde spune adresa de pe buletin); dupa ce se introduc toate datele, utilizatorul va primi un cod pe email ca sa se verifice ca email-ul introdus este valid
-Nota: pana la acceptarea contului de catre un moderator, permisiunile utilizatorului sunt limitate
+```Inregistrare:``` aici un locuitor isi poate crea un cont ROMDIG; acesta trebuie sa introduca localitatea (nu judet sau comuna) in care se afla (aici am folosit PlacesAPI de la Google Cloud Platform pentru ca toate orasele/satele/comunele/judetele din Romania sa fie disponibile din prima, deci indiferent de unde locuiesti, iti poti face cont); de asemenea, trebuie introdusa poza buletinului (pentru dovedirea identitatii), si inca un act ce dovedeste unde locuiesti (unele persoane nu locuiesc unde spune adresa de pe buletin); dupa ce se introduc toate datele, utilizatorul va primi un cod pe email ca sa se verifice ca email-ul introdus este valid
+Nota: pana la acceptarea contului de catre un moderator, accesul utilizatorului pe site este limitat
 
 &nbsp;
 &nbsp;

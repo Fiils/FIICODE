@@ -353,7 +353,7 @@ const Page: NextPage<Post> = ({ post, comments }) => {
                                 <>
                                     {data.media.map((img: string, i: number) => {
                                         return <SwiperSlide  key={i} style={{ display: 'flex', justifyContent: 'center'}}>
-                                                    <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 300 : 950} height={width < 500 ? 200 : 650} />
+                                                    <Image key={i} src={img} alt='Poza Carusel' width={width < 500 ? 300 : 950} height={width < 500 ? 200 : 650} priority/>
                                                 </SwiperSlide>
                                     })}
                                 </>
@@ -470,8 +470,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     }
 
     return { props: {
-        post,
-        comments
+            post: post ? post : { post: {} },
+            comments: comments ? comments : { comments: {} }
         } 
     }
 }

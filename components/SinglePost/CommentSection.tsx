@@ -100,7 +100,7 @@ const CommentSection: FC<Comments> = ({ comments }) => {
                     </div>  
                     {!loading ?
                         <div style={{ alignSelf: 'flex-end'}}>
-                            {!user.user.active && <span style={{ color: 'red', marginRight: 20, fontSize: width < 500 ? '.7rem' : '1rem'}}>Contul nu a fost încă activat</span> }
+                            {user.user.active ? <></> : <span style={{ color: 'red', marginRight: 20, fontSize: width < 500 ? '.7rem' : '1rem'}}>Contul nu a fost încă activat</span> }
                             <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
                         </div>
                     :

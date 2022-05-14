@@ -58,6 +58,8 @@
     max-height: 4.5em;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-all;
+    word-wrap: break-word;
 
     &:hover {
         text-decoration: underline;

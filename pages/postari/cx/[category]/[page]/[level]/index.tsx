@@ -138,7 +138,7 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
 
         router.push({
             pathname: router.pathname,
-            query: { ...router.query, category: category, page: 'p1' }
+            query: { ...router.query, category: category, page: 'p1', status: undefined }
         })
         setLoading(true)
         setPosts({ numberOfPages: 0, posts: []})
@@ -151,13 +151,15 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
                             console.log(err); 
                             return;
                         })
-                        setLoading(false)
+        
+        setLoading(false)
         if(!result) {
             router.replace({
                 pathname: router.pathname,
                 query: { ...router.query, page: 'p1' }
             })
         }
+        
         setPosts({
             numberOfPages: result ? result.numberOfPages : 0,
             posts: result ? result.posts : []
@@ -302,16 +304,16 @@ const Postari: NextPage<Posts> = ({ _posts, numberOfPages }) => {
                         <div style={{ position: 'relative', width: '100%'}}>
                             {(auth.user.comuna && auth.user.comuna !== '') ? 
                                 <div className={gridStyles.special_categories}>
-                                    <span onClick={() => { if(router.pathname !== '/postari/cx/[category]/[page]') router.push(`/postari/cx/${router.query.category}/p1`) }} className={router.pathname === '/postari/cx/[category]/[page]' ? gridStyles.inactive_cat : ''}>Toate</span>
-                                    <span onClick={() => { if(router.query.level !== 'judet') router.push(`/postari/cx/${router.query.category}/p1/judet`) }} className={router.query.level === 'judet' ? gridStyles.inactive_cat : ''}>Județ</span>
-                                    <span onClick={() => { if(router.query.level !== 'comuna') router.push(`/postari/cx/${router.query.category}/p1/comuna`) }} className={router.query.level === 'comuna' ? gridStyles.inactive_cat : ''}>Comuna</span>
-                                    <span onClick={() => { if(router.query.level !== 'sat') router.push(`/postari/cx/${router.query.category}/p1/sat`) }} className={router.query.level === 'sat' ? gridStyles.inactive_cat : ''}>Sat</span>
+                                    <a href={router.pathname !== '/postari/cx/[category]/[page]' ? `/postari/cx/${router.query.category}/p1` : ''} className={router.pathname === '/postari/cx/[category]/[page]' ? gridStyles.inactive_cat : ''}>Toate</a>
+                                    <a href={router.query.level !== 'judet' ? `/postari/cx/${router.query.category}/p1/judet` : ''} className={router.query.level === 'judet' ? gridStyles.inactive_cat : ''}>Județ</a>
+                                    <a href={router.query.level !== 'comuna' ? `/postari/cx/${router.query.category}/p1/comuna` : ''} className={router.query.level === 'comuna' ? gridStyles.inactive_cat : ''}>Comuna</a>
+                                    <a href={router.query.level !== 'sat' ? `/postari/cx/${router.query.category}/p1/sat` : ''} className={router.query.level === 'sat' ? gridStyles.inactive_cat : ''}>Sat</a>
                                 </div>
                                 :
                                 <div className={gridStyles.special_categories}>
-                                    <span onClick={() => { if(router.pathname !== '/postari/cx/[category]/[page]') router.push(`/postari/cx/${router.query.category}/p1`) }} className={router.pathname === '/postari/cx/[category]/[page]' ? gridStyles.inactive_cat : ''}>Toate</span>
-                                    <span onClick={() => { if(router.query.level !== 'judet') router.push(`/postari/cx/${router.query.category}/p1/judet`) }} className={router.query.level === 'judet' ? gridStyles.inactive_cat : ''}>Județ</span>
-                                    <span onClick={() => { if(router.query.level !== 'oras') router.push(`/postari/cx/${router.query.category}/p1/oras`) }} className={router.query.level === 'oras' ? gridStyles.inactive_cat : ''}>Oraș</span>
+                                    <a href={router.pathname !== '/postari/cx/[category]/[page]' ? `/postari/cx/${router.query.category}/p1` : ''} className={router.pathname === '/postari/cx/[category]/[page]' ? gridStyles.inactive_cat : ''}>Toate</a>
+                                    <a href={router.query.level !== 'judet' ? `/postari/cx/${router.query.category}/p1/judet` : ''} className={router.query.level === 'judet' ? gridStyles.inactive_cat : ''}>Județ</a>
+                                    <a href={router.query.level !== 'oras' ? `/postari/cx/${router.query.category}/p1/oras` : ''} className={router.query.level === 'oras' ? gridStyles.inactive_cat : ''}>Oraș</a>
                                 </div>
                             }
                         </div>
@@ -475,8 +477,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
                     })
     return {
         props: {
-            _posts: result.posts,
-            numberOfPages: result.numberOfPages
+            _posts: result ? result.posts : [],
+            numberOfPages: result ? result.numberOfPages : 0
         }
     }
 }
