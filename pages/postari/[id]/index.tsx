@@ -219,53 +219,6 @@ const Page: NextPage<Post> = ({ post, comments }) => {
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
-            <Head>
-          
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooTamma2/BalooTamma2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
-
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
-                
-            </Head>
             {(reportModal && !report) && <ReportModal setReport={setReport} setReportModal={setReportModal} id={data._id} /> }
             <div className={styles.container}>
                 <div className={styles.image_section}>

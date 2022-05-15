@@ -80,6 +80,47 @@ a {
   100% { transform: rotate(360deg); }
 }
 
+.ql-editor {
+  min-height: 10em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  background: #fefcfc;
+  min-height: 400px; 
+  max-height: 400px;
+  height: 400px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: normal;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { 
+      display: none; 
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+  .ql-editor {
+    min-height: 50vh; 
+    max-height: 50vh;
+    height: 50vh;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 500px) {
+  .ql-toolbar {
+    height: 40px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { 
+        display: none; 
+    }
+  }
+}
+
+
 @font-face {
   font-family: 'Libre Baskerville';
   src: url('/fonts/LibreBaskerville/LibreBaskerville.woff2') format('woff2'),

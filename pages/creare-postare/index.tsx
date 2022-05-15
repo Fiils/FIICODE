@@ -1,9 +1,9 @@
 import type { NextPage, GetServerSideProps } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
 import styles from '../../styles/scss/CreatePost/FormContainer.module.scss'
 import { server } from '../../config/server'
@@ -17,24 +17,20 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import 'react-quill/dist/quill.snow.css';
+import striptags from 'striptags';
 
-import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import dynamic from 'next/dynamic'
-import { EditorProps } from 'react-draft-wysiwyg'
-
-const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
-  { ssr: false }
+const ReactQuill = dynamic(
+    () => import('react-quill'),
+    { ssr: false }
 )
-
 
 
 const CreatePost: NextPage = () => {
     const router = useRouter()
 
     const user = useAuth()
+
 
     const greenTheme = createTheme({
         palette: {
@@ -57,12 +53,24 @@ const CreatePost: NextPage = () => {
     const [ title, setTitle ] = useState('')
     const [ files, setFiles ] = useState<Array<string>>([])
     const [ video, setVideo ] = useState('')
-    const [ description, setDescription ] = useState(EditorState.createEmpty())
+    const [ description, setDescription ] = useState('')
     const [ type, setType ] = useState('')
+    const [ error, setError ] = useState({ title: false, description: false, type: false, video: true })
+
 
     const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 
-
+    const byteLength = (str: string) => {
+        var s = str.length;
+        for (var i=str.length-1; i>=0; i--) {
+          var code = str.charCodeAt(i);
+          if (code > 0x7f && code <= 0x7ff) s++;
+          else if (code > 0x7ff && code <= 0xffff) s+=2;
+          if (code >= 0xDC00 && code <= 0xDFFF) i--;
+        }
+        return s;
+    }
+    
     const convertToBase64 = (file: any): any => {
         return new Promise((resolve, reject) => {
           const fileReader = new FileReader()
@@ -79,13 +87,18 @@ const CreatePost: NextPage = () => {
 
    const uploadVideo = async (e: any) => {
         if(e.target.files[0] && e.target.files[0].size / 1000000 < 100) {
+            setError({ ...error, video: false })
             const base64: string = await convertToBase64(e.target.files[0])
+            if(byteLength(base64) > 95000000) {
+                setError({ ...error, video: true })
+                return;
+            }
             setVideo(base64)
+
         }
    }
 
    const [ loading, setLoading ] = useState(false)
-   const [ error, setError ] = useState({ title: false, description: false, type: false })
    const [ fullError, setFullError ] = useState(false)
 
     const handleSubmit = async (e: any) => {
@@ -101,31 +114,21 @@ const CreatePost: NextPage = () => {
                 }
             }
 
-
-            const descriptionText = draftToHtml(convertToRaw(description.getCurrentContent()))
             setFullError(false)
-            
-            let numberOfChars = 0;
-            for(const letter in convertToRaw(description.getCurrentContent()).blocks){
-                for(let i = 0; i < convertToRaw(description.getCurrentContent()).blocks[letter].text.split('').length; i++){
-                    if(convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== '' && convertToRaw(description.getCurrentContent()).blocks[letter].text.split('')[i] !== ' '){
-                        numberOfChars++;
-                    }
-                }
-            }
 
             setError({
+                video: byteLength(video) > 95000000 ? true : false, 
                 title: title.split('').length < 15 ? true : (titleLetters < 5 ? true : false),
-                description: numberOfChars < 50 ? true : false,
+                description: striptags(description).length < 50 ? true : false,
                 type: type === ''
             })
 
-            if(title.split('').length < 15 || numberOfChars < 50 || type === '') {
+            if(title.split('').length < 15 || striptags(description).length < 50 || type === '') {
                 setLoading(false)
                 return;
             }
 
-            const result = await axios.post(`${server}/api/post/create`, { descriptionText, title, files, video, type }, { withCredentials: true })
+            const result = await axios.post(`${server}/api/post/create`, { description, title, files, video, type }, { withCredentials: true })
                                         .then(res => res.data)
                                         .catch(err => {
                                             setFullError(true)
@@ -139,42 +142,23 @@ const CreatePost: NextPage = () => {
                     setFiles([])
                     setVideo('')
                     setType('')
-                    setDescription(EditorState.createEmpty())
+                    setDescription('')
                     setLoading(false)
                     router.push(`/postari/${result._id}`)
                 }, 1000)
-            }
+            } else setFullError(true)
+
+            setLoading(false)
         }                        
     }
 
+
+    useEffect(() => {
+        setError({ ...error, description: false })
+    }, [ description ])
+
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
-            <Head>
-
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.woff"
-                    as="font"
-                    type="font/woff"
-                    crossOrigin="anonymous"
-                />
-                    <link
-                    rel="preload"
-                    href="/fonts/BalooBhai2/BalooBhai2.ttf"
-                    as="font"
-                    type="font/ttf"
-                    crossOrigin="anonymous" 
-                />
-
-            </Head>
-            
             <div>
                 <div className={styles.heading}>
                     <h1>Creează o nouă postare:</h1>
@@ -243,13 +227,13 @@ const CreatePost: NextPage = () => {
                                             <label>Video</label>
                                             <p>Adaugă poze ca lumea să fie mai tentați să apese pe postarea ta <span style={{ color : '#8BBD8B'}}>(videoul nu trebuie să aibă mai mult de 100mb)</span></p>
                                             <div className={styles.flex_add}>
-                                                <div className={styles.container_video}>
+                                                <div className={`${styles.container_video} ${error.video ? styles.wrong_input : ''}`}>
                                                     {(!video || video === '') ? 
-                                                    <label htmlFor='video' className={styles.no_content}>
-                                                            <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' alt='Icon' width={100} height={100} />
-                                                            <p>Niciun video selectat</p>
-                                                            <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = '' } } accept="video/mp4,video/x-m4v,video/*" />
-                                                    </label>
+                                                        <label htmlFor='video' className={styles.no_content}>
+                                                                <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648724416/FIICODE/movie-2801_1_xbdtxt.svg' alt='Icon' width={100} height={100} />
+                                                                <p>Niciun video selectat</p>
+                                                                <input type='file' style={{ display: 'none' }} id='video' name='video' onChange={uploadVideo} onClick={e => { const target = e.target as HTMLInputElement; target.value = ''; } } accept="video/mp4,video/x-m4v,video/*" />
+                                                        </label>
                                                     : 
                                                         <div className={styles.video}>
                                                             <video
@@ -273,47 +257,14 @@ const CreatePost: NextPage = () => {
                         <div style={{ width: '100%' }}>
                             <div className={styles.description}>
                                 <label htmlFor='description'>Descriere</label>
-                                <p>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
+                                <p id='#desc'>Descrie cât mai pe larg ideea ta și încearcă să-i atragi cât mai bine, dând detalii multe <span style={{ color : '#8BBD8B'}}>(minimum 50 de caractere valide)</span></p>
                                 <div style={{ width: '100%', maxWidth: 900 }} className={error.description ? styles.wrong_input : ''} id='#editor'>
-                                    {width > 1000 ?
-                                        <Editor
-                                            wrapperClassName="wrapper-class"
-                                            editorClassName="editor-class"
-                                            toolbarClassName="toolbar-class"
-                                            defaultEditorState={description}
-                                            onEditorStateChange={setDescription}
-                                            onChange={() => setError({ ...error, description: false })}
-                                            toolbar={{
-                                                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-                                                inline: {
-                                                    options: [ 'bold', 'italic', 'underline', 'strikethrough' ]
-                                                },
-                                                fontSize: {
-                                                    options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
-                                                }
-                                            }}
-                                        />
-                                    : 
-                                        <Editor
-                                            wrapperClassName="wrapper-class"
-                                            editorClassName="editor-class"
-                                            toolbarClassName="toolbar-class"
-                                            defaultEditorState={description}
-                                            onEditorStateChange={setDescription}
-                                            onChange={() => setError({ ...error, description: false })}
-                                            toolbar={{
-                                                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign' ],
-                                                inline: { inDropdown: true, options: [ 'bold', 'italic', 'underline', 'strikethrough' ] },
-                                                blockType: { inDropdown: true },
-                                                list: { inDropdown: true },
-                                                textAlign: { inDropdown: true },
-                                                history: { inDropdown: true},
-                                                fontSize: {
-                                                    options: [8, 9, 10, 11, 12, 14, 16, 18, 24]
-                                                }
-                                            }}
-                                        />
-                                    }
+                                    <ReactQuill 
+                                        theme="snow" 
+                                        value={description} 
+                                        onChange={setDescription}
+                                        placeholder={'Descrie ideea cât mai detaliat...'}
+                                    />
                                 </div>
                             </div>
                         </div>

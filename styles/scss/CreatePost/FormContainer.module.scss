@@ -283,7 +283,7 @@
         color: #8BBD8B;
     }
 
-    p {
+    p[id='#desc'] {
         font-size: 1.1rem;
         font-family: 'Baloo Tamma 2';
     }
@@ -379,6 +379,12 @@
         }
     }
 
+    .description {
+        p[id='#desc'] {
+            font-size: .8rem;
+        }
+    }
+
     .container_video {
         border: 1px solid gray;
         width: 100%;
@@ -444,7 +450,7 @@
     }
 
     .container_video {
-        min-height: 250px !important;
+        min-height: 50vw !important;
     }
 }
 
