@@ -42,6 +42,7 @@ interface Comments {
             profilePicture: string;
             creationDate: Date;
             deletedUser: boolean;
+            admin: boolean;
         }]
     }
 }

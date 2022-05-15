@@ -41,6 +41,7 @@ interface Comment {
         profilePicture: string;
         creationDate: Date
         deletedUser: boolean;
+        admin: boolean;
     }
 }
 
@@ -81,7 +82,8 @@ const Comment: FC<Comment> = ({ comment }) => {
         lowCommentLevel: false,
         hasReplies: false,
         profilePicture: '/',
-        creationDate: ''
+        creationDate: '',
+        admin: false
     }])
 
     useEffect(() => {
@@ -226,7 +228,7 @@ const Comment: FC<Comment> = ({ comment }) => {
             <div className={styles.info}>
                 <Image src={(comment.profilePicture === '/' || comment.deletedUser) ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : comment.profilePicture } alt='Poza Profil' width={30} height={30} />
                 <span id='#name'>{comment.deletedUser ? '[Utilizator șters]' : `${comment.nameAuthor} ${comment.firstNameAuthor}`}</span>
-                <Image src={!user.user.admin ? '/' : 'https://res.cloudinary.com/multimediarog/image/upload/v1651419275/FIICODE/certificate-1358_feidnk.svg'} width={30} height={30} />
+                <Image src={!data.admin ? '/' : 'https://res.cloudinary.com/multimediarog/image/upload/v1651419275/FIICODE/certificate-1358_feidnk.svg'} width={30} height={30} />
             </div>
             <div className={styles.border_left}>
                 <div className={styles.comment_text}>
