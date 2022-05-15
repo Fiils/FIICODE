@@ -94,6 +94,7 @@ interface Post {
             creationDate: Date;
             profilePicture: string;
             deletedUser: boolean;
+            admin: boolean;
         }]
     }
 }
