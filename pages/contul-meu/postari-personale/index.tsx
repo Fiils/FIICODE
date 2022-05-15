@@ -92,7 +92,7 @@ const Posts: NextPage<InitialFetchProps> = ({ personalPosts }) => {
                                 {iterations.map((value: any, i: number) => {
                                     return <Post key={personalPosts.posts[i]._id} _id={personalPosts.posts[i]._id} title={personalPosts.posts[i].title} description={personalPosts.posts[i].description} downVoted={personalPosts.posts[i].downVoted} upVoted={personalPosts.posts[i].upVoted}
                                     firstNameAuthor={personalPosts.posts[i].firstNameAuthor} nameAuthor={personalPosts.posts[i].nameAuthor} media={personalPosts.posts[i].media} status={personalPosts.posts[i].status} creationDate={personalPosts.posts[i].creationDate}
-                                    profilePicture={personalPosts.posts[i].profilePicture}  />
+                                    profilePicture={personalPosts.posts[i].profilePicture} i={i}  />
                                 })}
                             </div>
 

@@ -96,11 +96,11 @@ const CommentSection: FC<Comments> = ({ comments }) => {
                 <form className={styles.form_comment}>
                     <div className={`${styles.add_comment} ${error ? styles.wrong_input : '' }`}>
                         <Image src={user.user.profilePicture === '/' ? 'https://res.cloudinary.com/multimediarog/image/upload/v1648486559/FIICODE/user-4250_psd62d_xrxxhu_urnb0i.svg' : user.user.profilePicture } alt='Poza Profil' width={70} height={70} />
-                        <textarea maxLength={500} placeholder='Adaugă un comentariu...' value={comment} onChange={e => { setComment(e.target.value); setError(false) } } />
+                        <textarea maxLength={3500} placeholder='Adaugă un comentariu...' value={comment} onChange={e => { setComment(e.target.value); setError(false) } } />
                     </div>  
                     {!loading ?
                         <div style={{ alignSelf: 'flex-end'}}>
-                            {user.user.active ? <></> : <span style={{ color: 'red', marginRight: 20, fontSize: width < 500 ? '.7rem' : '1rem'}}>Contul nu a fost încă activat</span> }
+                            {(user.user.active || !user.user.done) ? <></> : <span style={{ color: 'red', marginRight: 20, fontSize: width < 500 ? '.7rem' : '1rem'}}>Contul nu a fost încă activat</span> }
                             <button type="submit" onClick={e => handleSubmit(e)}>Adaugă</button>
                         </div>
                     :

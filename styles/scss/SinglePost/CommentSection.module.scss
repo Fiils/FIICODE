@@ -55,6 +55,12 @@
         height: 15em;
         padding: 1em;
         font-family: sans-serif;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+            
+        &::-webkit-scrollbar { 
+            display: none; 
+        }
 
         &:focus {
             outline-color: #6CAE75

@@ -302,7 +302,7 @@ const Comment: FC<Comment> = ({ comment }) => {
                 {createComment &&
                             <form className={styles.form_comment}>
                                 <div className={`${styles.add_comment} ${error ? styles.wrong_input : '' }`}>
-                                    <textarea maxLength={500} placeholder='Adaugă un comentariu...' value={textComment} onChange={e => { setTextComment(e.target.value); setError(false) } } />
+                                    <textarea maxLength={3500} placeholder='Adaugă un comentariu...' value={textComment} onChange={e => { setTextComment(e.target.value); setError(false) } } />
                                 </div>  
                                 {!loading ?
                                     <div style={{ alignSelf: 'flex-end'}}>

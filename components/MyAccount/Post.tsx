@@ -22,12 +22,13 @@ interface Post {
     creationDate: Date;
     nameAuthor: string;
     profilePicture: string;
+    i: number;
 }
 
 
-const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, creationDate, nameAuthor, profilePicture}) => {
+const Post: FC<Post> = ({ _id, title, description, downVoted, upVoted, firstNameAuthor, media, status, creationDate, nameAuthor, profilePicture, i }) => {
     return (
-            <a href={`/postari/${_id}`} className={styles.mini_post}>
+            <a href={`/postari/${_id}`} className={`${styles.mini_post} ${i < 4 ? styles.border_bottom : '' }`}>
                 <div className={styles.image}>
                     {media[0] && 
                         <Image src={media[0]} layout='fill' key={'l' + _id} alt='Poza Principala' priority/>

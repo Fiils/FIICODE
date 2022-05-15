@@ -35,12 +35,16 @@
         &:focus {
             outline-color: #6CAE75;
         }
+
+        &:focus-visible {
+            outline-color: #6CAE75;
+            border-color: #6CAE75;
+        }
     }
 
     label {
         font-family: 'Baloo Tamma 2', sans-serif;
         font-size: .8rem;
-        font-weight: bold;
     }
 }
 

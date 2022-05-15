@@ -91,7 +91,7 @@ const Posts: NextPage<InitialFetchProps> = ({ favoritePosts }) => {
                                 {iterations.map((value: number, i: number) => {
                                     return <Post key={favoritePosts.posts[i]._id} _id={favoritePosts.posts[i]._id} title={favoritePosts.posts[i].title} description={favoritePosts.posts[i].description} downVoted={favoritePosts.posts[i].downVoted} upVoted={favoritePosts.posts[i].upVoted}
                                     firstNameAuthor={favoritePosts.posts[i].firstNameAuthor} nameAuthor={favoritePosts.posts[i].nameAuthor} media={favoritePosts.posts[i].media} status={favoritePosts.posts[i].status} creationDate={favoritePosts.posts[i].creationDate}
-                                    profilePicture={favoritePosts.posts[i].profilePicture}  />
+                                    profilePicture={favoritePosts.posts[i].profilePicture} i={i}  />
                                 })}
                             </div>
 

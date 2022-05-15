@@ -55,7 +55,7 @@ const CreatePost: NextPage = () => {
     const [ video, setVideo ] = useState('')
     const [ description, setDescription ] = useState('')
     const [ type, setType ] = useState('')
-    const [ error, setError ] = useState({ title: false, description: false, type: false, video: true })
+    const [ error, setError ] = useState({ title: false, description: false, type: false, video: false })
 
 
     const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -137,15 +137,13 @@ const CreatePost: NextPage = () => {
                                         })        
 
             if(result && result.message === 'Postare afișată'){     
-                setTimeout(() => {
                     setTitle('')
                     setFiles([])
                     setVideo('')
                     setType('')
                     setDescription('')
                     setLoading(false)
-                    router.push(`/postari/${result._id}`)
-                }, 1000)
+                    router.push('/creare-postare')
             } else setFullError(true)
 
             setLoading(false)
