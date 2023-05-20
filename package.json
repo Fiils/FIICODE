@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "https://www.romdigcoserver.com",
+  "proxy": "web-production-9d8f.up.railway.app",
   "private": true,
   "scripts": {
     "dev": "next dev",
