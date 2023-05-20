@@ -56,6 +56,7 @@ const CreatePost: NextPage = () => {
     const [ description, setDescription ] = useState('')
     const [ type, setType ] = useState('')
     const [ error, setError ] = useState({ title: false, description: false, type: false, video: false })
+    const [ bError, setBError ] = useState(false)
 
 
     const mapOut = [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -115,6 +116,7 @@ const CreatePost: NextPage = () => {
             }
 
             setFullError(false)
+            setBError(false)
 
             setError({
                 video: byteLength(video) > 95000000 ? true : false, 
@@ -123,8 +125,9 @@ const CreatePost: NextPage = () => {
                 type: type === ''
             })
 
-            if(title.split('').length < 15 || striptags(description).length < 50 || type === '') {
+            if(title.split('').length < 15 || striptags(description).length < 50 || type === '' || byteLength(video) > 95000000) {
                 setLoading(false)
+                setBError(true)
                 return;
             }
 
@@ -154,6 +157,7 @@ const CreatePost: NextPage = () => {
     useEffect(() => {
         setError({ ...error, description: false })
     }, [ description ])
+    
 
     return (
         <NoSSR fallback={<div style={{ height: '100vh'}}></div>}>
@@ -193,7 +197,7 @@ const CreatePost: NextPage = () => {
                                                 labelId="selectare-nivel-postare"
                                                 id="nivel-postare"
                                                 value={type}
-                                                onChange={e => setType(e.target.value)}
+                                                onChange={e => { setError({ ...error, type: false }); setType(e.target.value) }}
                                                 label="Tip"
                                                 >
                                                     <MenuItem value={'oras'}>Orășesc</MenuItem>
@@ -273,7 +277,7 @@ const CreatePost: NextPage = () => {
                             <>
                                 {fullError && <span style={{ color: 'red', marginRight: 10 }}>Ceva neașteptat s-a întâmplat</span>}
                                 {!user.user.active && <span style={{ color: 'red', marginRight: 10 }}>Contul nu a fost încă activat</span>}
-                                <button type='submit' onClick={handleSubmit} disabled={!user.user.active}>Postează</button>
+                                <button type='submit' onClick={handleSubmit} style={{color: !bError ? 'white' : 'red'}} disabled={!user.user.active}>Postează</button>
                             </>
                         :
                             <Image src='https://res.cloudinary.com/multimediarog/image/upload/v1648466329/FIICODE/Spinner-1s-200px_yjc3sp.svg' alt='Loading...' width={60} height={60} /> 

@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+//@ts-ignore
+import NextNProgress from "nextjs-progressbar";
+
 import '../styles/scss/globals.scss'
 import Header from '../components/Layout/Header'
 import Footer from '../components/Layout/Footer'
@@ -57,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="logo icon" href="/favicon.ico" />
         </Head>
         <noscript>Please enable JavaScript to view this page</noscript>
+        <NextNProgress color="#89BE91" />
         {showLayout ? <Header /> : <></> }
         <Component {...pageProps} />
         {showLayout ? <Footer /> : <></> }
